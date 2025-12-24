@@ -21,6 +21,41 @@
             --gradient: linear-gradient(135deg, #00d4ff 0%, #7b61ff 100%);
         }
 
+        [data-theme="light"] {
+            --bg-primary: #f5f7fa;
+            --bg-secondary: #ffffff;
+            --bg-card: #ffffff;
+            --accent: #0066cc;
+            --accent-secondary: #5b4cd4;
+            --text-primary: #1a1a2e;
+            --text-secondary: #4a4a5a;
+            --text-muted: #7a7a8a;
+            --border: #e0e0e8;
+            --gradient: linear-gradient(135deg, #0066cc 0%, #5b4cd4 100%);
+        }
+
+        [data-theme="light"] .bg-grid {
+            background-image:
+                linear-gradient(rgba(0, 102, 204, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 102, 204, 0.05) 1px, transparent 1px);
+        }
+
+        [data-theme="light"] nav {
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        /* Scroll Progress Bar */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: var(--gradient);
+            width: 0%;
+            z-index: 1001;
+            transition: width 0.1s ease-out;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -765,6 +800,30 @@
             margin-left: 12px;
         }
 
+        /* Nav Actions */
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .theme-toggle {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 8px 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            border-color: var(--accent);
+        }
+
+        .theme-icon {
+            font-size: 1.1rem;
+        }
+
         /* Mobile Menu */
         .mobile-menu-btn {
             display: none;
@@ -775,14 +834,199 @@
             cursor: pointer;
         }
 
+        /* Terminal Easter Egg */
+        .terminal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 9999;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .terminal-overlay.active {
+            display: flex;
+        }
+
+        .terminal {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 700px;
+            height: 450px;
+            display: flex;
+            flex-direction: column;
+            font-family: 'JetBrains Mono', monospace;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .terminal-header {
+            background: #161b22;
+            padding: 12px 16px;
+            border-bottom: 1px solid #30363d;
+            border-radius: 12px 12px 0 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .terminal-btn {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .terminal-btn:hover {
+            transform: scale(1.2);
+        }
+
+        .terminal-btn.red { background: #ff5f56; }
+        .terminal-btn.yellow { background: #ffbd2e; }
+        .terminal-btn.green { background: #27ca40; }
+
+        .terminal-title {
+            color: #8b949e;
+            font-size: 0.85rem;
+            margin-left: 8px;
+        }
+
+        .terminal-body {
+            flex: 1;
+            padding: 16px;
+            overflow-y: auto;
+            color: #c9d1d9;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .terminal-line {
+            margin-bottom: 8px;
+        }
+
+        .terminal-prompt {
+            color: #58a6ff;
+        }
+
+        .terminal-command {
+            color: #c9d1d9;
+        }
+
+        .terminal-output {
+            color: #8b949e;
+            padding-left: 0;
+        }
+
+        .terminal-output.success {
+            color: #3fb950;
+        }
+
+        .terminal-output.accent {
+            color: #58a6ff;
+        }
+
+        .terminal-input-line {
+            display: flex;
+            align-items: center;
+        }
+
+        .terminal-input {
+            background: transparent;
+            border: none;
+            color: #c9d1d9;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            flex: 1;
+            outline: none;
+        }
+
+        .terminal-trigger {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 50px;
+            height: 50px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            cursor: pointer;
+            z-index: 100;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+        }
+
+        .terminal-trigger:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 212, 255, 0.2);
+        }
+
+        [data-theme="light"] .terminal-trigger:hover {
+            box-shadow: 0 8px 24px rgba(0, 102, 204, 0.2);
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .nav-links {
                 display: none;
+                position: fixed;
+                top: 73px;
+                left: 0;
+                right: 0;
+                background: var(--bg-primary);
+                border-bottom: 1px solid var(--border);
+                flex-direction: column;
+                padding: 20px 24px;
+                gap: 8px;
+                backdrop-filter: blur(20px);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links li {
+                list-style: none;
+            }
+
+            .nav-links a {
+                font-size: 1.1rem;
+                padding: 12px 0;
+                display: block;
+                border-bottom: 1px solid var(--border);
+            }
+
+            .nav-links li:last-child a {
+                border-bottom: none;
             }
 
             .mobile-menu-btn {
                 display: block;
+            }
+
+            [data-theme="light"] .nav-links {
+                background: rgba(255, 255, 255, 0.95);
+            }
+
+            .terminal-trigger {
+                bottom: 16px;
+                right: 16px;
+                width: 44px;
+                height: 44px;
             }
 
             .about-grid {
@@ -872,6 +1116,9 @@
 <body>
     <div class="bg-grid"></div>
 
+    <!-- Scroll Progress Bar -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+
     <!-- Navigation -->
     <nav>
         <div class="container">
@@ -883,7 +1130,12 @@
                 <li><a href="#skills">Skills</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
-            <button class="mobile-menu-btn">&#9776;</button>
+            <div class="nav-actions">
+                <button class="theme-toggle" id="themeToggle" title="Toggle theme">
+                    <span class="theme-icon">☀️</span>
+                </button>
+                <button class="mobile-menu-btn" id="mobileMenuBtn">&#9776;</button>
+            </div>
         </div>
     </nav>
 
@@ -1323,6 +1575,35 @@
         </div>
     </section>
 
+    <!-- Terminal Easter Egg -->
+    <div class="terminal-overlay" id="terminalOverlay">
+        <div class="terminal">
+            <div class="terminal-header">
+                <button class="terminal-btn red" id="terminalClose" title="Close"></button>
+                <button class="terminal-btn yellow" id="terminalMinimize" title="Minimize"></button>
+                <button class="terminal-btn green"></button>
+                <span class="terminal-title">ryan@portfolio ~ </span>
+            </div>
+            <div class="terminal-body" id="terminalBody">
+                <div class="terminal-line">
+                    <span class="terminal-output success">Welcome to Ryan's Terminal v1.0.0</span>
+                </div>
+                <div class="terminal-line">
+                    <span class="terminal-output">Type 'help' for available commands. Press ESC to exit.</span>
+                </div>
+            </div>
+            <div class="terminal-input-line" style="padding: 0 16px 16px;">
+                <span class="terminal-prompt">visitor@ryan.dev:~$&nbsp;</span>
+                <input type="text" class="terminal-input" id="terminalInput" autofocus spellcheck="false">
+            </div>
+        </div>
+    </div>
+
+    <!-- Terminal Trigger Button -->
+    <button class="terminal-trigger" id="terminalTrigger" title="Open Terminal">
+        <span>&gt;_</span>
+    </button>
+
     <!-- Footer -->
     <footer>
         <div class="container">
@@ -1409,6 +1690,190 @@
 
         // Start typing effect
         setTimeout(typeEffect, 1000);
+
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = themeToggle.querySelector('.theme-icon');
+
+        // Check for saved theme
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        if (savedTheme === 'light') {
+            document.documentElement.setAttribute('data-theme', 'light');
+            themeIcon.textContent = '🌙';
+        }
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            if (currentTheme === 'light') {
+                document.documentElement.removeAttribute('data-theme');
+                themeIcon.textContent = '☀️';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light');
+                themeIcon.textContent = '🌙';
+                localStorage.setItem('theme', 'light');
+            }
+        });
+
+        // Terminal Easter Egg
+        const terminalOverlay = document.getElementById('terminalOverlay');
+        const terminalInput = document.getElementById('terminalInput');
+        const terminalBody = document.getElementById('terminalBody');
+
+        const commands = {
+            help: `Available commands:
+  <span class="terminal-output accent">about</span>      - Learn about Ryan
+  <span class="terminal-output accent">skills</span>     - View technical skills
+  <span class="terminal-output accent">projects</span>   - See projects
+  <span class="terminal-output accent">contact</span>    - Get contact info
+  <span class="terminal-output accent">certs</span>      - View certifications
+  <span class="terminal-output accent">secret</span>     - ???
+  <span class="terminal-output accent">clear</span>      - Clear terminal
+  <span class="terminal-output accent">exit</span>       - Close terminal`,
+
+            about: `<span class="terminal-output success">Ryan Trinh</span>
+  First-gen CS graduate from CSUF (Dec 2025)
+  Junior Consultant @ iDS starting Jan 2025
+  Passionate about digital forensics & security tools
+  Hobbies: Dogs, food, travel, building things`,
+
+            skills: `<span class="terminal-output success">Technical Skills:</span>
+  Languages:  C++, Python, PowerShell, Assembly, Bash
+  Security:   Metasploit, Nmap, Wireshark, Gobuster
+  Forensics:  EnCase, FTK, Cellebrite
+  Databases:  MongoDB, MySQL, Splunk, Azure`,
+
+            projects: `<span class="terminal-output success">Featured Projects:</span>
+  1. CloudLock      - AI-powered password manager
+  2. iDS Toolkit    - Chain of custody forensics tool
+  3. PyPort         - Python port scanner
+  4. SecureErase    - DoD 5220.22-M secure wipe tool
+  5. Astro Bot      - Discord security bot`,
+
+            contact: `<span class="terminal-output success">Get in touch:</span>
+  Email:    rtrinh.02@gmail.com
+  LinkedIn: linkedin.com/in/rtrinh02
+  GitHub:   github.com/spill`,
+
+            certs: `<span class="terminal-output success">Certifications:</span>
+  - CompTIA Security+ (DoD 8140 IAM Level I)
+  - EC-Council Digital Forensics Essentials
+  - Google Cybersecurity Professional Certificate`,
+
+            secret: `<span class="terminal-output success">You found the secret!</span>
+  Fun facts about Ryan:
+  - Has 2 dogs that he walks daily
+  - Loves trying new food spots
+  - CTF enthusiast on TryHackMe
+  - First generation college graduate
+
+  Thanks for exploring! 🎉`,
+
+            clear: 'CLEAR',
+            exit: 'EXIT'
+        };
+
+        function addTerminalLine(content, isCommand = false) {
+            const line = document.createElement('div');
+            line.className = 'terminal-line';
+            if (isCommand) {
+                line.innerHTML = `<span class="terminal-prompt">visitor@ryan.dev:~$</span> <span class="terminal-command">${content}</span>`;
+            } else {
+                line.innerHTML = `<pre class="terminal-output" style="margin: 0; white-space: pre-wrap;">${content}</pre>`;
+            }
+            terminalBody.appendChild(line);
+            terminalBody.scrollTop = terminalBody.scrollHeight;
+        }
+
+        function processCommand(cmd) {
+            const command = cmd.toLowerCase().trim();
+            addTerminalLine(cmd, true);
+
+            if (command === '') return;
+
+            if (commands[command]) {
+                if (command === 'clear') {
+                    terminalBody.innerHTML = '';
+                } else if (command === 'exit') {
+                    terminalOverlay.classList.remove('active');
+                } else {
+                    addTerminalLine(commands[command]);
+                }
+            } else {
+                addTerminalLine(`Command not found: ${command}. Type 'help' for available commands.`);
+            }
+        }
+
+        // Open terminal with backtick key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === '`' && !terminalOverlay.classList.contains('active')) {
+                e.preventDefault();
+                terminalOverlay.classList.add('active');
+                terminalInput.focus();
+            } else if (e.key === 'Escape' && terminalOverlay.classList.contains('active')) {
+                terminalOverlay.classList.remove('active');
+            }
+        });
+
+        // Handle terminal input
+        terminalInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                processCommand(terminalInput.value);
+                terminalInput.value = '';
+            }
+        });
+
+        // Close terminal when clicking overlay
+        terminalOverlay.addEventListener('click', (e) => {
+            if (e.target === terminalOverlay) {
+                terminalOverlay.classList.remove('active');
+            }
+        });
+
+        // Terminal trigger button
+        const terminalTrigger = document.getElementById('terminalTrigger');
+        terminalTrigger.addEventListener('click', () => {
+            terminalOverlay.classList.add('active');
+            terminalInput.focus();
+        });
+
+        // Red button closes terminal
+        const terminalClose = document.getElementById('terminalClose');
+        terminalClose.addEventListener('click', () => {
+            terminalOverlay.classList.remove('active');
+        });
+
+        // Yellow button also closes terminal
+        const terminalMinimize = document.getElementById('terminalMinimize');
+        terminalMinimize.addEventListener('click', () => {
+            terminalOverlay.classList.remove('active');
+        });
+
+        // Scroll Progress Bar
+        const scrollProgress = document.getElementById('scrollProgress');
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercent = (scrollTop / docHeight) * 100;
+            scrollProgress.style.width = scrollPercent + '%';
+        });
+
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navLinks = document.querySelector('.nav-links');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            mobileMenuBtn.innerHTML = navLinks.classList.contains('active') ? '✕' : '&#9776;';
+        });
+
+        // Close mobile menu when clicking a link
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                mobileMenuBtn.innerHTML = '&#9776;';
+            });
+        });
     </script>
 </body>
 </html>
