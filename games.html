@@ -265,6 +265,48 @@
             min-height: 20px;
         }
 
+        /* P2 Mode Toggle */
+        .p2-mode-toggle {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .p2-mode-toggle.hidden {
+            display: none;
+        }
+
+        .p2-mode-label {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.5rem;
+            color: var(--text-secondary);
+        }
+
+        .p2-toggle-btn {
+            padding: 6px 12px;
+            background: transparent;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            color: var(--text-secondary);
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.45rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .p2-toggle-btn.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: var(--bg-primary);
+        }
+
+        .p2-toggle-btn:hover:not(.active) {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
         .restart-btn {
             padding: 12px 24px;
             background: transparent;
@@ -1276,8 +1318,40 @@
             font-family: 'Press Start 2P', cursive;
             font-size: 0.65rem;
             color: var(--text-secondary);
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             line-height: 1.6;
+        }
+
+        /* Name Input */
+        .name-input-section {
+            margin-bottom: 20px;
+        }
+
+        .name-input-group {
+            text-align: center;
+        }
+
+        .name-input-group label {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .name-input-group input {
+            width: 200px;
+            padding: 12px 16px;
+            background: var(--bg-secondary);
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            text-align: center;
+        }
+
+        .name-input-group input:focus {
+            outline: none;
+            border-color: var(--accent);
         }
 
         .lobby-options {
@@ -1398,6 +1472,27 @@
             font-size: 0.85rem;
         }
 
+        .player-indicator.p1 {
+            border-left: 3px solid var(--accent);
+        }
+
+        .player-indicator.p2 {
+            border-left: 3px solid var(--accent-secondary);
+        }
+
+        .player-role {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.5rem;
+            color: var(--text-secondary);
+        }
+
+        .player-name {
+            flex: 1;
+            text-align: right;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
         .player-dot {
             width: 12px;
             height: 12px;
@@ -1414,6 +1509,111 @@
         @keyframes pulse-dot {
             0%, 100% { opacity: 1; }
             50% { opacity: 0.5; }
+        }
+
+        /* Connected Players Display */
+        .connected-players {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
+            padding: 16px;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+        }
+
+        .connected-player {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .connected-player.p1 .player-badge-small {
+            background: var(--accent);
+        }
+
+        .connected-player.p2 .player-badge-small {
+            background: var(--accent-secondary);
+        }
+
+        .player-badge-small {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.5rem;
+            color: #000;
+        }
+
+        .vs-text {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.7rem;
+            color: var(--accent-third);
+        }
+
+        /* Game invite notification */
+        .game-invite {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--bg-card);
+            border: 2px solid var(--accent);
+            border-radius: 16px;
+            padding: 30px;
+            text-align: center;
+            z-index: 10000;
+            box-shadow: 0 0 50px rgba(0, 255, 136, 0.3);
+            animation: bounceIn 0.3s ease-out;
+        }
+
+        .game-invite-title {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.8rem;
+            color: var(--accent);
+            margin-bottom: 16px;
+        }
+
+        .game-invite-game {
+            font-size: 3rem;
+            margin-bottom: 8px;
+        }
+
+        .game-invite-name {
+            font-size: 1rem;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+        }
+
+        .game-invite-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .game-invite-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.6rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .game-invite-btn.accept {
+            background: var(--accent);
+            color: #000;
+        }
+
+        .game-invite-btn.decline {
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+        }
+
+        .game-invite-btn:hover {
+            transform: scale(1.05);
         }
 
         /* Join Input */
@@ -1542,6 +1742,144 @@
 
         .game-card.mp-active .mp-badge {
             display: block;
+        }
+
+        /* ==================== ENHANCED ANIMATIONS ==================== */
+        @keyframes floatUp {
+            0% { opacity: 1; transform: translateY(0) scale(1); }
+            100% { opacity: 0; transform: translateY(-50px) scale(1.5); }
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0); opacity: 0; }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 20px currentColor; }
+            50% { box-shadow: 0 0 40px currentColor, 0 0 60px currentColor; }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+
+        @keyframes wobble {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-5deg); }
+            75% { transform: rotate(5deg); }
+        }
+
+        @keyframes scorePopIn {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.5); color: #ffd93d; }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes winCelebration {
+            0% { transform: scale(1) rotate(0deg); }
+            25% { transform: scale(1.1) rotate(-3deg); }
+            50% { transform: scale(1.2) rotate(0deg); }
+            75% { transform: scale(1.1) rotate(3deg); }
+            100% { transform: scale(1) rotate(0deg); }
+        }
+
+        /* Enhanced game elements */
+        .game-status.winner {
+            animation: winCelebration 0.5s ease-in-out;
+            color: var(--accent) !important;
+        }
+
+        .score-pop {
+            animation: scorePopIn 0.3s ease-out;
+        }
+
+        .ttt-cell.winning {
+            animation: pulseGlow 1s infinite;
+            color: var(--accent);
+        }
+
+        .c4-cell.winning {
+            animation: pulseGlow 1s infinite;
+            transform: scale(1.1);
+        }
+
+        /* Enhanced hover effects */
+        .game-card {
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .game-card:hover {
+            transform: translateY(-8px) scale(1.02);
+        }
+
+        .game-card:active {
+            transform: translateY(-2px) scale(0.98);
+        }
+
+        /* Button press effect */
+        .restart-btn {
+            transition: all 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .restart-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px var(--accent);
+        }
+
+        .restart-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Enhanced memory cards */
+        .memory-card {
+            transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .memory-card.matched .memory-back {
+            animation: bounceIn 0.5s ease-out;
+            background: linear-gradient(145deg, #00ff88, #00cc66);
+        }
+
+        /* RPS animations */
+        .rps-choice.revealed {
+            animation: bounceIn 0.5s ease-out;
+        }
+
+        /* Reaction button glow */
+        .reaction-btn.winner {
+            animation: pulseGlow 1s infinite;
+        }
+
+        /* Sound toggle button */
+        .sound-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--bg-card);
+            border: 2px solid var(--border);
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 100;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sound-toggle:hover {
+            border-color: var(--accent);
+            transform: scale(1.1);
+        }
+
+        .sound-toggle.muted {
+            opacity: 0.5;
         }
 
         /* Footer */
@@ -1728,6 +2066,11 @@
         <div class="game-container">
             <button class="close-game" onclick="closeGame('tictactoe')">&times;</button>
             <h2 class="game-title">TIC TAC TOE</h2>
+            <div class="p2-mode-toggle" id="tttP2Toggle">
+                <span class="p2-mode-label">P2:</span>
+                <button class="p2-toggle-btn active" onclick="setP2Mode('tictactoe', 'ai')">AI</button>
+                <button class="p2-toggle-btn" onclick="setP2Mode('tictactoe', 'manual')">2P</button>
+            </div>
             <div class="game-status" id="tttStatus">Player X's turn</div>
             <div class="ttt-wrapper">
                 <div class="ttt-board" id="tttBoard"></div>
@@ -1741,6 +2084,11 @@
         <div class="game-container">
             <button class="close-game" onclick="closeGame('connect4')">&times;</button>
             <h2 class="game-title">CONNECT FOUR</h2>
+            <div class="p2-mode-toggle" id="c4P2Toggle">
+                <span class="p2-mode-label">P2:</span>
+                <button class="p2-toggle-btn active" onclick="setP2Mode('connect4', 'ai')">AI</button>
+                <button class="p2-toggle-btn" onclick="setP2Mode('connect4', 'manual')">2P</button>
+            </div>
             <div class="game-status" id="c4Status">🔴 Player 1's turn</div>
             <div class="c4-wrapper">
                 <div class="c4-frame">
@@ -1757,6 +2105,11 @@
         <div class="game-container">
             <button class="close-game" onclick="closeGame('pong')">&times;</button>
             <h2 class="game-title">PONG</h2>
+            <div class="p2-mode-toggle" id="pongP2Toggle">
+                <span class="p2-mode-label">P2:</span>
+                <button class="p2-toggle-btn active" onclick="setP2Mode('pong', 'ai')">AI</button>
+                <button class="p2-toggle-btn" onclick="setP2Mode('pong', 'manual')">2P</button>
+            </div>
             <div class="pong-wrapper">
                 <div class="pong-cabinet">
                     <div class="pong-scores">
@@ -1811,6 +2164,14 @@
 
             <div class="lobby-status" id="lobbyStatus">Choose an option to play with a friend!</div>
 
+            <!-- Name Input -->
+            <div class="name-input-section" id="nameInputSection">
+                <div class="name-input-group">
+                    <label>Your Name</label>
+                    <input type="text" id="playerNameInput" maxlength="12" placeholder="Enter name..." autocomplete="off">
+                </div>
+            </div>
+
             <div class="lobby-options" id="lobbyOptions">
                 <button class="lobby-btn create" onclick="createRoom()">
                     <span class="lobby-btn-icon">🎮</span>
@@ -1838,13 +2199,15 @@
                     </button>
                 </div>
                 <div class="connection-status">
-                    <div class="player-indicator">
+                    <div class="player-indicator p1">
                         <span class="player-dot connected"></span>
-                        <span>You (Host)</span>
+                        <span class="player-role">P1 (Host)</span>
+                        <span class="player-name" id="hostNameDisplay">You</span>
                     </div>
-                    <div class="player-indicator" id="guestIndicator">
+                    <div class="player-indicator p2" id="guestIndicator">
                         <span class="player-dot" id="guestDot"></span>
-                        <span id="guestLabel">Waiting for player...</span>
+                        <span class="player-role">P2</span>
+                        <span class="player-name" id="guestLabel">Waiting...</span>
                     </div>
                 </div>
             </div>
@@ -1863,6 +2226,17 @@
                     <span class="connected-icon">✓</span>
                     <span>Connected!</span>
                 </div>
+                <div class="connected-players">
+                    <div class="connected-player p1">
+                        <span class="player-badge-small">P1</span>
+                        <span id="connectedP1Name">Host</span>
+                    </div>
+                    <span class="vs-text">VS</span>
+                    <div class="connected-player p2">
+                        <span class="player-badge-small">P2</span>
+                        <span id="connectedP2Name">Guest</span>
+                    </div>
+                </div>
                 <p class="connected-hint">Select a game to play together</p>
                 <button class="restart-btn" onclick="closeLobby()">CHOOSE GAME</button>
             </div>
@@ -1874,6 +2248,9 @@
         </div>
     </div>
 
+    <!-- Sound Toggle Button -->
+    <button class="sound-toggle" id="soundToggle" onclick="toggleSound()">🔊</button>
+
     <footer>
         <div class="container">
             <p>You found the secret! Now get back to <a href="index.html">hiring me</a> :)</p>
@@ -1881,6 +2258,375 @@
     </footer>
 
     <script>
+        // ==================== PARTICLE SYSTEM ====================
+        class ParticleSystem {
+            constructor() {
+                this.particles = [];
+                this.canvas = null;
+                this.ctx = null;
+            }
+
+            init(canvasId) {
+                this.canvas = document.getElementById(canvasId);
+                if (this.canvas) {
+                    this.ctx = this.canvas.getContext('2d');
+                }
+            }
+
+            emit(x, y, options = {}) {
+                const defaults = {
+                    count: 10,
+                    speed: 3,
+                    size: 4,
+                    color: '#00ff88',
+                    lifetime: 60,
+                    gravity: 0.1,
+                    spread: Math.PI * 2,
+                    type: 'circle' // circle, square, star
+                };
+                const opts = { ...defaults, ...options };
+
+                for (let i = 0; i < opts.count; i++) {
+                    const angle = (Math.random() - 0.5) * opts.spread;
+                    const speed = opts.speed * (0.5 + Math.random() * 0.5);
+                    this.particles.push({
+                        x, y,
+                        vx: Math.cos(angle) * speed,
+                        vy: Math.sin(angle) * speed,
+                        size: opts.size * (0.5 + Math.random() * 0.5),
+                        color: opts.color,
+                        life: opts.lifetime,
+                        maxLife: opts.lifetime,
+                        gravity: opts.gravity,
+                        type: opts.type
+                    });
+                }
+            }
+
+            trail(x, y, color = '#fff', size = 3) {
+                this.particles.push({
+                    x, y, vx: 0, vy: 0,
+                    size, color,
+                    life: 15, maxLife: 15,
+                    gravity: 0, type: 'circle'
+                });
+            }
+
+            confetti(x, y, count = 50) {
+                const colors = ['#00ff88', '#ff6b6b', '#ffd93d', '#6b9fff', '#ff6bff'];
+                for (let i = 0; i < count; i++) {
+                    const angle = (Math.random() - 0.5) * Math.PI;
+                    const speed = 2 + Math.random() * 4;
+                    this.particles.push({
+                        x, y,
+                        vx: Math.cos(angle) * speed,
+                        vy: -Math.abs(Math.sin(angle) * speed) - 2,
+                        size: 4 + Math.random() * 4,
+                        color: colors[Math.floor(Math.random() * colors.length)],
+                        life: 120,
+                        maxLife: 120,
+                        gravity: 0.15,
+                        type: 'square',
+                        rotation: Math.random() * Math.PI * 2,
+                        rotationSpeed: (Math.random() - 0.5) * 0.3
+                    });
+                }
+            }
+
+            explosion(x, y, color = '#ff6b6b', count = 20) {
+                this.emit(x, y, { count, color, speed: 5, lifetime: 40, gravity: 0.05 });
+            }
+
+            update() {
+                this.particles = this.particles.filter(p => {
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    p.vy += p.gravity;
+                    p.life--;
+                    if (p.rotation !== undefined) {
+                        p.rotation += p.rotationSpeed;
+                    }
+                    return p.life > 0;
+                });
+            }
+
+            draw(ctx) {
+                const context = ctx || this.ctx;
+                if (!context) return;
+
+                this.particles.forEach(p => {
+                    const alpha = p.life / p.maxLife;
+                    context.globalAlpha = alpha;
+                    context.fillStyle = p.color;
+
+                    if (p.type === 'circle') {
+                        context.beginPath();
+                        context.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                        context.fill();
+                    } else if (p.type === 'square') {
+                        context.save();
+                        context.translate(p.x, p.y);
+                        if (p.rotation !== undefined) context.rotate(p.rotation);
+                        context.fillRect(-p.size/2, -p.size/2, p.size, p.size);
+                        context.restore();
+                    } else if (p.type === 'star') {
+                        this.drawStar(context, p.x, p.y, 5, p.size, p.size/2);
+                    }
+                });
+                context.globalAlpha = 1;
+            }
+
+            drawStar(ctx, x, y, points, outer, inner) {
+                ctx.beginPath();
+                for (let i = 0; i < points * 2; i++) {
+                    const r = i % 2 === 0 ? outer : inner;
+                    const angle = (i * Math.PI) / points - Math.PI / 2;
+                    const px = x + Math.cos(angle) * r;
+                    const py = y + Math.sin(angle) * r;
+                    i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
+                }
+                ctx.closePath();
+                ctx.fill();
+            }
+
+            clear() {
+                this.particles = [];
+            }
+        }
+
+        // Global particle systems for different canvases
+        const particles = {
+            pong: new ParticleSystem(),
+            snake: new ParticleSystem(),
+            hockey: new ParticleSystem()
+        };
+
+        // ==================== SOUND MANAGER ====================
+        class SoundManager {
+            constructor() {
+                this.ctx = null;
+                this.enabled = true;
+                this.volume = 0.3;
+                this.sounds = {};
+            }
+
+            init() {
+                try {
+                    this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+                } catch (e) {
+                    console.log('Web Audio not supported');
+                    this.enabled = false;
+                }
+            }
+
+            resume() {
+                if (this.ctx && this.ctx.state === 'suspended') {
+                    this.ctx.resume();
+                }
+            }
+
+            play(type, options = {}) {
+                if (!this.enabled || !this.ctx) return;
+                this.resume();
+
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+
+                const now = this.ctx.currentTime;
+                const vol = (options.volume || 1) * this.volume;
+
+                switch (type) {
+                    case 'hit':
+                        osc.frequency.setValueAtTime(300, now);
+                        osc.frequency.exponentialRampToValueAtTime(150, now + 0.1);
+                        osc.type = 'square';
+                        gain.gain.setValueAtTime(vol, now);
+                        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
+                        osc.start(now);
+                        osc.stop(now + 0.1);
+                        break;
+
+                    case 'score':
+                        osc.frequency.setValueAtTime(523, now);
+                        osc.frequency.setValueAtTime(659, now + 0.1);
+                        osc.frequency.setValueAtTime(784, now + 0.2);
+                        osc.type = 'sine';
+                        gain.gain.setValueAtTime(vol, now);
+                        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+                        osc.start(now);
+                        osc.stop(now + 0.3);
+                        break;
+
+                    case 'win':
+                        const notes = [523, 659, 784, 1047];
+                        notes.forEach((freq, i) => {
+                            const o = this.ctx.createOscillator();
+                            const g = this.ctx.createGain();
+                            o.connect(g);
+                            g.connect(this.ctx.destination);
+                            o.frequency.setValueAtTime(freq, now + i * 0.15);
+                            o.type = 'sine';
+                            g.gain.setValueAtTime(vol * 0.8, now + i * 0.15);
+                            g.gain.exponentialRampToValueAtTime(0.01, now + i * 0.15 + 0.2);
+                            o.start(now + i * 0.15);
+                            o.stop(now + i * 0.15 + 0.2);
+                        });
+                        return;
+
+                    case 'lose':
+                        osc.frequency.setValueAtTime(400, now);
+                        osc.frequency.exponentialRampToValueAtTime(100, now + 0.3);
+                        osc.type = 'sawtooth';
+                        gain.gain.setValueAtTime(vol * 0.5, now);
+                        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+                        osc.start(now);
+                        osc.stop(now + 0.3);
+                        break;
+
+                    case 'click':
+                        osc.frequency.setValueAtTime(800, now);
+                        osc.type = 'sine';
+                        gain.gain.setValueAtTime(vol * 0.3, now);
+                        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.05);
+                        osc.start(now);
+                        osc.stop(now + 0.05);
+                        break;
+
+                    case 'beep':
+                        osc.frequency.setValueAtTime(options.freq || 440, now);
+                        osc.type = 'sine';
+                        gain.gain.setValueAtTime(vol, now);
+                        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.15);
+                        osc.start(now);
+                        osc.stop(now + 0.15);
+                        break;
+
+                    case 'explosion':
+                        const noise = this.ctx.createBufferSource();
+                        const buffer = this.ctx.createBuffer(1, this.ctx.sampleRate * 0.2, this.ctx.sampleRate);
+                        const data = buffer.getChannelData(0);
+                        for (let i = 0; i < data.length; i++) {
+                            data[i] = (Math.random() * 2 - 1) * (1 - i / data.length);
+                        }
+                        noise.buffer = buffer;
+                        const noiseGain = this.ctx.createGain();
+                        noise.connect(noiseGain);
+                        noiseGain.connect(this.ctx.destination);
+                        noiseGain.gain.setValueAtTime(vol, now);
+                        noiseGain.gain.exponentialRampToValueAtTime(0.01, now + 0.2);
+                        noise.start(now);
+                        return;
+
+                    case 'whoosh':
+                        osc.frequency.setValueAtTime(100, now);
+                        osc.frequency.exponentialRampToValueAtTime(500, now + 0.1);
+                        osc.type = 'sine';
+                        gain.gain.setValueAtTime(vol * 0.3, now);
+                        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
+                        osc.start(now);
+                        osc.stop(now + 0.1);
+                        break;
+
+                    case 'pop':
+                        osc.frequency.setValueAtTime(600, now);
+                        osc.frequency.exponentialRampToValueAtTime(200, now + 0.05);
+                        osc.type = 'sine';
+                        gain.gain.setValueAtTime(vol * 0.5, now);
+                        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.05);
+                        osc.start(now);
+                        osc.stop(now + 0.05);
+                        break;
+
+                    case 'simon':
+                        const simonFreqs = { green: 392, red: 330, yellow: 262, blue: 208 };
+                        osc.frequency.setValueAtTime(simonFreqs[options.color] || 440, now);
+                        osc.type = 'sine';
+                        gain.gain.setValueAtTime(vol, now);
+                        gain.gain.setValueAtTime(vol, now + 0.2);
+                        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+                        osc.start(now);
+                        osc.stop(now + 0.3);
+                        break;
+                }
+            }
+        }
+
+        const sound = new SoundManager();
+
+        // Initialize sound on first interaction
+        document.addEventListener('click', () => sound.init(), { once: true });
+        document.addEventListener('keydown', () => sound.init(), { once: true });
+
+        // ==================== SCREEN EFFECTS ====================
+        function screenShake(element, intensity = 5, duration = 200) {
+            const el = typeof element === 'string' ? document.querySelector(element) : element;
+            if (!el) return;
+
+            const originalTransform = el.style.transform;
+            let start = null;
+
+            function shake(timestamp) {
+                if (!start) start = timestamp;
+                const elapsed = timestamp - start;
+
+                if (elapsed < duration) {
+                    const x = (Math.random() - 0.5) * intensity * (1 - elapsed/duration);
+                    const y = (Math.random() - 0.5) * intensity * (1 - elapsed/duration);
+                    el.style.transform = `translate(${x}px, ${y}px)`;
+                    requestAnimationFrame(shake);
+                } else {
+                    el.style.transform = originalTransform;
+                }
+            }
+            requestAnimationFrame(shake);
+        }
+
+        function flashElement(element, color = '#fff', duration = 100) {
+            const el = typeof element === 'string' ? document.querySelector(element) : element;
+            if (!el) return;
+
+            const original = el.style.boxShadow;
+            el.style.boxShadow = `0 0 30px ${color}, inset 0 0 30px ${color}`;
+            el.style.transition = 'box-shadow 0.1s ease';
+            setTimeout(() => {
+                el.style.boxShadow = original;
+            }, duration);
+        }
+
+        function popAnimation(element) {
+            const el = typeof element === 'string' ? document.querySelector(element) : element;
+            if (!el) return;
+
+            el.style.transform = 'scale(1.2)';
+            el.style.transition = 'transform 0.1s ease';
+            setTimeout(() => {
+                el.style.transform = 'scale(1)';
+            }, 100);
+        }
+
+        // ==================== FLOATING TEXT ====================
+        function showFloatingText(x, y, text, color = '#fff', container = document.body) {
+            const el = document.createElement('div');
+            el.className = 'floating-text';
+            el.textContent = text;
+            el.style.cssText = `
+                position: absolute;
+                left: ${x}px;
+                top: ${y}px;
+                color: ${color};
+                font-family: 'Press Start 2P', cursive;
+                font-size: 1rem;
+                pointer-events: none;
+                z-index: 1000;
+                text-shadow: 0 0 10px ${color};
+                animation: floatUp 1s ease-out forwards;
+            `;
+            container.appendChild(el);
+            setTimeout(() => el.remove(), 1000);
+        }
+
         // Game Modal Controls
         function openGame(game) {
             document.getElementById(game + 'Modal').classList.add('active');
@@ -1893,6 +2639,60 @@
         function closeGame(game) {
             document.getElementById(game + 'Modal').classList.remove('active');
             if (game === 'pong') stopPong();
+        }
+
+        // ==================== P2 MODE SYSTEM (AI vs Manual) ====================
+        const p2Modes = {
+            tictactoe: 'ai',
+            connect4: 'ai',
+            pong: 'ai',
+            airhockey: 'ai',
+            snake: 'ai',
+            memory: 'ai'
+        };
+
+        function setP2Mode(game, mode) {
+            p2Modes[game] = mode;
+            // Update button styles
+            const toggleId = {
+                tictactoe: 'tttP2Toggle',
+                connect4: 'c4P2Toggle',
+                pong: 'pongP2Toggle',
+                airhockey: 'hockeyP2Toggle',
+                snake: 'snakeP2Toggle',
+                memory: 'memoryP2Toggle'
+            }[game];
+
+            if (toggleId) {
+                const toggle = document.getElementById(toggleId);
+                if (toggle) {
+                    toggle.querySelectorAll('.p2-toggle-btn').forEach(btn => {
+                        btn.classList.remove('active');
+                        if ((mode === 'ai' && btn.textContent === 'AI') ||
+                            (mode === 'manual' && btn.textContent === '2P')) {
+                            btn.classList.add('active');
+                        }
+                    });
+                }
+            }
+
+            // Restart the game when mode changes
+            if (game === 'tictactoe') initTTT();
+            if (game === 'connect4') initC4();
+            if (game === 'pong') resetPong();
+            if (game === 'airhockey') resetHockey();
+            if (game === 'snake') initSnake();
+            if (game === 'memory') initMemory();
+        }
+
+        function hideP2TogglesInMultiplayer() {
+            const toggles = document.querySelectorAll('.p2-mode-toggle');
+            toggles.forEach(t => t.classList.add('hidden'));
+        }
+
+        function showP2Toggles() {
+            const toggles = document.querySelectorAll('.p2-mode-toggle');
+            toggles.forEach(t => t.classList.remove('hidden'));
         }
 
         // ==================== TIC TAC TOE ====================
@@ -1920,23 +2720,93 @@
 
         function handleTTTClick(i) {
             if (tttBoard[i] || tttGameOver) return;
+            // In AI mode, only allow clicks during player's turn (X)
+            if (p2Modes.tictactoe === 'ai' && tttCurrentPlayer !== 'X') return;
+
+            makeTTTMove(i);
+        }
+
+        function makeTTTMove(i) {
             tttBoard[i] = tttCurrentPlayer;
+            sound.play('pop');
 
             const winner = checkTTTWinner();
             if (winner) {
                 document.getElementById('tttStatus').textContent = `Player ${winner} wins!`;
                 document.getElementById('tttStatus').style.color = winner === 'X' ? '#00ff88' : '#ff6b6b';
+                document.getElementById('tttStatus').classList.add('winner');
+                sound.play('win');
                 tttGameOver = true;
+                // Highlight winning cells
+                const lines = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+                for (const [a,b,c] of lines) {
+                    if (tttBoard[a] && tttBoard[a] === tttBoard[b] && tttBoard[a] === tttBoard[c]) {
+                        setTimeout(() => {
+                            document.querySelectorAll('.ttt-cell')[a]?.classList.add('winning');
+                            document.querySelectorAll('.ttt-cell')[b]?.classList.add('winning');
+                            document.querySelectorAll('.ttt-cell')[c]?.classList.add('winning');
+                        }, 100);
+                        break;
+                    }
+                }
             } else if (tttBoard.every(cell => cell)) {
                 document.getElementById('tttStatus').textContent = "It's a draw!";
                 document.getElementById('tttStatus').style.color = '#ffd93d';
+                sound.play('lose');
                 tttGameOver = true;
             } else {
                 tttCurrentPlayer = tttCurrentPlayer === 'X' ? 'O' : 'X';
                 document.getElementById('tttStatus').textContent = `Player ${tttCurrentPlayer}'s turn`;
                 document.getElementById('tttStatus').style.color = tttCurrentPlayer === 'X' ? '#00ff88' : '#ff6b6b';
+
+                // AI move
+                if (p2Modes.tictactoe === 'ai' && tttCurrentPlayer === 'O' && !tttGameOver) {
+                    setTimeout(() => tttAIMove(), 500);
+                }
             }
             renderTTT();
+        }
+
+        function tttAIMove() {
+            if (tttGameOver) return;
+            const move = getTTTBestMove();
+            if (move !== -1) {
+                makeTTTMove(move);
+            }
+        }
+
+        function getTTTBestMove() {
+            // Try to win
+            for (let i = 0; i < 9; i++) {
+                if (!tttBoard[i]) {
+                    tttBoard[i] = 'O';
+                    if (checkTTTWinner() === 'O') {
+                        tttBoard[i] = '';
+                        return i;
+                    }
+                    tttBoard[i] = '';
+                }
+            }
+            // Block player from winning
+            for (let i = 0; i < 9; i++) {
+                if (!tttBoard[i]) {
+                    tttBoard[i] = 'X';
+                    if (checkTTTWinner() === 'X') {
+                        tttBoard[i] = '';
+                        return i;
+                    }
+                    tttBoard[i] = '';
+                }
+            }
+            // Take center
+            if (!tttBoard[4]) return 4;
+            // Take corner
+            const corners = [0, 2, 6, 8];
+            const emptyCorners = corners.filter(i => !tttBoard[i]);
+            if (emptyCorners.length) return emptyCorners[Math.floor(Math.random() * emptyCorners.length)];
+            // Take any empty
+            const empty = tttBoard.map((c, i) => c ? -1 : i).filter(i => i !== -1);
+            return empty.length ? empty[Math.floor(Math.random() * empty.length)] : -1;
         }
 
         function checkTTTWinner() {
@@ -1993,10 +2863,17 @@
 
         function handleC4Click(col) {
             if (c4GameOver) return;
+            // In AI mode, only allow clicks during player 1's turn
+            if (p2Modes.connect4 === 'ai' && c4CurrentPlayer !== 1) return;
 
+            makeC4Move(col);
+        }
+
+        function makeC4Move(col) {
             for (let row = 5; row >= 0; row--) {
                 if (c4Board[row][col] === 0) {
                     c4Board[row][col] = c4CurrentPlayer;
+                    sound.play('whoosh');
 
                     renderC4();
 
@@ -2005,22 +2882,81 @@
                     const cellIndex = row * 7 + col;
                     cells[cellIndex].classList.add('dropping');
 
+                    // Play hit sound when piece lands
+                    setTimeout(() => sound.play('hit'), 300);
+
                     if (checkC4Winner(row, col)) {
                         const emoji = c4CurrentPlayer === 1 ? '🔴' : '🟡';
                         document.getElementById('c4Status').innerHTML = `${emoji} Player ${c4CurrentPlayer} wins!`;
+                        document.getElementById('c4Status').classList.add('winner');
+                        sound.play('win');
                         c4GameOver = true;
                     } else if (c4Board[0].every(cell => cell !== 0)) {
                         document.getElementById('c4Status').textContent = "It's a draw!";
+                        sound.play('lose');
                         c4GameOver = true;
                     } else {
                         c4CurrentPlayer = c4CurrentPlayer === 1 ? 2 : 1;
                         const emoji = c4CurrentPlayer === 1 ? '🔴' : '🟡';
                         document.getElementById('c4Status').innerHTML = `${emoji} Player ${c4CurrentPlayer}'s turn`;
                         renderC4Indicators();
+
+                        // AI move
+                        if (p2Modes.connect4 === 'ai' && c4CurrentPlayer === 2 && !c4GameOver) {
+                            setTimeout(() => c4AIMove(), 600);
+                        }
                     }
                     return;
                 }
             }
+        }
+
+        function c4AIMove() {
+            if (c4GameOver) return;
+            const col = getC4BestMove();
+            if (col !== -1) {
+                makeC4Move(col);
+            }
+        }
+
+        function getC4BestMove() {
+            // Try to win
+            for (let col = 0; col < 7; col++) {
+                const row = getC4DropRow(col);
+                if (row !== -1) {
+                    c4Board[row][col] = 2;
+                    if (checkC4Winner(row, col)) {
+                        c4Board[row][col] = 0;
+                        return col;
+                    }
+                    c4Board[row][col] = 0;
+                }
+            }
+            // Block player from winning
+            for (let col = 0; col < 7; col++) {
+                const row = getC4DropRow(col);
+                if (row !== -1) {
+                    c4Board[row][col] = 1;
+                    if (checkC4Winner(row, col)) {
+                        c4Board[row][col] = 0;
+                        return col;
+                    }
+                    c4Board[row][col] = 0;
+                }
+            }
+            // Prefer center columns
+            const centerCols = [3, 2, 4, 1, 5, 0, 6];
+            for (const col of centerCols) {
+                if (getC4DropRow(col) !== -1) return col;
+            }
+            return -1;
+        }
+
+        function getC4DropRow(col) {
+            for (let row = 5; row >= 0; row--) {
+                if (c4Board[row][col] === 0) return row;
+            }
+            return -1;
         }
 
         function checkC4Winner(row, col) {
@@ -2088,8 +3024,8 @@
         }
 
         function resetPongPaddles() {
-            pongP1 = { x: 15, y: 115, width: 10, height: 50 };
-            pongP2 = { x: 455, y: 115, width: 10, height: 50 };
+            pongP1 = { x: 15, y: 115, width: 10, height: 50, vy: 0 };
+            pongP2 = { x: 455, y: 115, width: 10, height: 50, vy: 0 };
         }
 
         function resetPong() {
@@ -2114,11 +3050,52 @@
         }
 
         function pongLoop() {
-            // Move paddles
-            if (pongKeys['w'] && pongP1.y > 0) pongP1.y -= 6;
-            if (pongKeys['s'] && pongP1.y < 230) pongP1.y += 6;
-            if (pongKeys['ArrowUp'] && pongP2.y > 0) pongP2.y -= 6;
-            if (pongKeys['ArrowDown'] && pongP2.y < 230) pongP2.y += 6;
+            // Paddle movement with velocity (more fluid controls)
+            const paddleAccel = 1.2;
+            const paddleMaxSpeed = 10;
+            const paddleFriction = 0.85;
+
+            // P1 paddle (W/S)
+            if (pongKeys['w']) {
+                pongP1.vy -= paddleAccel;
+            } else if (pongKeys['s']) {
+                pongP1.vy += paddleAccel;
+            } else {
+                pongP1.vy *= paddleFriction;
+            }
+            pongP1.vy = Math.max(-paddleMaxSpeed, Math.min(paddleMaxSpeed, pongP1.vy));
+            pongP1.y += pongP1.vy;
+            pongP1.y = Math.max(0, Math.min(230, pongP1.y));
+
+            // P2 paddle (Arrow keys or AI)
+            if (p2Modes.pong === 'ai') {
+                // AI follows the ball with some reaction delay
+                const paddleCenter = pongP2.y + pongP2.height / 2;
+                const targetY = pongBall.y;
+                const aiSpeed = 0.08; // AI reaction speed (lower = easier)
+
+                if (targetY < paddleCenter - 10) {
+                    pongP2.vy -= paddleAccel * aiSpeed * 10;
+                } else if (targetY > paddleCenter + 10) {
+                    pongP2.vy += paddleAccel * aiSpeed * 10;
+                } else {
+                    pongP2.vy *= paddleFriction;
+                }
+            } else {
+                if (pongKeys['ArrowUp']) {
+                    pongP2.vy -= paddleAccel;
+                } else if (pongKeys['ArrowDown']) {
+                    pongP2.vy += paddleAccel;
+                } else {
+                    pongP2.vy *= paddleFriction;
+                }
+            }
+            pongP2.vy = Math.max(-paddleMaxSpeed, Math.min(paddleMaxSpeed, pongP2.vy));
+            pongP2.y += pongP2.vy;
+            pongP2.y = Math.max(0, Math.min(230, pongP2.y));
+
+            // Ball trail particles
+            particles.pong.trail(pongBall.x, pongBall.y, '#ffffff', 4);
 
             // Move ball
             pongBall.x += pongBall.vx;
@@ -2127,36 +3104,59 @@
             // Ball collision with top/bottom
             if (pongBall.y <= 8 || pongBall.y >= 272) {
                 pongBall.vy *= -1;
+                sound.play('hit', { volume: 0.3 });
+                particles.pong.emit(pongBall.x, pongBall.y, { count: 5, color: '#fff', speed: 2, lifetime: 20 });
             }
 
-            // Ball collision with paddles
+            // Ball collision with P1 paddle
             if (pongBall.x <= pongP1.x + pongP1.width + 8 &&
                 pongBall.y >= pongP1.y &&
                 pongBall.y <= pongP1.y + pongP1.height &&
                 pongBall.vx < 0) {
                 pongBall.vx = Math.min(Math.abs(pongBall.vx) * 1.03, 6);
                 pongBall.vy += (Math.random() - 0.5) * 1.5;
+                sound.play('hit');
+                particles.pong.emit(pongP1.x + pongP1.width, pongBall.y, { count: 15, color: '#00ff88', speed: 4, spread: Math.PI / 2 });
+                screenShake('#pongCanvas', 3, 100);
             }
 
+            // Ball collision with P2 paddle
             if (pongBall.x >= pongP2.x - 8 &&
                 pongBall.y >= pongP2.y &&
                 pongBall.y <= pongP2.y + pongP2.height &&
                 pongBall.vx > 0) {
                 pongBall.vx = -Math.min(Math.abs(pongBall.vx) * 1.03, 6);
                 pongBall.vy += (Math.random() - 0.5) * 1.5;
+                sound.play('hit');
+                particles.pong.emit(pongP2.x, pongBall.y, { count: 15, color: '#ff6b6b', speed: 4, spread: Math.PI / 2 });
+                screenShake('#pongCanvas', 3, 100);
             }
 
-            // Score
+            // Score - P2 scores
             if (pongBall.x <= 0) {
                 pongScores.p2++;
                 updatePongScores();
+                sound.play('score');
+                particles.pong.explosion(pongBall.x, pongBall.y, '#ff6b6b', 30);
+                screenShake('.pong-cabinet', 8, 300);
+                document.getElementById('p2Score').classList.add('score-pop');
+                setTimeout(() => document.getElementById('p2Score').classList.remove('score-pop'), 300);
                 resetPongBall();
             }
+            // Score - P1 scores
             if (pongBall.x >= 480) {
                 pongScores.p1++;
                 updatePongScores();
+                sound.play('score');
+                particles.pong.explosion(pongBall.x, pongBall.y, '#00ff88', 30);
+                screenShake('.pong-cabinet', 8, 300);
+                document.getElementById('p1Score').classList.add('score-pop');
+                setTimeout(() => document.getElementById('p1Score').classList.remove('score-pop'), 300);
                 resetPongBall();
             }
+
+            // Update particles
+            particles.pong.update();
 
             // Draw background
             pongCtx.fillStyle = '#000';
@@ -2172,6 +3172,9 @@
             pongCtx.stroke();
             pongCtx.setLineDash([]);
 
+            // Draw particles
+            particles.pong.draw(pongCtx);
+
             // Glow effect for paddles
             pongCtx.shadowBlur = 15;
 
@@ -2185,7 +3188,7 @@
             pongCtx.fillStyle = '#ff6b6b';
             pongCtx.fillRect(pongP2.x, pongP2.y, pongP2.width, pongP2.height);
 
-            // Ball
+            // Ball with glow
             pongCtx.shadowColor = '#fff';
             pongCtx.shadowBlur = 20;
             pongCtx.fillStyle = '#ffffff';
@@ -2228,6 +3231,7 @@
                 document.getElementById('reactionP1').classList.add('ready');
                 document.getElementById('reactionP2').classList.add('ready');
                 document.getElementById('reactionStatus').textContent = 'GO! GO! GO!';
+                sound.play('beep', { freq: 880 });
             }, delay);
         }
 
@@ -2252,10 +3256,15 @@
                 reactionScores[`p${otherPlayer}`]++;
                 document.getElementById(`reactionScore${otherPlayer}`).textContent = reactionScores[`p${otherPlayer}`];
                 document.getElementById('reactionStatus').textContent = `Too early! Point to P${otherPlayer}`;
+                sound.play('lose');
+                screenShake(`#reactionP${player}`, 5, 200);
             } else {
                 reactionScores[`p${player}`]++;
                 document.getElementById(`reactionScore${player}`).textContent = reactionScores[`p${player}`];
                 document.getElementById('reactionStatus').textContent = `P${player} wins the round!`;
+                sound.play('score');
+                document.getElementById(`reactionP${player}`).classList.add('winner');
+                setTimeout(() => document.getElementById(`reactionP${player}`).classList.remove('winner'), 1000);
             }
 
             document.getElementById('reactionP1').classList.remove('ready');
@@ -2282,6 +3291,11 @@
         <div class="game-container">
             <button class="close-game" onclick="closeGame('snake')">&times;</button>
             <h2 class="game-title">SNAKE BATTLE</h2>
+            <div class="p2-mode-toggle" id="snakeP2Toggle">
+                <span class="p2-mode-label">P2:</span>
+                <button class="p2-toggle-btn active" onclick="setP2Mode('snake', 'ai')">AI</button>
+                <button class="p2-toggle-btn" onclick="setP2Mode('snake', 'manual')">2P</button>
+            </div>
             <div class="game-status" id="snakeStatus">Press START to begin!</div>
             <div class="snake-wrapper">
                 <canvas id="snakeCanvas" width="400" height="400"></canvas>
@@ -2298,6 +3312,11 @@
         <div class="game-container">
             <button class="close-game" onclick="closeGame('memory')">&times;</button>
             <h2 class="game-title">MEMORY MATCH</h2>
+            <div class="p2-mode-toggle" id="memoryP2Toggle">
+                <span class="p2-mode-label">P2:</span>
+                <button class="p2-toggle-btn active" onclick="setP2Mode('memory', 'ai')">AI</button>
+                <button class="p2-toggle-btn" onclick="setP2Mode('memory', 'manual')">2P</button>
+            </div>
             <div class="game-status" id="memoryStatus">Player 1's turn</div>
             <div class="memory-scores">
                 <span class="memory-score p1">P1: <span id="memoryScore1">0</span></span>
@@ -2396,6 +3415,11 @@
         <div class="game-container">
             <button class="close-game" onclick="closeGame('airhockey')">&times;</button>
             <h2 class="game-title">AIR HOCKEY</h2>
+            <div class="p2-mode-toggle" id="hockeyP2Toggle">
+                <span class="p2-mode-label">P2:</span>
+                <button class="p2-toggle-btn active" onclick="setP2Mode('airhockey', 'ai')">AI</button>
+                <button class="p2-toggle-btn" onclick="setP2Mode('airhockey', 'manual')">2P</button>
+            </div>
             <div class="hockey-wrapper">
                 <div class="hockey-cabinet">
                     <div class="hockey-scores">
@@ -2506,11 +3530,48 @@
         let snakeLastTime = 0;
         const SNAKE_SPEED = 120;
 
+        function snakeAIMove() {
+            if (!snake2.alive || p2Modes.snake !== 'ai') return;
+
+            const head = snake2.body[0];
+            const possibleDirs = [
+                {x: 0, y: -1}, // up
+                {x: 0, y: 1},  // down
+                {x: -1, y: 0}, // left
+                {x: 1, y: 0}   // right
+            ].filter(dir => {
+                // Can't reverse
+                if (dir.x === -snake2.dir.x && dir.y === -snake2.dir.y) return false;
+                // Check if safe
+                const newHead = {x: head.x + dir.x, y: head.y + dir.y};
+                if (newHead.x < 0 || newHead.x >= SNAKE_GRID || newHead.y < 0 || newHead.y >= SNAKE_GRID) return false;
+                if (isSnakeCollision(newHead, snake2.body)) return false;
+                if (isSnakeCollision(newHead, snake1.body)) return false;
+                return true;
+            });
+
+            if (possibleDirs.length === 0) return; // No safe moves
+
+            // Prefer direction toward food
+            let bestDir = possibleDirs[0];
+            let bestDist = Infinity;
+            for (const dir of possibleDirs) {
+                const newHead = {x: head.x + dir.x, y: head.y + dir.y};
+                const dist = Math.abs(newHead.x - snakeFood.x) + Math.abs(newHead.y - snakeFood.y);
+                if (dist < bestDist) {
+                    bestDist = dist;
+                    bestDir = dir;
+                }
+            }
+            snake2.nextDir = bestDir;
+        }
+
         function snakeLoop(timestamp) {
             if (!snakeGameRunning) return;
 
             if (timestamp - snakeLastTime >= SNAKE_SPEED) {
                 snakeLastTime = timestamp;
+                snakeAIMove(); // AI decides next move before update
                 updateSnakes();
             }
 
@@ -2519,6 +3580,7 @@
         }
 
         function updateSnakes() {
+            let snakeDied = false;
             [snake1, snake2].forEach(snake => {
                 if (!snake.alive) return;
                 snake.dir = snake.nextDir;
@@ -2527,12 +3589,25 @@
                 // Wall collision
                 if (head.x < 0 || head.x >= SNAKE_GRID || head.y < 0 || head.y >= SNAKE_GRID) {
                     snake.alive = false;
+                    snakeDied = true;
+                    // Death explosion particles
+                    const deathX = snake.body[0].x * SNAKE_SIZE + SNAKE_SIZE/2;
+                    const deathY = snake.body[0].y * SNAKE_SIZE + SNAKE_SIZE/2;
+                    particles.snake.explosion(deathX, deathY, snake.color, 40);
+                    sound.play('explosion');
+                    screenShake('#snakeCanvas', 10, 300);
                     return;
                 }
 
                 // Self collision
                 if (isSnakeCollision(head, snake.body)) {
                     snake.alive = false;
+                    snakeDied = true;
+                    const deathX = head.x * SNAKE_SIZE + SNAKE_SIZE/2;
+                    const deathY = head.y * SNAKE_SIZE + SNAKE_SIZE/2;
+                    particles.snake.explosion(deathX, deathY, snake.color, 40);
+                    sound.play('explosion');
+                    screenShake('#snakeCanvas', 10, 300);
                     return;
                 }
 
@@ -2540,6 +3615,12 @@
                 const other = snake === snake1 ? snake2 : snake1;
                 if (isSnakeCollision(head, other.body)) {
                     snake.alive = false;
+                    snakeDied = true;
+                    const deathX = head.x * SNAKE_SIZE + SNAKE_SIZE/2;
+                    const deathY = head.y * SNAKE_SIZE + SNAKE_SIZE/2;
+                    particles.snake.explosion(deathX, deathY, snake.color, 40);
+                    sound.play('explosion');
+                    screenShake('#snakeCanvas', 10, 300);
                     return;
                 }
 
@@ -2547,6 +3628,11 @@
 
                 // Food
                 if (head.x === snakeFood.x && head.y === snakeFood.y) {
+                    // Eat effect
+                    const foodX = snakeFood.x * SNAKE_SIZE + SNAKE_SIZE/2;
+                    const foodY = snakeFood.y * SNAKE_SIZE + SNAKE_SIZE/2;
+                    particles.snake.emit(foodX, foodY, { count: 10, color: '#ffd93d', speed: 3, lifetime: 30, type: 'star' });
+                    sound.play('pop');
                     placeSnakeFood();
                 } else {
                     snake.body.pop();
@@ -2560,13 +3646,18 @@
                     document.getElementById('snakeStatus').textContent = "It's a tie!";
                 } else if (!snake1.alive) {
                     document.getElementById('snakeStatus').textContent = 'Player 2 wins!';
+                    sound.play('win');
                 } else {
                     document.getElementById('snakeStatus').textContent = 'Player 1 wins!';
+                    sound.play('win');
                 }
             }
         }
 
         function drawSnakes() {
+            // Update particles
+            particles.snake.update();
+
             snakeCtx.fillStyle = '#0a0a15';
             snakeCtx.fillRect(0, 0, 400, 400);
 
@@ -2583,26 +3674,43 @@
                 snakeCtx.stroke();
             }
 
-            // Food
+            // Food with pulsing effect
+            const pulse = 1 + Math.sin(Date.now() / 200) * 0.2;
             snakeCtx.fillStyle = '#ffd93d';
             snakeCtx.shadowColor = '#ffd93d';
-            snakeCtx.shadowBlur = 10;
+            snakeCtx.shadowBlur = 15 * pulse;
             snakeCtx.beginPath();
-            snakeCtx.arc(snakeFood.x * SNAKE_SIZE + SNAKE_SIZE/2, snakeFood.y * SNAKE_SIZE + SNAKE_SIZE/2, SNAKE_SIZE/2 - 2, 0, Math.PI * 2);
+            snakeCtx.arc(snakeFood.x * SNAKE_SIZE + SNAKE_SIZE/2, snakeFood.y * SNAKE_SIZE + SNAKE_SIZE/2, (SNAKE_SIZE/2 - 2) * pulse, 0, Math.PI * 2);
             snakeCtx.fill();
             snakeCtx.shadowBlur = 0;
 
-            // Snakes
+            // Draw particles
+            particles.snake.draw(snakeCtx);
+
+            // Snakes with gradient effect
             [snake1, snake2].forEach(snake => {
                 snake.body.forEach((seg, i) => {
+                    const alpha = snake.alive ? 1 - (i / snake.body.length) * 0.5 : 0.3;
+                    snakeCtx.globalAlpha = alpha;
                     snakeCtx.fillStyle = snake.alive ? snake.color : '#666';
                     if (i === 0) {
                         snakeCtx.shadowColor = snake.color;
-                        snakeCtx.shadowBlur = 10;
+                        snakeCtx.shadowBlur = 15;
+                        // Draw eyes on head
+                        snakeCtx.fillRect(seg.x * SNAKE_SIZE + 1, seg.y * SNAKE_SIZE + 1, SNAKE_SIZE - 2, SNAKE_SIZE - 2);
+                        snakeCtx.shadowBlur = 0;
+                        // Eyes
+                        snakeCtx.fillStyle = '#fff';
+                        const eyeOffset = SNAKE_SIZE / 4;
+                        snakeCtx.beginPath();
+                        snakeCtx.arc(seg.x * SNAKE_SIZE + eyeOffset + 3, seg.y * SNAKE_SIZE + eyeOffset + 3, 2, 0, Math.PI * 2);
+                        snakeCtx.arc(seg.x * SNAKE_SIZE + SNAKE_SIZE - eyeOffset - 3, seg.y * SNAKE_SIZE + eyeOffset + 3, 2, 0, Math.PI * 2);
+                        snakeCtx.fill();
+                    } else {
+                        snakeCtx.fillRect(seg.x * SNAKE_SIZE + 2, seg.y * SNAKE_SIZE + 2, SNAKE_SIZE - 4, SNAKE_SIZE - 4);
                     }
-                    snakeCtx.fillRect(seg.x * SNAKE_SIZE + 1, seg.y * SNAKE_SIZE + 1, SNAKE_SIZE - 2, SNAKE_SIZE - 2);
-                    snakeCtx.shadowBlur = 0;
                 });
+                snakeCtx.globalAlpha = 1;
             });
         }
 
@@ -2616,11 +3724,13 @@
             if (e.key.toLowerCase() === 'a' && snake1.dir.x !== 1) snake1.nextDir = {x: -1, y: 0};
             if (e.key.toLowerCase() === 'd' && snake1.dir.x !== -1) snake1.nextDir = {x: 1, y: 0};
 
-            // P2 controls
-            if (e.key === 'ArrowUp' && snake2.dir.y !== 1) snake2.nextDir = {x: 0, y: -1};
-            if (e.key === 'ArrowDown' && snake2.dir.y !== -1) snake2.nextDir = {x: 0, y: 1};
-            if (e.key === 'ArrowLeft' && snake2.dir.x !== 1) snake2.nextDir = {x: -1, y: 0};
-            if (e.key === 'ArrowRight' && snake2.dir.x !== -1) snake2.nextDir = {x: 1, y: 0};
+            // P2 controls (only in manual mode)
+            if (p2Modes.snake === 'manual') {
+                if (e.key === 'ArrowUp' && snake2.dir.y !== 1) snake2.nextDir = {x: 0, y: -1};
+                if (e.key === 'ArrowDown' && snake2.dir.y !== -1) snake2.nextDir = {x: 0, y: 1};
+                if (e.key === 'ArrowLeft' && snake2.dir.x !== 1) snake2.nextDir = {x: -1, y: 0};
+                if (e.key === 'ArrowRight' && snake2.dir.x !== -1) snake2.nextDir = {x: 1, y: 0};
+            }
 
             if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
                 e.preventDefault();
@@ -2644,6 +3754,7 @@
             memoryCurrentPlayer = 1;
             memoryScores = {1: 0, 2: 0};
             memoryLocked = false;
+            memoryAIKnown = {}; // Reset AI memory
             document.getElementById('memoryScore1').textContent = '0';
             document.getElementById('memoryScore2').textContent = '0';
             document.getElementById('memoryStatus').textContent = "Player 1's turn";
@@ -2665,6 +3776,8 @@
 
         function flipCard(index) {
             if (memoryLocked || memoryFlipped.includes(index) || memoryMatched.has(index)) return;
+            // In AI mode, only allow clicks during player 1's turn
+            if (p2Modes.memory === 'ai' && memoryCurrentPlayer !== 1) return;
 
             memoryFlipped.push(index);
             renderMemory();
@@ -2685,6 +3798,9 @@
                         const winner = memoryScores[1] > memoryScores[2] ? 1 : memoryScores[2] > memoryScores[1] ? 2 : 0;
                         document.getElementById('memoryStatus').textContent = winner ? `Player ${winner} wins!` : "It's a tie!";
                         document.getElementById('memoryStatus').style.color = '#ffd93d';
+                    } else if (p2Modes.memory === 'ai' && memoryCurrentPlayer === 2) {
+                        // AI got a match, goes again
+                        setTimeout(() => memoryAITurn(), 800);
                     }
                 } else {
                     setTimeout(() => {
@@ -2694,9 +3810,93 @@
                         document.getElementById('memoryStatus').style.color = memoryCurrentPlayer === 1 ? '#00ff88' : '#ff6b6b';
                         memoryLocked = false;
                         renderMemory();
+
+                        // AI's turn
+                        if (p2Modes.memory === 'ai' && memoryCurrentPlayer === 2) {
+                            setTimeout(() => memoryAITurn(), 600);
+                        }
                     }, 1000);
                 }
             }
+        }
+
+        // AI memory: remembers seen cards
+        let memoryAIKnown = {};
+
+        function memoryAITurn() {
+            if (memoryMatched.size === memoryCards.length) return;
+
+            const unmatched = [];
+            for (let i = 0; i < memoryCards.length; i++) {
+                if (!memoryMatched.has(i)) unmatched.push(i);
+            }
+
+            // Check if AI knows a matching pair
+            let firstCard = -1, secondCard = -1;
+            for (let i = 0; i < unmatched.length; i++) {
+                const cardI = unmatched[i];
+                const iconI = memoryAIKnown[cardI];
+                if (iconI) {
+                    for (let j = i + 1; j < unmatched.length; j++) {
+                        const cardJ = unmatched[j];
+                        if (memoryAIKnown[cardJ] === iconI) {
+                            firstCard = cardI;
+                            secondCard = cardJ;
+                            break;
+                        }
+                    }
+                }
+                if (firstCard !== -1) break;
+            }
+
+            if (firstCard === -1) {
+                // Pick random cards
+                const shuffled = unmatched.sort(() => Math.random() - 0.5);
+                firstCard = shuffled[0];
+                secondCard = shuffled[1];
+            }
+
+            // Flip first card
+            memoryFlipped.push(firstCard);
+            memoryAIKnown[firstCard] = memoryCards[firstCard];
+            renderMemory();
+
+            setTimeout(() => {
+                // Flip second card
+                memoryFlipped.push(secondCard);
+                memoryAIKnown[secondCard] = memoryCards[secondCard];
+                renderMemory();
+
+                // Check match
+                memoryLocked = true;
+                setTimeout(() => {
+                    if (memoryCards[firstCard] === memoryCards[secondCard]) {
+                        memoryMatched.add(firstCard);
+                        memoryMatched.add(secondCard);
+                        memoryScores[2]++;
+                        document.getElementById('memoryScore2').textContent = memoryScores[2];
+                        memoryFlipped = [];
+                        memoryLocked = false;
+                        renderMemory();
+
+                        if (memoryMatched.size === memoryCards.length) {
+                            const winner = memoryScores[1] > memoryScores[2] ? 1 : memoryScores[2] > memoryScores[1] ? 2 : 0;
+                            document.getElementById('memoryStatus').textContent = winner ? `Player ${winner} wins!` : "It's a tie!";
+                            document.getElementById('memoryStatus').style.color = '#ffd93d';
+                        } else {
+                            // AI goes again
+                            setTimeout(() => memoryAITurn(), 800);
+                        }
+                    } else {
+                        memoryFlipped = [];
+                        memoryCurrentPlayer = 1;
+                        document.getElementById('memoryStatus').textContent = "Player 1's turn";
+                        document.getElementById('memoryStatus').style.color = '#00ff88';
+                        memoryLocked = false;
+                        renderMemory();
+                    }
+                }, 800);
+            }, 600);
         }
 
         // ==================== ROCK PAPER SCISSORS ====================
@@ -2920,8 +4120,8 @@
 
         function resetHockeyPositions() {
             hockeyPuck = {x: 200, y: 250, vx: 0, vy: 2, radius: 12};
-            hockeyP1 = {x: 200, y: 430, radius: 25};
-            hockeyP2 = {x: 200, y: 70, radius: 25};
+            hockeyP1 = {x: 200, y: 430, radius: 25, vx: 0, vy: 0};
+            hockeyP2 = {x: 200, y: 70, radius: 25, vx: 0, vy: 0};
         }
 
         function resetHockey() {
@@ -2942,19 +4142,63 @@
         }
 
         function hockeyLoop() {
-            const speed = 5;
+            // Velocity-based movement for fluid controls
+            const accel = 0.8;
+            const maxSpeed = 8;
+            const friction = 0.88;
 
-            // P1 movement (bottom half)
-            if (hockeyKeys['a'] && hockeyP1.x > 30) hockeyP1.x -= speed;
-            if (hockeyKeys['d'] && hockeyP1.x < 370) hockeyP1.x += speed;
-            if (hockeyKeys['w'] && hockeyP1.y > 270) hockeyP1.y -= speed;
-            if (hockeyKeys['s'] && hockeyP1.y < 470) hockeyP1.y += speed;
+            // P1 movement (bottom half) - WASD
+            if (hockeyKeys['a']) hockeyP1.vx -= accel;
+            else if (hockeyKeys['d']) hockeyP1.vx += accel;
+            else hockeyP1.vx *= friction;
 
-            // P2 movement (top half)
-            if (hockeyKeys['ArrowLeft'] && hockeyP2.x > 30) hockeyP2.x -= speed;
-            if (hockeyKeys['ArrowRight'] && hockeyP2.x < 370) hockeyP2.x += speed;
-            if (hockeyKeys['ArrowUp'] && hockeyP2.y > 30) hockeyP2.y -= speed;
-            if (hockeyKeys['ArrowDown'] && hockeyP2.y < 230) hockeyP2.y += speed;
+            if (hockeyKeys['w']) hockeyP1.vy -= accel;
+            else if (hockeyKeys['s']) hockeyP1.vy += accel;
+            else hockeyP1.vy *= friction;
+
+            // Clamp P1 velocity
+            hockeyP1.vx = Math.max(-maxSpeed, Math.min(maxSpeed, hockeyP1.vx));
+            hockeyP1.vy = Math.max(-maxSpeed, Math.min(maxSpeed, hockeyP1.vy));
+
+            // Apply P1 movement with bounds
+            hockeyP1.x += hockeyP1.vx;
+            hockeyP1.y += hockeyP1.vy;
+            hockeyP1.x = Math.max(30, Math.min(370, hockeyP1.x));
+            hockeyP1.y = Math.max(270, Math.min(470, hockeyP1.y));
+
+            // P2 movement (top half) - Arrow keys or AI
+            if (p2Modes.airhockey === 'ai') {
+                // AI follows the puck
+                const aiReaction = 0.15;
+                const targetX = hockeyPuck.x;
+                const targetY = Math.min(hockeyPuck.y, 180); // Stay in top half
+
+                if (targetX < hockeyP2.x - 15) hockeyP2.vx -= accel * aiReaction * 8;
+                else if (targetX > hockeyP2.x + 15) hockeyP2.vx += accel * aiReaction * 8;
+                else hockeyP2.vx *= friction;
+
+                if (targetY < hockeyP2.y - 15) hockeyP2.vy -= accel * aiReaction * 8;
+                else if (targetY > hockeyP2.y + 15) hockeyP2.vy += accel * aiReaction * 8;
+                else hockeyP2.vy *= friction;
+            } else {
+                if (hockeyKeys['ArrowLeft']) hockeyP2.vx -= accel;
+                else if (hockeyKeys['ArrowRight']) hockeyP2.vx += accel;
+                else hockeyP2.vx *= friction;
+
+                if (hockeyKeys['ArrowUp']) hockeyP2.vy -= accel;
+                else if (hockeyKeys['ArrowDown']) hockeyP2.vy += accel;
+                else hockeyP2.vy *= friction;
+            }
+
+            // Clamp P2 velocity
+            hockeyP2.vx = Math.max(-maxSpeed, Math.min(maxSpeed, hockeyP2.vx));
+            hockeyP2.vy = Math.max(-maxSpeed, Math.min(maxSpeed, hockeyP2.vy));
+
+            // Apply P2 movement with bounds
+            hockeyP2.x += hockeyP2.vx;
+            hockeyP2.y += hockeyP2.vy;
+            hockeyP2.x = Math.max(30, Math.min(370, hockeyP2.x));
+            hockeyP2.y = Math.max(30, Math.min(230, hockeyP2.y));
 
             // Puck physics
             hockeyPuck.x += hockeyPuck.vx;
@@ -3176,6 +4420,7 @@
         function flashSimonButton(color) {
             const btn = document.getElementById(`simon${color.charAt(0).toUpperCase() + color.slice(1)}`);
             btn.classList.add('active');
+            sound.play('simon', { color });
             setTimeout(() => btn.classList.remove('active'), 400);
         }
 
@@ -3214,9 +4459,25 @@
             });
         });
 
+        // Game name mappings for display
+        const gameNames = {
+            tictactoe: 'Tic Tac Toe',
+            connect4: 'Connect Four',
+            pong: 'Pong',
+            reaction: 'Reaction Race',
+            snake: 'Snake Battle',
+            memory: 'Memory Match',
+            rps: 'Rock Paper Scissors',
+            typing: 'Speed Typing',
+            whack: 'Whack-a-Mole',
+            airhockey: 'Air Hockey',
+            battleship: 'Battleship',
+            simon: 'Simon Says'
+        };
+
         // Update openGame function
         const originalOpenGame = openGame;
-        openGame = function(game) {
+        openGame = function(game, fromInvite = false) {
             document.getElementById(game + 'Modal').classList.add('active');
             if (game === 'tictactoe') initTTT();
             if (game === 'pong') initPong();
@@ -3230,6 +4491,11 @@
             if (game === 'airhockey') initHockey();
             if (game === 'battleship') initBattleship();
             if (game === 'simon') initSimon();
+
+            // Send game invite to connected player (if not already from an invite)
+            if (mp && mp.connected && !fromInvite) {
+                mp.inviteToGame(game, gameNames[game] || game);
+            }
         }
 
         // Update closeGame function
@@ -3251,6 +4517,8 @@
                 this.roomCode = null;
                 this.connected = false;
                 this.onDataCallback = null;
+                this.myName = 'Player';
+                this.opponentName = 'Player';
             }
 
             generateRoomCode() {
@@ -3262,10 +4530,16 @@
                 return code;
             }
 
+            getMyName() {
+                const input = document.getElementById('playerNameInput');
+                return (input && input.value.trim()) || 'Player';
+            }
+
             async createRoom() {
                 return new Promise((resolve, reject) => {
                     this.roomCode = this.generateRoomCode();
                     this.isHost = true;
+                    this.myName = this.getMyName();
 
                     this.peer = new Peer('ryans-arcade-' + this.roomCode, {
                         debug: 0
@@ -3273,6 +4547,7 @@
 
                     this.peer.on('open', (id) => {
                         console.log('Room created with code:', this.roomCode);
+                        document.getElementById('hostNameDisplay').textContent = this.myName;
                         resolve(this.roomCode);
                     });
 
@@ -3285,7 +4560,6 @@
                     this.peer.on('error', (err) => {
                         console.error('Peer error:', err);
                         if (err.type === 'unavailable-id') {
-                            // Room code already taken, try again
                             this.peer.destroy();
                             this.createRoom().then(resolve).catch(reject);
                         } else {
@@ -3299,6 +4573,7 @@
                 return new Promise((resolve, reject) => {
                     this.roomCode = code.toUpperCase();
                     this.isHost = false;
+                    this.myName = this.getMyName();
 
                     this.peer = new Peer({
                         debug: 0
@@ -3327,7 +4602,6 @@
                         reject(err);
                     });
 
-                    // Timeout for connection
                     setTimeout(() => {
                         if (!this.connected) {
                             reject(new Error('Connection timeout'));
@@ -3338,9 +4612,18 @@
 
             setupConnection() {
                 this.connected = true;
+                hideP2TogglesInMultiplayer();
 
                 this.conn.on('data', (data) => {
-                    if (this.onDataCallback) {
+                    // Handle system messages
+                    if (data.type === 'playerInfo') {
+                        this.opponentName = data.name;
+                        this.updatePlayerDisplay();
+                    } else if (data.type === 'gameInvite') {
+                        showGameInvite(data.game, data.gameName, data.playerName);
+                    } else if (data.type === 'gameAccept') {
+                        openGame(data.game);
+                    } else if (this.onDataCallback) {
                         this.onDataCallback(data);
                     }
                 });
@@ -3351,7 +4634,25 @@
                     this.onDisconnect();
                 });
 
+                // Send our name to the other player
+                setTimeout(() => {
+                    this.send({ type: 'playerInfo', name: this.myName });
+                }, 100);
+
                 this.onConnect();
+            }
+
+            updatePlayerDisplay() {
+                const p1Name = this.isHost ? this.myName : this.opponentName;
+                const p2Name = this.isHost ? this.opponentName : this.myName;
+
+                document.getElementById('connectedP1Name').textContent = p1Name;
+                document.getElementById('connectedP2Name').textContent = p2Name;
+
+                if (this.isHost) {
+                    document.getElementById('hostNameDisplay').textContent = this.myName;
+                    document.getElementById('guestLabel').textContent = this.opponentName;
+                }
             }
 
             send(data) {
@@ -3364,8 +4665,21 @@
                 this.onDataCallback = callback;
             }
 
+            inviteToGame(game, gameName) {
+                this.send({
+                    type: 'gameInvite',
+                    game: game,
+                    gameName: gameName,
+                    playerName: this.myName
+                });
+            }
+
+            acceptGameInvite(game) {
+                this.send({ type: 'gameAccept', game: game });
+                openGame(game, true); // true = from invite, don't send invite back
+            }
+
             onConnect() {
-                // Update UI
                 document.querySelector('.multiplayer-btn').classList.add('connected');
                 document.querySelector('.multiplayer-btn span:last-child').textContent = 'Connected';
                 document.querySelectorAll('.game-card').forEach(card => {
@@ -3374,16 +4688,20 @@
 
                 if (this.isHost) {
                     document.getElementById('guestDot').classList.add('connected');
-                    document.getElementById('guestLabel').textContent = 'Player 2 connected!';
+                    document.getElementById('guestLabel').textContent = 'Connected!';
                 }
 
-                // Show connected state in lobby
+                this.updatePlayerDisplay();
+
                 document.getElementById('lobbyOptions').style.display = 'none';
                 document.getElementById('lobbyRoom').style.display = 'none';
                 document.getElementById('lobbyJoin').style.display = 'none';
                 document.getElementById('lobbyConnecting').style.display = 'none';
+                document.getElementById('nameInputSection').style.display = 'none';
                 document.getElementById('lobbyConnected').style.display = 'block';
                 document.getElementById('lobbyStatus').textContent = 'Connected! Ready to play.';
+
+                sound.play('score');
             }
 
             onDisconnect() {
@@ -3395,9 +4713,11 @@
 
                 if (this.isHost) {
                     document.getElementById('guestDot').classList.remove('connected');
-                    document.getElementById('guestLabel').textContent = 'Player disconnected';
+                    document.getElementById('guestLabel').textContent = 'Disconnected';
                 }
 
+                showP2Toggles(); // Show AI/2P toggles again
+                sound.play('lose');
                 alert('Player disconnected!');
             }
 
@@ -3417,6 +4737,49 @@
 
         // Global multiplayer instance
         const mp = new MultiplayerManager();
+
+        // Game invite popup
+        let currentInvite = null;
+
+        function showGameInvite(game, gameName, playerName) {
+            // Remove existing invite
+            const existing = document.querySelector('.game-invite');
+            if (existing) existing.remove();
+
+            const gameIcons = {
+                tictactoe: '⭕', connect4: '🔴', pong: '🏓', reaction: '⚡',
+                snake: '🐍', memory: '🃏', rps: '✊', typing: '⌨️',
+                whack: '🔨', airhockey: '🏒', battleship: '🚢', simon: '🎵'
+            };
+
+            const invite = document.createElement('div');
+            invite.className = 'game-invite';
+            invite.innerHTML = `
+                <div class="game-invite-title">GAME INVITE</div>
+                <div class="game-invite-game">${gameIcons[game] || '🎮'}</div>
+                <div class="game-invite-name">${playerName} wants to play ${gameName}!</div>
+                <div class="game-invite-buttons">
+                    <button class="game-invite-btn accept" onclick="acceptInvite('${game}')">JOIN</button>
+                    <button class="game-invite-btn decline" onclick="declineInvite()">LATER</button>
+                </div>
+            `;
+            document.body.appendChild(invite);
+            sound.play('beep', { freq: 660 });
+            currentInvite = game;
+        }
+
+        function acceptInvite(game) {
+            const invite = document.querySelector('.game-invite');
+            if (invite) invite.remove();
+            mp.acceptGameInvite(game);
+            currentInvite = null;
+        }
+
+        function declineInvite() {
+            const invite = document.querySelector('.game-invite');
+            if (invite) invite.remove();
+            currentInvite = null;
+        }
 
         // ==================== LOBBY FUNCTIONS ====================
         function openLobby() {
@@ -4086,9 +5449,33 @@
             }
         }
 
+        // ==================== SOUND TOGGLE ====================
+        function toggleSound() {
+            sound.enabled = !sound.enabled;
+            const btn = document.getElementById('soundToggle');
+            btn.textContent = sound.enabled ? '🔊' : '🔇';
+            btn.classList.toggle('muted', !sound.enabled);
+            if (sound.enabled) sound.play('click');
+        }
+
+        // ==================== ENHANCED GAME SOUNDS ====================
+        // Add click sounds to game cards
+        document.querySelectorAll('.game-card').forEach(card => {
+            card.addEventListener('click', () => sound.play('click'));
+        });
+
+        // Add click sounds to restart buttons
+        document.querySelectorAll('.restart-btn').forEach(btn => {
+            btn.addEventListener('click', () => sound.play('click'));
+        });
+
         // Initialize on page load
         document.addEventListener('DOMContentLoaded', () => {
             checkUrlForRoom();
+            // Initialize particle systems
+            particles.pong.init('pongCanvas');
+            particles.snake.init('snakeCanvas');
+            particles.hockey.init('hockeyCanvas');
         });
     </script>
 </body>
