@@ -35,8 +35,30 @@
             overflow-x: hidden;
         }
 
-        /* Scanline effect */
+        /* Animated background gradient */
         body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(ellipse at 20% 20%, rgba(0, 255, 136, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(255, 107, 107, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(255, 217, 61, 0.05) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 0;
+            animation: bgPulse 8s ease-in-out infinite;
+        }
+
+        @keyframes bgPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        /* Scanline effect */
+        body::after {
             content: '';
             position: fixed;
             top: 0;
@@ -45,13 +67,42 @@
             height: 100%;
             background: repeating-linear-gradient(
                 0deg,
-                rgba(0, 0, 0, 0.1) 0px,
-                rgba(0, 0, 0, 0.1) 1px,
+                rgba(0, 0, 0, 0.15) 0px,
+                rgba(0, 0, 0, 0.15) 1px,
                 transparent 1px,
-                transparent 2px
+                transparent 3px
             );
             pointer-events: none;
             z-index: 9999;
+        }
+
+        /* Floating particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: floatParticle 15s infinite linear;
+        }
+
+        @keyframes floatParticle {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.3; }
+            90% { opacity: 0.3; }
+            100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
         }
 
         .container {
@@ -62,8 +113,13 @@
 
         /* Header */
         header {
-            padding: 24px 0;
-            border-bottom: 1px solid var(--border);
+            padding: 20px 0;
+            background: rgba(10, 10, 15, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
         header .container {
@@ -77,129 +133,263 @@
             font-size: 1rem;
             color: var(--accent);
             text-decoration: none;
-            text-shadow: 0 0 10px var(--accent);
+            text-shadow: 0 0 20px var(--accent);
+            transition: all 0.3s ease;
+            animation: logoGlow 2s ease-in-out infinite;
+        }
+
+        .logo:hover {
+            text-shadow: 0 0 30px var(--accent), 0 0 60px var(--accent);
+            transform: scale(1.05);
+        }
+
+        @keyframes logoGlow {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
         }
 
         .back-btn {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            padding: 10px 20px;
-            background: transparent;
-            border: 1px solid var(--border);
-            border-radius: 8px;
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
             color: var(--text-secondary);
             text-decoration: none;
             font-size: 0.9rem;
+            font-weight: 500;
             transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
         }
 
         .back-btn:hover {
             border-color: var(--accent);
             color: var(--accent);
+            background: rgba(0, 255, 136, 0.1);
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.2);
+            transform: translateX(-3px);
         }
 
         /* Hero */
         .hero {
             text-align: center;
-            padding: 60px 0;
+            padding: 80px 0 60px;
+            position: relative;
         }
 
         .hero h1 {
             font-family: 'Press Start 2P', cursive;
-            font-size: clamp(1.5rem, 4vw, 2.5rem);
-            margin-bottom: 16px;
-            background: linear-gradient(135deg, var(--accent), var(--accent-third));
+            font-size: clamp(1.8rem, 5vw, 3rem);
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--accent) 0%, #00ccff 50%, var(--accent-third) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            text-shadow: 0 0 60px rgba(0, 255, 136, 0.5);
+            animation: titleGlow 3s ease-in-out infinite;
+            position: relative;
+        }
+
+        @keyframes titleGlow {
+            0%, 100% { filter: drop-shadow(0 0 20px rgba(0, 255, 136, 0.8)); }
+            50% { filter: drop-shadow(0 0 40px rgba(0, 255, 136, 1)); }
+        }
+
+        .hero-subtitle {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            letter-spacing: 4px;
+            margin-bottom: 24px;
+            opacity: 0.7;
         }
 
         .hero p {
             color: var(--text-secondary);
             font-size: 1.1rem;
+            max-width: 500px;
+            margin: 0 auto;
         }
 
         .hero .secret-badge {
-            display: inline-block;
-            padding: 6px 12px;
-            background: rgba(255, 107, 107, 0.2);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.2), rgba(255, 107, 107, 0.1));
             border: 1px solid var(--accent-secondary);
-            border-radius: 4px;
+            border-radius: 20px;
             font-family: 'Press Start 2P', cursive;
-            font-size: 0.6rem;
+            font-size: 0.55rem;
             color: var(--accent-secondary);
-            margin-bottom: 20px;
+            margin-bottom: 24px;
+            animation: badgePulse 2s ease-in-out infinite;
+        }
+
+        @keyframes badgePulse {
+            0%, 100% { box-shadow: 0 0 10px rgba(255, 107, 107, 0.3); }
+            50% { box-shadow: 0 0 25px rgba(255, 107, 107, 0.6); }
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 1px solid var(--border);
+        }
+
+        .hero-stat {
+            text-align: center;
+        }
+
+        .hero-stat-value {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1.5rem;
+            color: var(--accent);
+            display: block;
+        }
+
+        .hero-stat-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-top: 4px;
         }
 
         /* Games Grid */
+        .games-section {
+            position: relative;
+            z-index: 2;
+        }
+
         .games-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 24px;
-            padding: 40px 0 80px;
+            gap: 28px;
+            padding: 20px 0 100px;
         }
 
         .game-card {
-            background: var(--bg-card);
-            border: 2px solid var(--border);
-            border-radius: 16px;
-            padding: 32px;
+            background: linear-gradient(145deg, rgba(26, 26, 36, 0.9), rgba(18, 18, 26, 0.95));
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 36px 28px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
             overflow: hidden;
+            backdrop-filter: blur(10px);
         }
 
+        /* Gradient border effect */
         .game-card::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--accent), var(--accent-third));
-            transform: scaleX(0);
-            transition: transform 0.3s ease;
+            bottom: 0;
+            border-radius: 20px;
+            padding: 2px;
+            background: linear-gradient(135deg, var(--accent), transparent 40%, transparent 60%, var(--accent-third));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        /* Glow effect on hover */
+        .game-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0, 255, 136, 0.1) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
         }
 
         .game-card:hover {
-            border-color: var(--accent);
-            transform: translateY(-4px);
-            box-shadow: 0 10px 40px rgba(0, 255, 136, 0.1);
+            transform: translateY(-12px) scale(1.02);
+            border-color: transparent;
+            box-shadow:
+                0 20px 60px rgba(0, 255, 136, 0.15),
+                0 8px 25px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
         }
 
         .game-card:hover::before {
-            transform: scaleX(1);
+            opacity: 1;
+        }
+
+        .game-card:hover::after {
+            opacity: 1;
+        }
+
+        .game-card:active {
+            transform: translateY(-6px) scale(0.98);
         }
 
         .game-icon {
-            font-size: 3rem;
-            margin-bottom: 16px;
+            font-size: 4rem;
+            margin-bottom: 20px;
+            display: block;
+            transition: all 0.4s ease;
+            filter: drop-shadow(0 4px 15px rgba(0, 0, 0, 0.3));
+        }
+
+        .game-card:hover .game-icon {
+            transform: scale(1.15) rotate(-5deg);
+            filter: drop-shadow(0 8px 25px rgba(0, 255, 136, 0.4));
         }
 
         .game-card h3 {
             font-family: 'Press Start 2P', cursive;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             margin-bottom: 12px;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+            letter-spacing: 1px;
+        }
+
+        .game-card:hover h3 {
             color: var(--accent);
+            text-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
         }
 
         .game-card p {
             color: var(--text-secondary);
-            font-size: 0.9rem;
-            margin-bottom: 16px;
+            font-size: 0.85rem;
+            margin-bottom: 18px;
+            line-height: 1.5;
         }
 
         .player-badge {
-            display: inline-block;
-            padding: 4px 10px;
-            background: rgba(0, 255, 136, 0.1);
-            border: 1px solid var(--accent);
-            border-radius: 4px;
-            font-size: 0.75rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.15), rgba(0, 255, 136, 0.05));
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
             color: var(--accent);
+            transition: all 0.3s ease;
+        }
+
+        .game-card:hover .player-badge {
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.25), rgba(0, 255, 136, 0.1));
+            border-color: var(--accent);
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.3);
         }
 
         /* Game Modal */
@@ -928,66 +1118,114 @@
             cursor: not-allowed;
         }
 
-        /* ==================== SPEED TYPING ==================== */
-        .typing-scores {
-            display: flex;
-            justify-content: center;
-            gap: 60px;
-            margin-bottom: 20px;
-        }
-
-        .typing-score {
-            font-family: 'Press Start 2P', cursive;
-            font-size: 0.8rem;
-        }
-
-        .typing-score.p1 { color: var(--accent); }
-        .typing-score.p2 { color: var(--accent-secondary); }
-
-        .typing-word {
-            font-family: 'Press Start 2P', cursive;
-            font-size: 2rem;
-            color: var(--accent-third);
-            text-shadow: 0 0 20px var(--accent-third);
-            margin-bottom: 30px;
-            letter-spacing: 4px;
-        }
-
-        .typing-inputs {
+        /* ==================== TYPEWRITER ==================== */
+        .typewriter-stats {
             display: flex;
             justify-content: center;
             gap: 30px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
-        .typing-player {
-            text-align: center;
-        }
-
-        .typing-player label {
-            display: block;
+        .typewriter-stat {
             font-family: 'Press Start 2P', cursive;
-            font-size: 0.6rem;
+            font-size: 0.55rem;
             color: var(--text-secondary);
-            margin-bottom: 8px;
         }
 
-        .typing-player input {
-            width: 150px;
-            padding: 12px;
+        .typewriter-stat span {
+            color: var(--accent);
+        }
+
+        .typewriter-text {
             background: var(--bg-secondary);
             border: 2px solid var(--border);
-            border-radius: 8px;
-            color: var(--text-primary);
-            font-family: 'Press Start 2P', cursive;
-            font-size: 0.8rem;
-            text-align: center;
-            text-transform: uppercase;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            font-family: 'Courier New', monospace;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            text-align: left;
+            min-height: 60px;
+            letter-spacing: 1px;
         }
 
-        .typing-player input:focus {
-            outline: none;
-            border-color: var(--accent);
+        .typewriter-char.correct {
+            color: var(--accent);
+        }
+
+        .typewriter-char.incorrect {
+            color: var(--accent-secondary);
+            background: rgba(255, 107, 107, 0.3);
+            border-radius: 2px;
+        }
+
+        .typewriter-char.current {
+            background: var(--accent);
+            color: var(--bg-primary);
+        }
+
+        .typewriter-char.pending {
+            color: var(--text-secondary);
+        }
+
+        .typewriter-input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .keyboard {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 15px;
+        }
+
+        .keyboard-row {
+            display: flex;
+            gap: 4px;
+        }
+
+        .key {
+            width: 28px;
+            height: 32px;
+            background: linear-gradient(145deg, #3a3a4a, #252530);
+            border: 1px solid #444;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.7rem;
+            font-weight: bold;
+            color: var(--text-secondary);
+            transition: all 0.08s ease;
+            box-shadow: 0 3px 0 #1a1a22;
+        }
+
+        .key.wide {
+            width: 42px;
+            font-size: 0.5rem;
+        }
+
+        .key.space {
+            width: 160px;
+        }
+
+        .key.active {
+            background: var(--accent);
+            color: var(--bg-primary);
+            box-shadow: 0 1px 0 #006644;
+            transform: translateY(2px);
+        }
+
+        .key.error {
+            background: var(--accent-secondary);
+            color: white;
+            box-shadow: 0 1px 0 #993333;
+            transform: translateY(2px);
         }
 
         /* ==================== WHACK-A-MOLE ==================== */
@@ -1212,15 +1450,15 @@
 
         .simon-board {
             display: grid;
-            grid-template-columns: repeat(2, 100px);
-            gap: 10px;
+            grid-template-columns: repeat(4, 80px);
+            gap: 8px;
             justify-content: center;
             margin-bottom: 20px;
         }
 
         .simon-btn {
-            width: 100px;
-            height: 100px;
+            width: 80px;
+            height: 80px;
             border: none;
             border-radius: 12px;
             cursor: pointer;
@@ -1228,42 +1466,44 @@
             opacity: 0.6;
         }
 
-        .simon-btn[data-color="green"] {
-            background: linear-gradient(145deg, #00aa44, #006622);
-        }
-
-        .simon-btn[data-color="red"] {
-            background: linear-gradient(145deg, #cc3333, #881818);
-        }
-
-        .simon-btn[data-color="yellow"] {
-            background: linear-gradient(145deg, #ccaa00, #886600);
-        }
-
-        .simon-btn[data-color="blue"] {
-            background: linear-gradient(145deg, #3366cc, #1a3388);
-        }
+        .simon-btn[data-color="green"] { background: linear-gradient(145deg, #00aa44, #006622); }
+        .simon-btn[data-color="red"] { background: linear-gradient(145deg, #cc3333, #881818); }
+        .simon-btn[data-color="yellow"] { background: linear-gradient(145deg, #ccaa00, #886600); }
+        .simon-btn[data-color="blue"] { background: linear-gradient(145deg, #3366cc, #1a3388); }
+        .simon-btn[data-color="purple"] { background: linear-gradient(145deg, #9944cc, #662288); }
+        .simon-btn[data-color="orange"] { background: linear-gradient(145deg, #dd6600, #993300); }
+        .simon-btn[data-color="pink"] { background: linear-gradient(145deg, #dd4488, #992255); }
+        .simon-btn[data-color="cyan"] { background: linear-gradient(145deg, #00aaaa, #006666); }
+        .simon-btn[data-color="lime"] { background: linear-gradient(145deg, #88cc00, #558800); }
+        .simon-btn[data-color="coral"] { background: linear-gradient(145deg, #dd5544, #993322); }
+        .simon-btn[data-color="teal"] { background: linear-gradient(145deg, #338888, #225555); }
+        .simon-btn[data-color="gold"] { background: linear-gradient(145deg, #ccaa33, #886611); }
+        .simon-btn[data-color="indigo"] { background: linear-gradient(145deg, #4433aa, #221166); }
+        .simon-btn[data-color="mint"] { background: linear-gradient(145deg, #44bb88, #227744); }
+        .simon-btn[data-color="salmon"] { background: linear-gradient(145deg, #cc7766, #884433); }
+        .simon-btn[data-color="violet"] { background: linear-gradient(145deg, #8844aa, #552266); }
 
         .simon-btn.active, .simon-btn:hover {
             opacity: 1;
-            transform: scale(1.05);
+            transform: scale(1.08);
         }
 
-        .simon-btn[data-color="green"].active {
-            box-shadow: 0 0 30px #00ff88;
-        }
-
-        .simon-btn[data-color="red"].active {
-            box-shadow: 0 0 30px #ff6b6b;
-        }
-
-        .simon-btn[data-color="yellow"].active {
-            box-shadow: 0 0 30px #ffd93d;
-        }
-
-        .simon-btn[data-color="blue"].active {
-            box-shadow: 0 0 30px #6699ff;
-        }
+        .simon-btn[data-color="green"].active { box-shadow: 0 0 25px #00ff88; }
+        .simon-btn[data-color="red"].active { box-shadow: 0 0 25px #ff6b6b; }
+        .simon-btn[data-color="yellow"].active { box-shadow: 0 0 25px #ffd93d; }
+        .simon-btn[data-color="blue"].active { box-shadow: 0 0 25px #6699ff; }
+        .simon-btn[data-color="purple"].active { box-shadow: 0 0 25px #cc66ff; }
+        .simon-btn[data-color="orange"].active { box-shadow: 0 0 25px #ff8833; }
+        .simon-btn[data-color="pink"].active { box-shadow: 0 0 25px #ff66aa; }
+        .simon-btn[data-color="cyan"].active { box-shadow: 0 0 25px #00ffff; }
+        .simon-btn[data-color="lime"].active { box-shadow: 0 0 25px #aaff00; }
+        .simon-btn[data-color="coral"].active { box-shadow: 0 0 25px #ff7766; }
+        .simon-btn[data-color="teal"].active { box-shadow: 0 0 25px #44aaaa; }
+        .simon-btn[data-color="gold"].active { box-shadow: 0 0 25px #ffcc44; }
+        .simon-btn[data-color="indigo"].active { box-shadow: 0 0 25px #6655cc; }
+        .simon-btn[data-color="mint"].active { box-shadow: 0 0 25px #66ddaa; }
+        .simon-btn[data-color="salmon"].active { box-shadow: 0 0 25px #ee9988; }
+        .simon-btn[data-color="violet"].active { box-shadow: 0 0 25px #aa66cc; }
 
         .simon-info {
             font-family: 'Press Start 2P', cursive;
@@ -1282,31 +1522,42 @@
         .multiplayer-btn {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            padding: 10px 20px;
+            gap: 10px;
+            padding: 12px 24px;
             background: linear-gradient(135deg, var(--accent), #00cc6a);
             border: none;
-            border-radius: 8px;
+            border-radius: 12px;
             color: #000;
-            font-weight: 600;
+            font-weight: 700;
             font-size: 0.9rem;
+            letter-spacing: 0.5px;
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
         }
 
         .multiplayer-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 0 30px rgba(0, 255, 136, 0.5);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 0 40px rgba(0, 255, 136, 0.6), 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .multiplayer-btn:active {
+            transform: translateY(-1px) scale(0.98);
         }
 
         .multiplayer-btn.connected {
             background: linear-gradient(135deg, #ffd93d, #ffaa00);
-            box-shadow: 0 0 20px rgba(255, 217, 61, 0.3);
+            box-shadow: 0 0 30px rgba(255, 217, 61, 0.5);
+            animation: connectedPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes connectedPulse {
+            0%, 100% { box-shadow: 0 0 30px rgba(255, 217, 61, 0.5); }
+            50% { box-shadow: 0 0 50px rgba(255, 217, 61, 0.8); }
         }
 
         .mp-icon {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
         }
 
         /* ==================== MULTIPLAYER LOBBY ==================== */
@@ -1724,7 +1975,13 @@
         /* Multiplayer indicator on game cards */
         .game-card.mp-active {
             border-color: var(--accent);
-            box-shadow: 0 0 20px rgba(0, 255, 136, 0.2);
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.3);
+            animation: mpActivePulse 2s ease-in-out infinite;
+        }
+
+        @keyframes mpActivePulse {
+            0%, 100% { box-shadow: 0 0 30px rgba(0, 255, 136, 0.3); }
+            50% { box-shadow: 0 0 50px rgba(0, 255, 136, 0.5); }
         }
 
         .game-card .mp-badge {
@@ -1947,6 +2204,9 @@
     </style>
 </head>
 <body>
+    <!-- Floating particles -->
+    <div class="particles" id="particles"></div>
+
     <header>
         <div class="container">
             <a href="index.html" class="logo">ARCADE</a>
@@ -1965,9 +2225,24 @@
 
     <section class="hero">
         <div class="container">
-            <div class="secret-badge">SECRET ZONE</div>
+            <div class="secret-badge">🎮 SECRET ZONE 🎮</div>
             <h1>RYAN'S ARCADE</h1>
+            <div class="hero-subtitle">PRESS START TO PLAY</div>
             <p>You found the secret games! Grab a friend and have some fun.</p>
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <span class="hero-stat-value">13</span>
+                    <div class="hero-stat-label">Games</div>
+                </div>
+                <div class="hero-stat">
+                    <span class="hero-stat-value">2P</span>
+                    <div class="hero-stat-label">Multiplayer</div>
+                </div>
+                <div class="hero-stat">
+                    <span class="hero-stat-value">∞</span>
+                    <div class="hero-stat-label">Fun</div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -2025,9 +2300,9 @@
 
                 <div class="game-card" onclick="openGame('typing')">
                     <div class="game-icon">⌨️</div>
-                    <h3>SPEED TYPING</h3>
-                    <p>Type faster than your rival</p>
-                    <span class="player-badge">2 Players</span>
+                    <h3>TYPEWRITER</h3>
+                    <p>Test your typing speed!</p>
+                    <span class="player-badge">1 Player</span>
                 </div>
 
                 <div class="game-card" onclick="openGame('whack')">
@@ -2721,7 +2996,7 @@
         function handleTTTClick(i) {
             if (tttBoard[i] || tttGameOver) return;
             // In AI mode, only allow clicks during player's turn (X)
-            if (p2Modes.tictactoe === 'ai' && tttCurrentPlayer !== 'X') return;
+            if (p2Modes.tictactoe === 'ai' && tttCurrentPlayer !== 'X' && !(mp && mp.connected)) return;
 
             makeTTTMove(i);
         }
@@ -2759,8 +3034,8 @@
                 document.getElementById('tttStatus').textContent = `Player ${tttCurrentPlayer}'s turn`;
                 document.getElementById('tttStatus').style.color = tttCurrentPlayer === 'X' ? '#00ff88' : '#ff6b6b';
 
-                // AI move
-                if (p2Modes.tictactoe === 'ai' && tttCurrentPlayer === 'O' && !tttGameOver) {
+                // AI move (only if not in multiplayer)
+                if (p2Modes.tictactoe === 'ai' && tttCurrentPlayer === 'O' && !tttGameOver && !(mp && mp.connected)) {
                     setTimeout(() => tttAIMove(), 500);
                 }
             }
@@ -2863,8 +3138,8 @@
 
         function handleC4Click(col) {
             if (c4GameOver) return;
-            // In AI mode, only allow clicks during player 1's turn
-            if (p2Modes.connect4 === 'ai' && c4CurrentPlayer !== 1) return;
+            // In AI mode, only allow clicks during player 1's turn (not in multiplayer)
+            if (p2Modes.connect4 === 'ai' && c4CurrentPlayer !== 1 && !(mp && mp.connected)) return;
 
             makeC4Move(col);
         }
@@ -2901,8 +3176,8 @@
                         document.getElementById('c4Status').innerHTML = `${emoji} Player ${c4CurrentPlayer}'s turn`;
                         renderC4Indicators();
 
-                        // AI move
-                        if (p2Modes.connect4 === 'ai' && c4CurrentPlayer === 2 && !c4GameOver) {
+                        // AI move (only if not in multiplayer)
+                        if (p2Modes.connect4 === 'ai' && c4CurrentPlayer === 2 && !c4GameOver && !(mp && mp.connected)) {
                             setTimeout(() => c4AIMove(), 600);
                         }
                     }
@@ -3051,9 +3326,9 @@
 
         function pongLoop() {
             // Paddle movement with velocity (more fluid controls)
-            const paddleAccel = 1.2;
-            const paddleMaxSpeed = 10;
-            const paddleFriction = 0.85;
+            const paddleAccel = 0.5;
+            const paddleMaxSpeed = 5;
+            const paddleFriction = 0.9;
 
             // P1 paddle (W/S)
             if (pongKeys['w']) {
@@ -3068,7 +3343,7 @@
             pongP1.y = Math.max(0, Math.min(230, pongP1.y));
 
             // P2 paddle (Arrow keys or AI)
-            if (p2Modes.pong === 'ai') {
+            if (p2Modes.pong === 'ai' && !(mp && mp.connected)) {
                 // AI follows the ball with some reaction delay
                 const paddleCenter = pongP2.y + pongP2.height / 2;
                 const targetY = pongBall.y;
@@ -3364,23 +3639,76 @@
 
     <!-- Speed Typing Modal -->
     <div class="game-modal" id="typingModal">
-        <div class="game-container">
+        <div class="game-container" style="max-width: 600px;">
             <button class="close-game" onclick="closeGame('typing')">&times;</button>
-            <h2 class="game-title">SPEED TYPING</h2>
-            <div class="game-status" id="typingStatus">First to 5 wins!</div>
-            <div class="typing-scores">
-                <span class="typing-score p1">P1: <span id="typingScore1">0</span></span>
-                <span class="typing-score p2">P2: <span id="typingScore2">0</span></span>
+            <h2 class="game-title">TYPEWRITER</h2>
+            <div class="game-status" id="typingStatus">Type the text as fast as you can!</div>
+            <div class="typewriter-stats">
+                <div class="typewriter-stat">WPM: <span id="typeWpm">0</span></div>
+                <div class="typewriter-stat">ACC: <span id="typeAcc">100</span>%</div>
+                <div class="typewriter-stat">TIME: <span id="typeTime">0.0</span>s</div>
             </div>
-            <div class="typing-word" id="typingWord">READY</div>
-            <div class="typing-inputs">
-                <div class="typing-player">
-                    <label>Player 1</label>
-                    <input type="text" id="typingInput1" placeholder="Type here..." autocomplete="off">
+            <div class="typewriter-text" id="typewriterText" onclick="document.getElementById('typewriterInput').focus()">
+                Click here and start typing...
+            </div>
+            <input type="text" id="typewriterInput" class="typewriter-input" autocomplete="off" autocapitalize="off" spellcheck="false">
+            <div class="keyboard" id="keyboard">
+                <div class="keyboard-row">
+                    <div class="key" data-key="`">`</div>
+                    <div class="key" data-key="1">1</div>
+                    <div class="key" data-key="2">2</div>
+                    <div class="key" data-key="3">3</div>
+                    <div class="key" data-key="4">4</div>
+                    <div class="key" data-key="5">5</div>
+                    <div class="key" data-key="6">6</div>
+                    <div class="key" data-key="7">7</div>
+                    <div class="key" data-key="8">8</div>
+                    <div class="key" data-key="9">9</div>
+                    <div class="key" data-key="0">0</div>
+                    <div class="key" data-key="-">-</div>
+                    <div class="key" data-key="=">=</div>
                 </div>
-                <div class="typing-player">
-                    <label>Player 2</label>
-                    <input type="text" id="typingInput2" placeholder="Type here..." autocomplete="off">
+                <div class="keyboard-row">
+                    <div class="key" data-key="q">Q</div>
+                    <div class="key" data-key="w">W</div>
+                    <div class="key" data-key="e">E</div>
+                    <div class="key" data-key="r">R</div>
+                    <div class="key" data-key="t">T</div>
+                    <div class="key" data-key="y">Y</div>
+                    <div class="key" data-key="u">U</div>
+                    <div class="key" data-key="i">I</div>
+                    <div class="key" data-key="o">O</div>
+                    <div class="key" data-key="p">P</div>
+                    <div class="key" data-key="[">[</div>
+                    <div class="key" data-key="]">]</div>
+                </div>
+                <div class="keyboard-row">
+                    <div class="key" data-key="a">A</div>
+                    <div class="key" data-key="s">S</div>
+                    <div class="key" data-key="d">D</div>
+                    <div class="key" data-key="f">F</div>
+                    <div class="key" data-key="g">G</div>
+                    <div class="key" data-key="h">H</div>
+                    <div class="key" data-key="j">J</div>
+                    <div class="key" data-key="k">K</div>
+                    <div class="key" data-key="l">L</div>
+                    <div class="key" data-key=";">;</div>
+                    <div class="key" data-key="'">'</div>
+                </div>
+                <div class="keyboard-row">
+                    <div class="key" data-key="z">Z</div>
+                    <div class="key" data-key="x">X</div>
+                    <div class="key" data-key="c">C</div>
+                    <div class="key" data-key="v">V</div>
+                    <div class="key" data-key="b">B</div>
+                    <div class="key" data-key="n">N</div>
+                    <div class="key" data-key="m">M</div>
+                    <div class="key" data-key=",">,</div>
+                    <div class="key" data-key=".">.</div>
+                    <div class="key" data-key="/">?</div>
+                </div>
+                <div class="keyboard-row">
+                    <div class="key space" data-key=" ">SPACE</div>
                 </div>
             </div>
             <button class="restart-btn" onclick="startTyping()">START</button>
@@ -3468,10 +3796,22 @@
                 <span class="simon-score p2">P2: <span id="simonScore2">0</span></span>
             </div>
             <div class="simon-board">
-                <button class="simon-btn" data-color="green" id="simonGreen"></button>
-                <button class="simon-btn" data-color="red" id="simonRed"></button>
-                <button class="simon-btn" data-color="yellow" id="simonYellow"></button>
-                <button class="simon-btn" data-color="blue" id="simonBlue"></button>
+                <button class="simon-btn" data-color="green"></button>
+                <button class="simon-btn" data-color="red"></button>
+                <button class="simon-btn" data-color="yellow"></button>
+                <button class="simon-btn" data-color="blue"></button>
+                <button class="simon-btn" data-color="purple"></button>
+                <button class="simon-btn" data-color="orange"></button>
+                <button class="simon-btn" data-color="pink"></button>
+                <button class="simon-btn" data-color="cyan"></button>
+                <button class="simon-btn" data-color="lime"></button>
+                <button class="simon-btn" data-color="coral"></button>
+                <button class="simon-btn" data-color="teal"></button>
+                <button class="simon-btn" data-color="gold"></button>
+                <button class="simon-btn" data-color="indigo"></button>
+                <button class="simon-btn" data-color="mint"></button>
+                <button class="simon-btn" data-color="salmon"></button>
+                <button class="simon-btn" data-color="violet"></button>
             </div>
             <div class="simon-info" id="simonInfo">Current Player: P1</div>
             <button class="restart-btn" onclick="initSimon()">START</button>
@@ -3531,7 +3871,7 @@
         const SNAKE_SPEED = 120;
 
         function snakeAIMove() {
-            if (!snake2.alive || p2Modes.snake !== 'ai') return;
+            if (!snake2.alive || p2Modes.snake !== 'ai' || (mp && mp.connected)) return;
 
             const head = snake2.body[0];
             const possibleDirs = [
@@ -3724,8 +4064,8 @@
             if (e.key.toLowerCase() === 'a' && snake1.dir.x !== 1) snake1.nextDir = {x: -1, y: 0};
             if (e.key.toLowerCase() === 'd' && snake1.dir.x !== -1) snake1.nextDir = {x: 1, y: 0};
 
-            // P2 controls (only in manual mode)
-            if (p2Modes.snake === 'manual') {
+            // P2 controls (manual mode or multiplayer)
+            if (p2Modes.snake === 'manual' || (mp && mp.connected)) {
                 if (e.key === 'ArrowUp' && snake2.dir.y !== 1) snake2.nextDir = {x: 0, y: -1};
                 if (e.key === 'ArrowDown' && snake2.dir.y !== -1) snake2.nextDir = {x: 0, y: 1};
                 if (e.key === 'ArrowLeft' && snake2.dir.x !== 1) snake2.nextDir = {x: -1, y: 0};
@@ -3776,8 +4116,8 @@
 
         function flipCard(index) {
             if (memoryLocked || memoryFlipped.includes(index) || memoryMatched.has(index)) return;
-            // In AI mode, only allow clicks during player 1's turn
-            if (p2Modes.memory === 'ai' && memoryCurrentPlayer !== 1) return;
+            // In AI mode, only allow clicks during player 1's turn (not in multiplayer)
+            if (p2Modes.memory === 'ai' && memoryCurrentPlayer !== 1 && !(mp && mp.connected)) return;
 
             memoryFlipped.push(index);
             renderMemory();
@@ -3798,7 +4138,7 @@
                         const winner = memoryScores[1] > memoryScores[2] ? 1 : memoryScores[2] > memoryScores[1] ? 2 : 0;
                         document.getElementById('memoryStatus').textContent = winner ? `Player ${winner} wins!` : "It's a tie!";
                         document.getElementById('memoryStatus').style.color = '#ffd93d';
-                    } else if (p2Modes.memory === 'ai' && memoryCurrentPlayer === 2) {
+                    } else if (p2Modes.memory === 'ai' && memoryCurrentPlayer === 2 && !(mp && mp.connected)) {
                         // AI got a match, goes again
                         setTimeout(() => memoryAITurn(), 800);
                     }
@@ -3811,8 +4151,8 @@
                         memoryLocked = false;
                         renderMemory();
 
-                        // AI's turn
-                        if (p2Modes.memory === 'ai' && memoryCurrentPlayer === 2) {
+                        // AI's turn (not in multiplayer)
+                        if (p2Modes.memory === 'ai' && memoryCurrentPlayer === 2 && !(mp && mp.connected)) {
                             setTimeout(() => memoryAITurn(), 600);
                         }
                     }, 1000);
@@ -3959,51 +4299,168 @@
 
         // ==================== SPEED TYPING ====================
         let typingScores, typingCurrentWord, typingActive;
-        const TYPING_WORDS = ['CYBER', 'HACK', 'CODE', 'DEBUG', 'SCRIPT', 'PIXEL', 'BINARY', 'STACK', 'ARRAY', 'LOOP', 'CACHE', 'QUEUE', 'SHELL', 'VIRUS', 'PROXY', 'REGEX', 'PARSE', 'LOGIC', 'PATCH', 'SUDO'];
+        // Typewriter sentences
+        const TYPING_SENTENCES = [
+            "The quick brown fox jumps over the lazy dog.",
+            "Pack my box with five dozen liquor jugs.",
+            "How vexingly quick daft zebras jump!",
+            "The five boxing wizards jump quickly.",
+            "Sphinx of black quartz, judge my vow.",
+            "Two driven jocks help fax my big quiz.",
+            "The jay, pig, fox, zebra and my wolves quack!",
+            "Sympathizing would fix Quaker objectives.",
+            "A wizard's job is to vex chumps quickly in fog.",
+            "Watch Jeopardy, Alex Trebek's fun TV quiz game.",
+            "Coding is like poetry written for machines.",
+            "Debug the system before launching the app.",
+            "The server crashed due to memory overflow.",
+            "Always write clean and readable code.",
+            "Version control saves developers daily."
+        ];
+
+        let typeText = '';
+        let typeIndex = 0;
+        let typeStartTime = null;
+        let typeErrors = 0;
+        let typeTotalChars = 0;
+        let typeTimer = null;
 
         function initTyping() {
-            typingScores = {1: 0, 2: 0};
             typingActive = false;
-            document.getElementById('typingScore1').textContent = '0';
-            document.getElementById('typingScore2').textContent = '0';
-            document.getElementById('typingWord').textContent = 'READY';
-            document.getElementById('typingInput1').value = '';
-            document.getElementById('typingInput2').value = '';
-            document.getElementById('typingStatus').textContent = 'First to 5 wins!';
+            typeText = '';
+            typeIndex = 0;
+            typeStartTime = null;
+            typeErrors = 0;
+            typeTotalChars = 0;
+            if (typeTimer) clearInterval(typeTimer);
+            document.getElementById('typeWpm').textContent = '0';
+            document.getElementById('typeAcc').textContent = '100';
+            document.getElementById('typeTime').textContent = '0.0';
+            document.getElementById('typewriterText').innerHTML = 'Click START to begin...';
+            document.getElementById('typewriterInput').value = '';
+            document.getElementById('typingStatus').textContent = 'Type the text as fast as you can!';
+            document.querySelectorAll('.key').forEach(k => k.classList.remove('active', 'error'));
         }
 
         function startTyping() {
             initTyping();
+            typeText = TYPING_SENTENCES[Math.floor(Math.random() * TYPING_SENTENCES.length)];
+            typeIndex = 0;
+            typeErrors = 0;
+            typeTotalChars = 0;
             typingActive = true;
-            nextTypingWord();
+            renderTypewriterText();
+            document.getElementById('typewriterInput').value = '';
+            document.getElementById('typewriterInput').focus();
+            highlightNextKey();
         }
 
-        function nextTypingWord() {
-            typingCurrentWord = TYPING_WORDS[Math.floor(Math.random() * TYPING_WORDS.length)];
-            document.getElementById('typingWord').textContent = typingCurrentWord;
-            document.getElementById('typingInput1').value = '';
-            document.getElementById('typingInput2').value = '';
-            document.getElementById('typingInput1').focus();
-        }
-
-        document.getElementById('typingInput1')?.addEventListener('input', (e) => checkTyping(1, e.target.value));
-        document.getElementById('typingInput2')?.addEventListener('input', (e) => checkTyping(2, e.target.value));
-
-        function checkTyping(player, value) {
-            if (!typingActive) return;
-            if (value.toUpperCase() === typingCurrentWord) {
-                typingScores[player]++;
-                document.getElementById(`typingScore${player}`).textContent = typingScores[player];
-
-                if (typingScores[player] >= 5) {
-                    typingActive = false;
-                    document.getElementById('typingWord').textContent = '🏆';
-                    document.getElementById('typingStatus').textContent = `Player ${player} wins!`;
+        function renderTypewriterText() {
+            let html = '';
+            for (let i = 0; i < typeText.length; i++) {
+                let cls = 'typewriter-char ';
+                if (i < typeIndex) {
+                    cls += 'correct';
+                } else if (i === typeIndex) {
+                    cls += 'current';
                 } else {
-                    nextTypingWord();
+                    cls += 'pending';
                 }
+                const char = typeText[i] === ' ' ? '&nbsp;' : typeText[i];
+                html += `<span class="${cls}">${char}</span>`;
+            }
+            document.getElementById('typewriterText').innerHTML = html;
+        }
+
+        function highlightNextKey() {
+            document.querySelectorAll('.key').forEach(k => k.classList.remove('active', 'error'));
+            if (typeIndex < typeText.length) {
+                const nextChar = typeText[typeIndex].toLowerCase();
+                const keyEl = document.querySelector(`.key[data-key="${nextChar}"]`);
+                if (keyEl) keyEl.classList.add('active');
             }
         }
+
+        function updateTypeStats() {
+            if (!typeStartTime) return;
+            const elapsed = (Date.now() - typeStartTime) / 1000;
+            const words = typeIndex / 5;
+            const wpm = elapsed > 0 ? Math.round((words / elapsed) * 60) : 0;
+            const accuracy = typeTotalChars > 0 ? Math.round(((typeTotalChars - typeErrors) / typeTotalChars) * 100) : 100;
+
+            document.getElementById('typeWpm').textContent = wpm;
+            document.getElementById('typeAcc').textContent = Math.max(0, accuracy);
+            document.getElementById('typeTime').textContent = elapsed.toFixed(1);
+        }
+
+        document.getElementById('typewriterInput')?.addEventListener('keydown', (e) => {
+            if (!typingActive) return;
+            if (e.key === 'Backspace' || e.key === 'Tab' || e.key === 'Shift' || e.key === 'Control' || e.key === 'Alt' || e.key === 'Meta') {
+                e.preventDefault();
+                return;
+            }
+        });
+
+        document.getElementById('typewriterInput')?.addEventListener('input', (e) => {
+            if (!typingActive || typeIndex >= typeText.length) return;
+
+            // Start timer on first keystroke
+            if (!typeStartTime) {
+                typeStartTime = Date.now();
+                typeTimer = setInterval(updateTypeStats, 100);
+            }
+
+            const typed = e.data;
+            if (!typed) return;
+
+            typeTotalChars++;
+            const expected = typeText[typeIndex];
+
+            // Highlight pressed key
+            document.querySelectorAll('.key').forEach(k => k.classList.remove('active', 'error'));
+            const pressedKey = document.querySelector(`.key[data-key="${typed.toLowerCase()}"]`);
+
+            if (typed === expected) {
+                if (pressedKey) pressedKey.classList.add('active');
+                sound.play('pop');
+                typeIndex++;
+                renderTypewriterText();
+                highlightNextKey();
+
+                // Check if complete
+                if (typeIndex >= typeText.length) {
+                    typingActive = false;
+                    clearInterval(typeTimer);
+                    updateTypeStats();
+                    const elapsed = ((Date.now() - typeStartTime) / 1000).toFixed(1);
+                    const wpm = document.getElementById('typeWpm').textContent;
+                    const acc = document.getElementById('typeAcc').textContent;
+                    document.getElementById('typingStatus').textContent = `Done! ${wpm} WPM, ${acc}% accuracy`;
+                    sound.play('win');
+                }
+            } else {
+                if (pressedKey) pressedKey.classList.add('error');
+                sound.play('hit', { volume: 0.3 });
+                typeErrors++;
+                // Mark current char as error briefly
+                const chars = document.querySelectorAll('.typewriter-char');
+                if (chars[typeIndex]) {
+                    chars[typeIndex].classList.add('incorrect');
+                    setTimeout(() => {
+                        chars[typeIndex]?.classList.remove('incorrect');
+                        chars[typeIndex]?.classList.add('current');
+                    }, 150);
+                }
+            }
+
+            // Clear input
+            e.target.value = '';
+        });
+
+        // Focus input when clicking the text area
+        document.getElementById('typewriterText')?.addEventListener('click', () => {
+            document.getElementById('typewriterInput').focus();
+        });
 
         // ==================== WHACK-A-MOLE ====================
         let whackScores, whackTimer, whackInterval, whackMoleIntervals, whackActive;
@@ -4143,9 +4600,9 @@
 
         function hockeyLoop() {
             // Velocity-based movement for fluid controls
-            const accel = 0.8;
-            const maxSpeed = 8;
-            const friction = 0.88;
+            const accel = 0.4;
+            const maxSpeed = 4;
+            const friction = 0.92;
 
             // P1 movement (bottom half) - WASD
             if (hockeyKeys['a']) hockeyP1.vx -= accel;
@@ -4167,7 +4624,7 @@
             hockeyP1.y = Math.max(270, Math.min(470, hockeyP1.y));
 
             // P2 movement (top half) - Arrow keys or AI
-            if (p2Modes.airhockey === 'ai') {
+            if (p2Modes.airhockey === 'ai' && !(mp && mp.connected)) {
                 // AI follows the puck
                 const aiReaction = 0.15;
                 const targetX = hockeyPuck.x;
@@ -4381,7 +4838,7 @@
 
         // ==================== SIMON SAYS ====================
         let simonSequence, simonPlayerSequence, simonCurrentPlayer, simonScores, simonPlaying, simonShowingPattern;
-        const SIMON_COLORS = ['green', 'red', 'yellow', 'blue'];
+        const SIMON_COLORS = ['green', 'red', 'yellow', 'blue', 'purple', 'orange', 'pink', 'cyan', 'lime', 'coral', 'teal', 'gold', 'indigo', 'mint', 'salmon', 'violet'];
 
         function initSimon() {
             simonSequence = [];
@@ -4394,11 +4851,11 @@
             document.getElementById('simonScore2').textContent = '0';
             document.getElementById('simonInfo').textContent = 'Current Player: P1';
             addSimonColor();
-            setTimeout(() => playSimonSequence(), 500);
+            setTimeout(() => playSimonSequence(), 300);
         }
 
         function addSimonColor() {
-            simonSequence.push(SIMON_COLORS[Math.floor(Math.random() * 4)]);
+            simonSequence.push(SIMON_COLORS[Math.floor(Math.random() * SIMON_COLORS.length)]);
         }
 
         function playSimonSequence() {
@@ -4414,14 +4871,14 @@
                 }
                 flashSimonButton(simonSequence[i]);
                 i++;
-            }, 600);
+            }, 350);
         }
 
         function flashSimonButton(color) {
-            const btn = document.getElementById(`simon${color.charAt(0).toUpperCase() + color.slice(1)}`);
+            const btn = document.querySelector(`.simon-btn[data-color="${color}"]`);
             btn.classList.add('active');
             sound.play('simon', { color });
-            setTimeout(() => btn.classList.remove('active'), 400);
+            setTimeout(() => btn.classList.remove('active'), 250);
         }
 
         document.querySelectorAll('.simon-btn').forEach(btn => {
@@ -4447,14 +4904,14 @@
                         simonPlayerSequence = [];
                         addSimonColor();
                         document.getElementById('simonInfo').textContent = `Current Player: P${simonCurrentPlayer}`;
-                        setTimeout(() => playSimonSequence(), 1000);
+                        setTimeout(() => playSimonSequence(), 600);
                     }
                 } else if (simonPlayerSequence.length === simonSequence.length) {
                     // Completed sequence
                     document.getElementById('simonStatus').textContent = 'Correct! Watch next...';
                     simonPlayerSequence = [];
                     addSimonColor();
-                    setTimeout(() => playSimonSequence(), 1000);
+                    setTimeout(() => playSimonSequence(), 600);
                 }
             });
         });
@@ -4468,7 +4925,7 @@
             snake: 'Snake Battle',
             memory: 'Memory Match',
             rps: 'Rock Paper Scissors',
-            typing: 'Speed Typing',
+            typing: 'Typewriter',
             whack: 'Whack-a-Mole',
             airhockey: 'Air Hockey',
             battleship: 'Battleship',
@@ -5469,6 +5926,24 @@
             btn.addEventListener('click', () => sound.play('click'));
         });
 
+        // Generate floating background particles
+        function createFloatingParticles() {
+            const container = document.getElementById('particles');
+            const colors = ['var(--accent)', 'var(--accent-secondary)', 'var(--accent-third)', '#00ccff'];
+
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                particle.style.animationDuration = (10 + Math.random() * 10) + 's';
+                particle.style.width = (2 + Math.random() * 4) + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+                container.appendChild(particle);
+            }
+        }
+
         // Initialize on page load
         document.addEventListener('DOMContentLoaded', () => {
             checkUrlForRoom();
@@ -5476,6 +5951,8 @@
             particles.pong.init('pongCanvas');
             particles.snake.init('snakeCanvas');
             particles.hockey.init('hockeyCanvas');
+            // Create floating background particles
+            createFloatingParticles();
         });
     </script>
 </body>
