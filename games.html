@@ -2520,6 +2520,144 @@
                 height: auto;
             }
         }
+
+        /* Mobile Controls */
+        .mobile-controls {
+            display: none;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        @media (pointer: coarse), (max-width: 768px) {
+            .mobile-controls {
+                display: flex !important;
+            }
+        }
+
+        .mobile-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 3px solid #00ff88;
+            background: rgba(0, 255, 136, 0.2);
+            color: #00ff88;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+            transition: all 0.1s;
+        }
+
+        .mobile-btn:active, .mobile-btn.pressed {
+            background: rgba(0, 255, 136, 0.5);
+            transform: scale(0.95);
+        }
+
+        .mobile-btn.red {
+            border-color: #ff6b6b;
+            background: rgba(255, 107, 107, 0.2);
+            color: #ff6b6b;
+        }
+
+        .mobile-btn.red:active, .mobile-btn.red.pressed {
+            background: rgba(255, 107, 107, 0.5);
+        }
+
+        .mobile-btn.blue {
+            border-color: #6b9fff;
+            background: rgba(107, 159, 255, 0.2);
+            color: #6b9fff;
+        }
+
+        .mobile-btn.blue:active, .mobile-btn.blue.pressed {
+            background: rgba(107, 159, 255, 0.5);
+        }
+
+        .mobile-dpad {
+            display: grid;
+            grid-template-columns: 50px 50px 50px;
+            grid-template-rows: 50px 50px 50px;
+            gap: 5px;
+        }
+
+        .mobile-dpad .mobile-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+        }
+
+        .mobile-dpad .up { grid-column: 2; grid-row: 1; }
+        .mobile-dpad .down { grid-column: 2; grid-row: 3; }
+        .mobile-dpad .left { grid-column: 1; grid-row: 2; }
+        .mobile-dpad .right { grid-column: 3; grid-row: 2; }
+
+        .mobile-controls-row {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .mobile-action-btn {
+            width: 80px;
+            height: 80px;
+            font-size: 14px;
+            border-radius: 12px;
+        }
+
+        .touch-slider {
+            width: 100%;
+            height: 80px;
+            background: rgba(0, 255, 136, 0.1);
+            border: 2px solid #00ff88;
+            border-radius: 10px;
+            position: relative;
+            touch-action: none;
+        }
+
+        .touch-slider.red {
+            border-color: #ff6b6b;
+            background: rgba(255, 107, 107, 0.1);
+        }
+
+        .touch-slider-thumb {
+            width: 40px;
+            height: 70px;
+            background: #00ff88;
+            border-radius: 8px;
+            position: absolute;
+            top: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            pointer-events: none;
+        }
+
+        .touch-slider.red .touch-slider-thumb {
+            background: #ff6b6b;
+        }
+
+        .mobile-paddle-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+
+        .mobile-paddle-label {
+            text-align: center;
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 5px;
+        }
     </style>
 </head>
 <body>
@@ -2733,6 +2871,24 @@
                 </div>
                 <div class="pong-controls">
                     <p>Player 1: <span>W</span> / <span>S</span> &nbsp;&nbsp; Player 2: <span>↑</span> / <span>↓</span></p>
+                </div>
+                <div class="mobile-controls" id="pongMobileControls">
+                    <div class="mobile-controls-row">
+                        <div style="text-align: center;">
+                            <div class="mobile-paddle-label">P1</div>
+                            <div style="display: flex; flex-direction: column; gap: 5px;">
+                                <button class="mobile-btn" id="pongP1Up">▲</button>
+                                <button class="mobile-btn" id="pongP1Down">▼</button>
+                            </div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div class="mobile-paddle-label">P2</div>
+                            <div style="display: flex; flex-direction: column; gap: 5px;">
+                                <button class="mobile-btn red" id="pongP2Up">▲</button>
+                                <button class="mobile-btn red" id="pongP2Down">▼</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <button class="restart-btn" onclick="resetPong()">RESTART</button>
@@ -3716,6 +3872,123 @@
             setTimeout(() => el.remove(), 1000);
         }
 
+        // ==================== MOBILE CONTROLS SYSTEM ====================
+        const mobileControls = {
+            isTouchDevice: function() {
+                return ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (window.matchMedia("(pointer: coarse)").matches);
+            },
+
+            // Simulate keyboard events
+            simulateKey: function(key, type = 'keydown') {
+                const event = new KeyboardEvent(type, {
+                    key: key,
+                    code: 'Key' + key.toUpperCase(),
+                    bubbles: true
+                });
+                document.dispatchEvent(event);
+            },
+
+            // Create a button that simulates key presses
+            createKeyButton: function(label, key, className = '') {
+                const btn = document.createElement('button');
+                btn.className = 'mobile-btn ' + className;
+                btn.innerHTML = label;
+                btn.setAttribute('data-key', key);
+
+                const pressStart = (e) => {
+                    e.preventDefault();
+                    btn.classList.add('pressed');
+                    this.simulateKey(key, 'keydown');
+                };
+
+                const pressEnd = (e) => {
+                    e.preventDefault();
+                    btn.classList.remove('pressed');
+                    this.simulateKey(key, 'keyup');
+                };
+
+                btn.addEventListener('touchstart', pressStart, { passive: false });
+                btn.addEventListener('touchend', pressEnd, { passive: false });
+                btn.addEventListener('touchcancel', pressEnd, { passive: false });
+                btn.addEventListener('mousedown', pressStart);
+                btn.addEventListener('mouseup', pressEnd);
+                btn.addEventListener('mouseleave', pressEnd);
+
+                return btn;
+            },
+
+            // Create D-pad for directional controls
+            createDpad: function(upKey, downKey, leftKey, rightKey, className = '') {
+                const dpad = document.createElement('div');
+                dpad.className = 'mobile-dpad ' + className;
+
+                const upBtn = this.createKeyButton('▲', upKey, 'up');
+                const downBtn = this.createKeyButton('▼', downKey, 'down');
+                const leftBtn = this.createKeyButton('◀', leftKey, 'left');
+                const rightBtn = this.createKeyButton('▶', rightKey, 'right');
+
+                dpad.appendChild(upBtn);
+                dpad.appendChild(leftBtn);
+                dpad.appendChild(rightBtn);
+                dpad.appendChild(downBtn);
+
+                return dpad;
+            },
+
+            // Create touch slider for paddle games
+            createPaddleSlider: function(canvas, paddleObj, isVertical = true, className = '') {
+                const slider = document.createElement('div');
+                slider.className = 'touch-slider ' + className;
+
+                const thumb = document.createElement('div');
+                thumb.className = 'touch-slider-thumb';
+                slider.appendChild(thumb);
+
+                let isDragging = false;
+
+                const updatePosition = (clientX, clientY) => {
+                    const rect = slider.getBoundingClientRect();
+                    if (isVertical) {
+                        const y = clientY - rect.top;
+                        const percent = Math.max(0, Math.min(1, y / rect.height));
+                        thumb.style.top = (percent * (rect.height - 70) + 5) + 'px';
+                        return percent;
+                    } else {
+                        const x = clientX - rect.left;
+                        const percent = Math.max(0, Math.min(1, x / rect.width));
+                        thumb.style.left = (percent * (rect.width - 40)) + 'px';
+                        return percent;
+                    }
+                };
+
+                slider.addEventListener('touchstart', (e) => {
+                    e.preventDefault();
+                    isDragging = true;
+                    const touch = e.touches[0];
+                    updatePosition(touch.clientX, touch.clientY);
+                }, { passive: false });
+
+                slider.addEventListener('touchmove', (e) => {
+                    if (!isDragging) return;
+                    e.preventDefault();
+                    const touch = e.touches[0];
+                    const percent = updatePosition(touch.clientX, touch.clientY);
+                    if (paddleObj && canvas) {
+                        if (isVertical) {
+                            paddleObj.y = percent * (canvas.height - paddleObj.height);
+                        } else {
+                            paddleObj.x = percent * (canvas.width - paddleObj.width);
+                        }
+                    }
+                }, { passive: false });
+
+                slider.addEventListener('touchend', () => { isDragging = false; });
+                slider.addEventListener('touchcancel', () => { isDragging = false; });
+
+                return { slider, thumb, updatePosition };
+            }
+        };
+
         // Game Modal Controls
         function openGame(game) {
             document.getElementById(game + 'Modal').classList.add('active');
@@ -4087,8 +4360,49 @@
             document.addEventListener('keydown', handlePongKeyDown);
             document.addEventListener('keyup', handlePongKeyUp);
 
+            // Setup mobile controls
+            setupPongMobileControls();
+
             if (pongAnimationId) cancelAnimationFrame(pongAnimationId);
             pongLoop();
+        }
+
+        function setupPongMobileControls() {
+            const setupButton = (id, key) => {
+                const btn = document.getElementById(id);
+                if (!btn || btn.dataset.mobileSetup) return;
+                btn.dataset.mobileSetup = 'true';
+
+                const start = (e) => { e.preventDefault(); pongKeys[key] = true; btn.classList.add('pressed'); };
+                const end = (e) => { e.preventDefault(); pongKeys[key] = false; btn.classList.remove('pressed'); };
+
+                btn.addEventListener('touchstart', start, { passive: false });
+                btn.addEventListener('touchend', end, { passive: false });
+                btn.addEventListener('touchcancel', end, { passive: false });
+                btn.addEventListener('mousedown', start);
+                btn.addEventListener('mouseup', end);
+                btn.addEventListener('mouseleave', end);
+            };
+
+            setupButton('pongP1Up', 'w');
+            setupButton('pongP1Down', 's');
+            setupButton('pongP2Up', 'ArrowUp');
+            setupButton('pongP2Down', 'ArrowDown');
+
+            // Also allow touch on canvas to control P1 paddle
+            const canvas = document.getElementById('pongCanvas');
+            if (canvas && !canvas.dataset.touchSetup) {
+                canvas.dataset.touchSetup = 'true';
+                canvas.addEventListener('touchmove', (e) => {
+                    e.preventDefault();
+                    const rect = canvas.getBoundingClientRect();
+                    const touch = e.touches[0];
+                    const y = (touch.clientY - rect.top) / rect.height * canvas.height;
+                    if (pongPaddle1) {
+                        pongPaddle1.y = Math.max(0, Math.min(canvas.height - pongPaddle1.height, y - pongPaddle1.height / 2));
+                    }
+                }, { passive: false });
+            }
         }
 
         function handlePongKeyDown(e) {
@@ -4361,18 +4675,20 @@
             reactionReady = false;
         }
 
-        // Allow clicking the buttons on mobile
-        document.getElementById('reactionP1').addEventListener('click', () => {
-            if (document.getElementById('reactionModal').classList.contains('active') && reactionActive) {
-                handleReactionPress(1);
-            }
-        });
-
-        document.getElementById('reactionP2').addEventListener('click', () => {
-            if (document.getElementById('reactionModal').classList.contains('active') && reactionActive) {
-                handleReactionPress(2);
-            }
-        });
+        // Allow clicking/tapping the buttons on mobile
+        const setupReactionBtn = (id, player) => {
+            const btn = document.getElementById(id);
+            const handler = (e) => {
+                e.preventDefault();
+                if (document.getElementById('reactionModal').classList.contains('active') && reactionActive) {
+                    handleReactionPress(player);
+                }
+            };
+            btn.addEventListener('click', handler);
+            btn.addEventListener('touchstart', handler, { passive: false });
+        };
+        setupReactionBtn('reactionP1', 1);
+        setupReactionBtn('reactionP2', 2);
     </script>
 
     <!-- Snake Battle Modal -->
@@ -4391,6 +4707,18 @@
             </div>
             <div class="snake-controls">
                 <p>P1: <span>W</span><span>A</span><span>S</span><span>D</span> &nbsp; P2: <span>↑</span><span>←</span><span>↓</span><span>→</span></p>
+            </div>
+            <div class="mobile-controls" id="snakeMobileControls">
+                <div class="mobile-controls-row">
+                    <div style="text-align: center;">
+                        <div class="mobile-paddle-label">P1</div>
+                        <div class="mobile-dpad" id="snakeP1Dpad"></div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div class="mobile-paddle-label">P2</div>
+                        <div class="mobile-dpad" id="snakeP2Dpad"></div>
+                    </div>
+                </div>
             </div>
             <button class="restart-btn" onclick="startSnake()">START</button>
         </div>
@@ -4573,6 +4901,18 @@
                 <div class="hockey-controls">
                     <p>P1: <span>W</span><span>A</span><span>S</span><span>D</span> &nbsp; P2: <span>↑</span><span>←</span><span>↓</span><span>→</span></p>
                 </div>
+                <div class="mobile-controls" id="hockeyMobileControls">
+                    <div class="mobile-controls-row">
+                        <div style="text-align: center;">
+                            <div class="mobile-paddle-label">P1</div>
+                            <div class="mobile-dpad" id="hockeyP1Dpad"></div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div class="mobile-paddle-label">P2</div>
+                            <div class="mobile-dpad" id="hockeyP2Dpad"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <button class="restart-btn" onclick="resetHockey()">RESTART</button>
         </div>
@@ -4674,6 +5014,17 @@
                     </div>
                 </div>
             </div>
+            <div class="mobile-controls" id="tetrisMobileControls">
+                <div class="mobile-controls-row" style="gap: 15px;">
+                    <button class="mobile-btn mobile-action-btn" id="tetrisLeft">◀</button>
+                    <button class="mobile-btn mobile-action-btn" id="tetrisRotate">↻</button>
+                    <button class="mobile-btn mobile-action-btn" id="tetrisRight">▶</button>
+                </div>
+                <div class="mobile-controls-row" style="gap: 15px; margin-top: 10px;">
+                    <button class="mobile-btn mobile-action-btn" id="tetrisDown">▼</button>
+                    <button class="mobile-btn mobile-action-btn blue" id="tetrisDrop">⬇</button>
+                </div>
+            </div>
             <button class="restart-btn" onclick="startTetris()">START</button>
         </div>
     </div>
@@ -4688,18 +5039,24 @@
                 <div class="hippos-score p1">
                     <span class="hippo-icon">🦛</span>
                     <span>P1: <span id="hipposScore1">0</span></span>
-                    <div class="hippos-key">Hold Q</div>
+                    <div class="hippos-key">Tap Q</div>
                 </div>
                 <div class="hippos-score p2">
                     <span class="hippo-icon flip">🦛</span>
                     <span>P2: <span id="hipposScore2">0</span></span>
-                    <div class="hippos-key">Hold P</div>
+                    <div class="hippos-key">Tap P</div>
                 </div>
             </div>
             <div class="hippos-arena">
                 <canvas id="hipposCanvas" width="500" height="400"></canvas>
             </div>
             <div class="hippos-timer">Food Left: <span id="hipposFood">0</span></div>
+            <div class="mobile-controls" id="hipposMobileControls">
+                <div class="mobile-controls-row">
+                    <button class="mobile-btn mobile-action-btn" id="hipposP1Btn" style="font-size: 24px;">🦛<br><small>P1</small></button>
+                    <button class="mobile-btn mobile-action-btn red" id="hipposP2Btn" style="font-size: 24px;">🦛<br><small>P2</small></button>
+                </div>
+            </div>
             <button class="restart-btn" onclick="startHippos()">START</button>
         </div>
     </div>
@@ -4962,6 +5319,37 @@
                 e.preventDefault();
             }
         });
+
+        // Snake mobile controls setup
+        (function setupSnakeMobileControls() {
+            const createDpadButton = (label, onClick, className = '') => {
+                const btn = document.createElement('button');
+                btn.className = 'mobile-btn ' + className;
+                btn.innerHTML = label;
+                btn.addEventListener('touchstart', (e) => { e.preventDefault(); onClick(); }, { passive: false });
+                btn.addEventListener('click', onClick);
+                return btn;
+            };
+
+            const p1Dpad = document.getElementById('snakeP1Dpad');
+            const p2Dpad = document.getElementById('snakeP2Dpad');
+
+            if (p1Dpad && !p1Dpad.dataset.setup) {
+                p1Dpad.dataset.setup = 'true';
+                p1Dpad.appendChild(createDpadButton('▲', () => { if (snake1 && snake1.dir.y !== 1) snake1.nextDir = {x: 0, y: -1}; }, 'up'));
+                p1Dpad.appendChild(createDpadButton('◀', () => { if (snake1 && snake1.dir.x !== 1) snake1.nextDir = {x: -1, y: 0}; }, 'left'));
+                p1Dpad.appendChild(createDpadButton('▶', () => { if (snake1 && snake1.dir.x !== -1) snake1.nextDir = {x: 1, y: 0}; }, 'right'));
+                p1Dpad.appendChild(createDpadButton('▼', () => { if (snake1 && snake1.dir.y !== -1) snake1.nextDir = {x: 0, y: 1}; }, 'down'));
+            }
+
+            if (p2Dpad && !p2Dpad.dataset.setup) {
+                p2Dpad.dataset.setup = 'true';
+                p2Dpad.appendChild(createDpadButton('▲', () => { if (snake2 && snake2.dir.y !== 1) snake2.nextDir = {x: 0, y: -1}; }, 'up red'));
+                p2Dpad.appendChild(createDpadButton('◀', () => { if (snake2 && snake2.dir.x !== 1) snake2.nextDir = {x: -1, y: 0}; }, 'left red'));
+                p2Dpad.appendChild(createDpadButton('▶', () => { if (snake2 && snake2.dir.x !== -1) snake2.nextDir = {x: 1, y: 0}; }, 'right red'));
+                p2Dpad.appendChild(createDpadButton('▼', () => { if (snake2 && snake2.dir.y !== -1) snake2.nextDir = {x: 0, y: 1}; }, 'down red'));
+            }
+        })();
 
         function stopSnake() {
             snakeGameRunning = false;
@@ -5370,7 +5758,9 @@
                     hole.className = 'whack-hole';
                     hole.dataset.player = p;
                     hole.dataset.index = i;
-                    hole.onclick = () => whackMole(p, i);
+                    const whack = (e) => { e.preventDefault(); whackMole(p, i); };
+                    hole.onclick = whack;
+                    hole.addEventListener('touchstart', whack, { passive: false });
                     grid.appendChild(hole);
                 }
             });
@@ -5446,8 +5836,66 @@
             document.addEventListener('keydown', handleHockeyKeyDown);
             document.addEventListener('keyup', handleHockeyKeyUp);
 
+            // Setup mobile controls
+            setupHockeyMobileControls();
+
             if (hockeyAnimationId) cancelAnimationFrame(hockeyAnimationId);
             hockeyLoop();
+        }
+
+        function setupHockeyMobileControls() {
+            const createDpadButton = (label, keyDown, keyUp, className = '') => {
+                const btn = document.createElement('button');
+                btn.className = 'mobile-btn ' + className;
+                btn.innerHTML = label;
+
+                const start = (e) => { e.preventDefault(); hockeyKeys[keyDown] = true; btn.classList.add('pressed'); };
+                const end = (e) => { e.preventDefault(); hockeyKeys[keyDown] = false; btn.classList.remove('pressed'); };
+
+                btn.addEventListener('touchstart', start, { passive: false });
+                btn.addEventListener('touchend', end, { passive: false });
+                btn.addEventListener('touchcancel', end, { passive: false });
+                btn.addEventListener('mousedown', start);
+                btn.addEventListener('mouseup', end);
+                btn.addEventListener('mouseleave', end);
+                return btn;
+            };
+
+            const p1Dpad = document.getElementById('hockeyP1Dpad');
+            const p2Dpad = document.getElementById('hockeyP2Dpad');
+
+            if (p1Dpad && !p1Dpad.dataset.setup) {
+                p1Dpad.dataset.setup = 'true';
+                p1Dpad.appendChild(createDpadButton('▲', 'w', 'w', 'up'));
+                p1Dpad.appendChild(createDpadButton('◀', 'a', 'a', 'left'));
+                p1Dpad.appendChild(createDpadButton('▶', 'd', 'd', 'right'));
+                p1Dpad.appendChild(createDpadButton('▼', 's', 's', 'down'));
+            }
+
+            if (p2Dpad && !p2Dpad.dataset.setup) {
+                p2Dpad.dataset.setup = 'true';
+                p2Dpad.appendChild(createDpadButton('▲', 'ArrowUp', 'ArrowUp', 'up red'));
+                p2Dpad.appendChild(createDpadButton('◀', 'ArrowLeft', 'ArrowLeft', 'left red'));
+                p2Dpad.appendChild(createDpadButton('▶', 'ArrowRight', 'ArrowRight', 'right red'));
+                p2Dpad.appendChild(createDpadButton('▼', 'ArrowDown', 'ArrowDown', 'down red'));
+            }
+
+            // Also allow touch on canvas to control P1 paddle
+            if (hockeyCanvas && !hockeyCanvas.dataset.touchSetup) {
+                hockeyCanvas.dataset.touchSetup = 'true';
+                hockeyCanvas.addEventListener('touchmove', (e) => {
+                    e.preventDefault();
+                    const rect = hockeyCanvas.getBoundingClientRect();
+                    const touch = e.touches[0];
+                    const x = (touch.clientX - rect.left) / rect.width * hockeyCanvas.width;
+                    const y = (touch.clientY - rect.top) / rect.height * hockeyCanvas.height;
+                    // Limit P1 to bottom half
+                    if (hockeyP1 && y > 250) {
+                        hockeyP1.x = Math.max(30, Math.min(370, x));
+                        hockeyP1.y = Math.max(280, Math.min(470, y));
+                    }
+                }, { passive: false });
+            }
         }
 
         function handleHockeyKeyDown(e) {
@@ -5768,7 +6216,7 @@
         }
 
         document.querySelectorAll('.simon-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
+            const handleSimonClick = () => {
                 if (!simonPlaying || simonShowingPattern) return;
                 const color = btn.dataset.color;
                 flashSimonButton(color);
@@ -5799,7 +6247,19 @@
                     addSimonColor();
                     setTimeout(() => playSimonSequence(), 600);
                 }
+            };
+
+            // Prevent duplicate handling from both click and touchstart
+            let lastTouch = 0;
+            btn.addEventListener('click', () => {
+                if (Date.now() - lastTouch < 300) return;
+                handleSimonClick();
             });
+            btn.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                lastTouch = Date.now();
+                handleSimonClick();
+            }, { passive: false });
         });
 
         // ==================== TETRIS ====================
@@ -6169,6 +6629,23 @@
                     break;
             }
         });
+
+        // Tetris mobile controls setup
+        (function setupTetrisMobileControls() {
+            const setupBtn = (id, action) => {
+                const btn = document.getElementById(id);
+                if (!btn || btn.dataset.setup) return;
+                btn.dataset.setup = 'true';
+                btn.addEventListener('touchstart', (e) => { e.preventDefault(); action(); }, { passive: false });
+                btn.addEventListener('click', action);
+            };
+
+            setupBtn('tetrisLeft', () => moveTetrisPiece(-1, 0));
+            setupBtn('tetrisRight', () => moveTetrisPiece(1, 0));
+            setupBtn('tetrisDown', () => { moveTetrisPiece(0, 1); tetrisScore += 1; });
+            setupBtn('tetrisRotate', () => rotateTetrisPiece());
+            setupBtn('tetrisDrop', () => hardDropTetris());
+        })();
 
         // ==================== HUNGRY HIPPOS ====================
         let hipposCanvas, hipposCtx;
@@ -6636,6 +7113,39 @@
                 hippoKeys.pCanChomp = true; // Allow next chomp when key released
             }
         });
+
+        // Hippos mobile controls setup
+        (function setupHipposMobileControls() {
+            const setupBtn = (id, keyProp, canChompProp) => {
+                const btn = document.getElementById(id);
+                if (!btn || btn.dataset.setup) return;
+                btn.dataset.setup = 'true';
+
+                const press = (e) => {
+                    e.preventDefault();
+                    if (!hipposGameRunning) return;
+                    hippoKeys[keyProp] = true;
+                    btn.classList.add('pressed');
+                };
+
+                const release = (e) => {
+                    e.preventDefault();
+                    hippoKeys[keyProp] = false;
+                    hippoKeys[canChompProp] = true;
+                    btn.classList.remove('pressed');
+                };
+
+                btn.addEventListener('touchstart', press, { passive: false });
+                btn.addEventListener('touchend', release, { passive: false });
+                btn.addEventListener('touchcancel', release, { passive: false });
+                btn.addEventListener('mousedown', press);
+                btn.addEventListener('mouseup', release);
+                btn.addEventListener('mouseleave', release);
+            };
+
+            setupBtn('hipposP1Btn', 'q', 'qCanChomp');
+            setupBtn('hipposP2Btn', 'p', 'pCanChomp');
+        })();
 
         // Game name mappings for display
         const gameNames = {
