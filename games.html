@@ -1512,6 +1512,187 @@
             margin-bottom: 20px;
         }
 
+        /* ==================== TETRIS ==================== */
+        .tetris-container {
+            max-width: 650px;
+        }
+
+        .tetris-wrapper {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .tetris-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .tetris-next {
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .tetris-next canvas {
+            display: block;
+            margin: 0 auto;
+        }
+
+        .tetris-label {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.6rem;
+            color: var(--accent);
+            margin-bottom: 8px;
+        }
+
+        .tetris-stats {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .tetris-stat {
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .tetris-value {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1rem;
+            color: var(--text-primary);
+        }
+
+        .tetris-main {
+            position: relative;
+        }
+
+        #tetrisCanvas {
+            display: block;
+            background: rgba(0, 0, 0, 0.8);
+            border: 3px solid var(--accent);
+            border-radius: 4px;
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.2);
+        }
+
+        .tetris-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.85);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+        }
+
+        .tetris-overlay.hidden {
+            display: none;
+        }
+
+        .tetris-message {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1rem;
+            color: var(--accent);
+            text-align: center;
+            line-height: 2;
+        }
+
+        .tetris-controls-info {
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .tetris-keys {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+        }
+
+        /* ==================== HUNGRY HIPPOS ==================== */
+        .hippos-container {
+            max-width: 600px;
+        }
+
+        .hippos-scores {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            gap: 20px;
+        }
+
+        .hippos-score {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.8rem;
+        }
+
+        .hippos-score.p1 {
+            color: var(--accent);
+            border: 2px solid var(--accent);
+        }
+
+        .hippos-score.p2 {
+            color: var(--accent-secondary);
+            border: 2px solid var(--accent-secondary);
+        }
+
+        .hippo-icon {
+            font-size: 1.5rem;
+        }
+
+        .hippo-icon.flip {
+            transform: scaleX(-1);
+        }
+
+        .hippos-key {
+            font-size: 0.5rem;
+            opacity: 0.7;
+            margin-left: auto;
+        }
+
+        .hippos-arena {
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+        #hipposCanvas {
+            display: block;
+            margin: 0 auto;
+            background: #1a1a2e;
+            border: 3px solid var(--accent);
+            border-radius: 12px;
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.2);
+        }
+
+        .hippos-timer {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
         /* ==================== HEADER ACTIONS ==================== */
         .header-actions {
             display: flex;
@@ -2372,7 +2553,7 @@
             <p>You found the secret games! Grab a friend and have some fun.</p>
             <div class="hero-stats">
                 <div class="hero-stat">
-                    <span class="hero-stat-value">13</span>
+                    <span class="hero-stat-value">15</span>
                     <div class="hero-stat-label">Games</div>
                 </div>
                 <div class="hero-stat">
@@ -2471,6 +2652,20 @@
                     <div class="game-icon">🎵</div>
                     <h3>SIMON SAYS</h3>
                     <p>Memory pattern challenge</p>
+                    <span class="player-badge">2 Players</span>
+                </div>
+
+                <div class="game-card" onclick="openGame('tetris')">
+                    <div class="game-icon">🧱</div>
+                    <h3>TETRIS</h3>
+                    <p>Classic block stacking puzzle</p>
+                    <span class="player-badge">1 Player</span>
+                </div>
+
+                <div class="game-card" onclick="openGame('hippos')">
+                    <div class="game-icon">🦛</div>
+                    <h3>HUNGRY HIPPOS</h3>
+                    <p>Chomp the most food to win!</p>
                     <span class="player-badge">2 Players</span>
                 </div>
             </div>
@@ -4437,6 +4632,78 @@
         </div>
     </div>
 
+    <!-- Tetris Modal -->
+    <div class="game-modal" id="tetrisModal">
+        <div class="game-container tetris-container">
+            <button class="close-game" onclick="closeGame('tetris')">&times;</button>
+            <h2 class="game-title">TETRIS</h2>
+            <div class="tetris-wrapper">
+                <div class="tetris-sidebar">
+                    <div class="tetris-next">
+                        <div class="tetris-label">NEXT</div>
+                        <canvas id="tetrisNext" width="100" height="100"></canvas>
+                    </div>
+                    <div class="tetris-stats">
+                        <div class="tetris-stat">
+                            <div class="tetris-label">SCORE</div>
+                            <div class="tetris-value" id="tetrisScore">0</div>
+                        </div>
+                        <div class="tetris-stat">
+                            <div class="tetris-label">LEVEL</div>
+                            <div class="tetris-value" id="tetrisLevel">1</div>
+                        </div>
+                        <div class="tetris-stat">
+                            <div class="tetris-label">LINES</div>
+                            <div class="tetris-value" id="tetrisLines">0</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tetris-main">
+                    <canvas id="tetrisCanvas" width="300" height="600"></canvas>
+                    <div class="tetris-overlay" id="tetrisOverlay">
+                        <div class="tetris-message" id="tetrisMessage">Press START</div>
+                    </div>
+                </div>
+                <div class="tetris-controls-info">
+                    <div class="tetris-label">CONTROLS</div>
+                    <div class="tetris-keys">
+                        <span>← → Move</span>
+                        <span>↑ Rotate</span>
+                        <span>↓ Soft Drop</span>
+                        <span>Space Hard Drop</span>
+                    </div>
+                </div>
+            </div>
+            <button class="restart-btn" onclick="startTetris()">START</button>
+        </div>
+    </div>
+
+    <!-- Hungry Hippos Modal -->
+    <div class="game-modal" id="hipposModal">
+        <div class="game-container hippos-container">
+            <button class="close-game" onclick="closeGame('hippos')">&times;</button>
+            <h2 class="game-title">HUNGRY HIPPOS</h2>
+            <div class="game-status" id="hipposStatus">Press START to play!</div>
+            <div class="hippos-scores">
+                <div class="hippos-score p1">
+                    <span class="hippo-icon">🦛</span>
+                    <span>P1: <span id="hipposScore1">0</span></span>
+                    <div class="hippos-key">Hold Q</div>
+                </div>
+                <div class="hippos-score p2">
+                    <span class="hippo-icon flip">🦛</span>
+                    <span>P2: <span id="hipposScore2">0</span></span>
+                    <div class="hippos-key">Hold P</div>
+                </div>
+            </div>
+            <div class="hippos-arena">
+                <canvas id="hipposCanvas" width="500" height="400"></canvas>
+            </div>
+            <div class="hippos-timer">Food Left: <span id="hipposFood">0</span></div>
+            <button class="restart-btn" onclick="startHippos()">START</button>
+        </div>
+    </div>
+
     <script>
         // ==================== SNAKE BATTLE ====================
         let snakeCanvas, snakeCtx, snakeAnimationId, snakeGameRunning;
@@ -5535,6 +5802,841 @@
             });
         });
 
+        // ==================== TETRIS ====================
+        let tetrisCanvas, tetrisCtx, tetrisNextCanvas, tetrisNextCtx;
+        let tetrisBoard, tetrisCurrentPiece, tetrisNextPiece;
+        let tetrisScore, tetrisLevel, tetrisLines;
+        let tetrisGameRunning, tetrisAnimationId, tetrisDropTime, tetrisLastDrop;
+
+        const TETRIS_COLS = 10;
+        const TETRIS_ROWS = 20;
+        const TETRIS_BLOCK = 30;  // Big blocks for big game space
+
+        const TETRIS_PIECES = {
+            I: { shape: [[1,1,1,1]], color: '#00f5ff' },
+            O: { shape: [[1,1],[1,1]], color: '#ffdd00' },
+            T: { shape: [[0,1,0],[1,1,1]], color: '#aa00ff' },
+            S: { shape: [[0,1,1],[1,1,0]], color: '#00ff88' },
+            Z: { shape: [[1,1,0],[0,1,1]], color: '#ff4444' },
+            J: { shape: [[1,0,0],[1,1,1]], color: '#4488ff' },
+            L: { shape: [[0,0,1],[1,1,1]], color: '#ff8800' }
+        };
+
+        function initTetris() {
+            tetrisCanvas = document.getElementById('tetrisCanvas');
+            tetrisCtx = tetrisCanvas.getContext('2d');
+            tetrisNextCanvas = document.getElementById('tetrisNext');
+            tetrisNextCtx = tetrisNextCanvas.getContext('2d');
+
+            // Reset state
+            tetrisBoard = Array(TETRIS_ROWS).fill(null).map(() => Array(TETRIS_COLS).fill(0));
+            tetrisScore = 0;
+            tetrisLevel = 1;
+            tetrisLines = 0;
+            tetrisGameRunning = false;
+
+            updateTetrisDisplay();
+            drawTetrisBoard();
+
+            document.getElementById('tetrisOverlay').classList.remove('hidden');
+            document.getElementById('tetrisMessage').textContent = 'Press START';
+        }
+
+        function startTetris() {
+            if (tetrisGameRunning) {
+                stopTetris();
+            }
+
+            tetrisBoard = Array(TETRIS_ROWS).fill(null).map(() => Array(TETRIS_COLS).fill(0));
+            tetrisScore = 0;
+            tetrisLevel = 1;
+            tetrisLines = 0;
+            tetrisGameRunning = true;
+            tetrisDropTime = 1000;
+            tetrisLastDrop = Date.now();
+
+            tetrisCurrentPiece = spawnTetrisPiece();
+            tetrisNextPiece = spawnTetrisPiece();
+
+            document.getElementById('tetrisOverlay').classList.add('hidden');
+            updateTetrisDisplay();
+
+            tetrisAnimationId = requestAnimationFrame(tetrisGameLoop);
+        }
+
+        function stopTetris() {
+            tetrisGameRunning = false;
+            if (tetrisAnimationId) {
+                cancelAnimationFrame(tetrisAnimationId);
+            }
+        }
+
+        function spawnTetrisPiece() {
+            const pieces = Object.keys(TETRIS_PIECES);
+            const type = pieces[Math.floor(Math.random() * pieces.length)];
+            const piece = TETRIS_PIECES[type];
+            return {
+                shape: piece.shape.map(row => [...row]),
+                color: piece.color,
+                x: Math.floor(TETRIS_COLS / 2) - Math.floor(piece.shape[0].length / 2),
+                y: 0
+            };
+        }
+
+        function tetrisGameLoop() {
+            if (!tetrisGameRunning) return;
+
+            const now = Date.now();
+            if (now - tetrisLastDrop > tetrisDropTime) {
+                moveTetrisPiece(0, 1);
+                tetrisLastDrop = now;
+            }
+
+            drawTetrisBoard();
+            tetrisAnimationId = requestAnimationFrame(tetrisGameLoop);
+        }
+
+        function drawTetrisBoard() {
+            tetrisCtx.fillStyle = 'rgba(0, 0, 0, 0.9)';
+            tetrisCtx.fillRect(0, 0, tetrisCanvas.width, tetrisCanvas.height);
+
+            // Draw grid lines
+            tetrisCtx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+            tetrisCtx.lineWidth = 1;
+            for (let x = 0; x <= TETRIS_COLS; x++) {
+                tetrisCtx.beginPath();
+                tetrisCtx.moveTo(x * TETRIS_BLOCK, 0);
+                tetrisCtx.lineTo(x * TETRIS_BLOCK, tetrisCanvas.height);
+                tetrisCtx.stroke();
+            }
+            for (let y = 0; y <= TETRIS_ROWS; y++) {
+                tetrisCtx.beginPath();
+                tetrisCtx.moveTo(0, y * TETRIS_BLOCK);
+                tetrisCtx.lineTo(tetrisCanvas.width, y * TETRIS_BLOCK);
+                tetrisCtx.stroke();
+            }
+
+            // Draw placed blocks
+            for (let y = 0; y < TETRIS_ROWS; y++) {
+                for (let x = 0; x < TETRIS_COLS; x++) {
+                    if (tetrisBoard[y][x]) {
+                        drawTetrisBlock(tetrisCtx, x, y, tetrisBoard[y][x]);
+                    }
+                }
+            }
+
+            // Draw current piece
+            if (tetrisCurrentPiece) {
+                // Draw ghost piece
+                let ghostY = tetrisCurrentPiece.y;
+                while (canMoveTetris(0, ghostY - tetrisCurrentPiece.y + 1)) {
+                    ghostY++;
+                }
+                tetrisCurrentPiece.shape.forEach((row, dy) => {
+                    row.forEach((val, dx) => {
+                        if (val) {
+                            tetrisCtx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+                            tetrisCtx.fillRect(
+                                (tetrisCurrentPiece.x + dx) * TETRIS_BLOCK + 2,
+                                (ghostY + dy) * TETRIS_BLOCK + 2,
+                                TETRIS_BLOCK - 4,
+                                TETRIS_BLOCK - 4
+                            );
+                        }
+                    });
+                });
+
+                // Draw actual piece
+                tetrisCurrentPiece.shape.forEach((row, dy) => {
+                    row.forEach((val, dx) => {
+                        if (val) {
+                            drawTetrisBlock(tetrisCtx, tetrisCurrentPiece.x + dx, tetrisCurrentPiece.y + dy, tetrisCurrentPiece.color);
+                        }
+                    });
+                });
+            }
+
+            // Draw next piece preview
+            tetrisNextCtx.fillStyle = 'rgba(0, 0, 0, 0.8)';
+            tetrisNextCtx.fillRect(0, 0, tetrisNextCanvas.width, tetrisNextCanvas.height);
+
+            if (tetrisNextPiece) {
+                const previewBlock = 20;
+                const offsetX = (tetrisNextCanvas.width - tetrisNextPiece.shape[0].length * previewBlock) / 2;
+                const offsetY = (tetrisNextCanvas.height - tetrisNextPiece.shape.length * previewBlock) / 2;
+
+                tetrisNextPiece.shape.forEach((row, dy) => {
+                    row.forEach((val, dx) => {
+                        if (val) {
+                            tetrisNextCtx.fillStyle = tetrisNextPiece.color;
+                            tetrisNextCtx.fillRect(
+                                offsetX + dx * previewBlock + 2,
+                                offsetY + dy * previewBlock + 2,
+                                previewBlock - 4,
+                                previewBlock - 4
+                            );
+                            tetrisNextCtx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+                            tetrisNextCtx.strokeRect(
+                                offsetX + dx * previewBlock + 2,
+                                offsetY + dy * previewBlock + 2,
+                                previewBlock - 4,
+                                previewBlock - 4
+                            );
+                        }
+                    });
+                });
+            }
+        }
+
+        function drawTetrisBlock(ctx, x, y, color) {
+            const bx = x * TETRIS_BLOCK;
+            const by = y * TETRIS_BLOCK;
+            const size = TETRIS_BLOCK - 2;
+
+            // Main block
+            ctx.fillStyle = color;
+            ctx.fillRect(bx + 1, by + 1, size, size);
+
+            // Highlight
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+            ctx.fillRect(bx + 1, by + 1, size, 4);
+            ctx.fillRect(bx + 1, by + 1, 4, size);
+
+            // Shadow
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+            ctx.fillRect(bx + size - 3, by + 1, 4, size);
+            ctx.fillRect(bx + 1, by + size - 3, size, 4);
+        }
+
+        function canMoveTetris(dx, dy, newShape = null) {
+            const shape = newShape || tetrisCurrentPiece.shape;
+            const newX = tetrisCurrentPiece.x + dx;
+            const newY = tetrisCurrentPiece.y + dy;
+
+            for (let y = 0; y < shape.length; y++) {
+                for (let x = 0; x < shape[y].length; x++) {
+                    if (shape[y][x]) {
+                        const boardX = newX + x;
+                        const boardY = newY + y;
+
+                        if (boardX < 0 || boardX >= TETRIS_COLS || boardY >= TETRIS_ROWS) {
+                            return false;
+                        }
+                        if (boardY >= 0 && tetrisBoard[boardY][boardX]) {
+                            return false;
+                        }
+                    }
+                }
+            }
+            return true;
+        }
+
+        function moveTetrisPiece(dx, dy) {
+            if (canMoveTetris(dx, dy)) {
+                tetrisCurrentPiece.x += dx;
+                tetrisCurrentPiece.y += dy;
+                return true;
+            } else if (dy > 0) {
+                // Can't move down, lock piece
+                lockTetrisPiece();
+                return false;
+            }
+            return false;
+        }
+
+        function rotateTetrisPiece() {
+            const shape = tetrisCurrentPiece.shape;
+            const rotated = shape[0].map((_, i) => shape.map(row => row[i]).reverse());
+
+            if (canMoveTetris(0, 0, rotated)) {
+                tetrisCurrentPiece.shape = rotated;
+                sound.play('click');
+            } else if (canMoveTetris(-1, 0, rotated)) {
+                tetrisCurrentPiece.x -= 1;
+                tetrisCurrentPiece.shape = rotated;
+                sound.play('click');
+            } else if (canMoveTetris(1, 0, rotated)) {
+                tetrisCurrentPiece.x += 1;
+                tetrisCurrentPiece.shape = rotated;
+                sound.play('click');
+            }
+        }
+
+        function hardDropTetris() {
+            while (moveTetrisPiece(0, 1)) {
+                tetrisScore += 2;
+            }
+            sound.play('whoosh');
+        }
+
+        function lockTetrisPiece() {
+            tetrisCurrentPiece.shape.forEach((row, dy) => {
+                row.forEach((val, dx) => {
+                    if (val) {
+                        const boardY = tetrisCurrentPiece.y + dy;
+                        const boardX = tetrisCurrentPiece.x + dx;
+                        if (boardY >= 0) {
+                            tetrisBoard[boardY][boardX] = tetrisCurrentPiece.color;
+                        }
+                    }
+                });
+            });
+
+            sound.play('hit');
+            clearTetrisLines();
+
+            tetrisCurrentPiece = tetrisNextPiece;
+            tetrisNextPiece = spawnTetrisPiece();
+
+            // Check game over
+            if (!canMoveTetris(0, 0)) {
+                tetrisGameOver();
+            }
+        }
+
+        function clearTetrisLines() {
+            let linesCleared = 0;
+
+            for (let y = TETRIS_ROWS - 1; y >= 0; y--) {
+                if (tetrisBoard[y].every(cell => cell !== 0)) {
+                    tetrisBoard.splice(y, 1);
+                    tetrisBoard.unshift(Array(TETRIS_COLS).fill(0));
+                    linesCleared++;
+                    y++; // Check same row again
+                }
+            }
+
+            if (linesCleared > 0) {
+                const points = [0, 100, 300, 500, 800];
+                tetrisScore += points[linesCleared] * tetrisLevel;
+                tetrisLines += linesCleared;
+                tetrisLevel = Math.floor(tetrisLines / 10) + 1;
+                tetrisDropTime = Math.max(100, 1000 - (tetrisLevel - 1) * 100);
+
+                if (linesCleared === 4) {
+                    sound.play('win');
+                } else {
+                    sound.play('score');
+                }
+
+                updateTetrisDisplay();
+            }
+        }
+
+        function tetrisGameOver() {
+            tetrisGameRunning = false;
+            cancelAnimationFrame(tetrisAnimationId);
+
+            sound.play('lose');
+
+            document.getElementById('tetrisOverlay').classList.remove('hidden');
+            document.getElementById('tetrisMessage').innerHTML =
+                `GAME OVER<br><br>Score: ${tetrisScore}<br>Level: ${tetrisLevel}<br>Lines: ${tetrisLines}`;
+        }
+
+        function updateTetrisDisplay() {
+            document.getElementById('tetrisScore').textContent = tetrisScore;
+            document.getElementById('tetrisLevel').textContent = tetrisLevel;
+            document.getElementById('tetrisLines').textContent = tetrisLines;
+        }
+
+        // Tetris keyboard controls
+        document.addEventListener('keydown', (e) => {
+            if (!tetrisGameRunning) return;
+            if (!document.getElementById('tetrisModal').classList.contains('active')) return;
+
+            switch (e.key) {
+                case 'ArrowLeft':
+                    moveTetrisPiece(-1, 0);
+                    e.preventDefault();
+                    break;
+                case 'ArrowRight':
+                    moveTetrisPiece(1, 0);
+                    e.preventDefault();
+                    break;
+                case 'ArrowDown':
+                    moveTetrisPiece(0, 1);
+                    tetrisScore += 1;
+                    e.preventDefault();
+                    break;
+                case 'ArrowUp':
+                    rotateTetrisPiece();
+                    e.preventDefault();
+                    break;
+                case ' ':
+                    hardDropTetris();
+                    e.preventDefault();
+                    break;
+            }
+        });
+
+        // ==================== HUNGRY HIPPOS ====================
+        let hipposCanvas, hipposCtx;
+        let hipposGameRunning, hipposAnimationId;
+        let hippoFood, hippo1, hippo2;
+        let hipposScore1, hipposScore2;
+        let hippoKeys = { q: false, p: false, qCanChomp: true, pCanChomp: true };
+
+        const FOOD_TYPES = ['🍎', '🍊', '🍋', '🍇', '🍓', '🍒', '🥝', '🍑'];
+
+        function initHippos() {
+            hipposCanvas = document.getElementById('hipposCanvas');
+            hipposCtx = hipposCanvas.getContext('2d');
+
+            hipposScore1 = 0;
+            hipposScore2 = 0;
+            hipposGameRunning = false;
+            hippoFood = [];
+
+            updateHipposDisplay();
+            drawHipposGame();
+
+            document.getElementById('hipposStatus').textContent = 'Press START to play!';
+        }
+
+        function startHippos() {
+            if (hipposGameRunning) {
+                stopHippos();
+            }
+
+            hipposScore1 = 0;
+            hipposScore2 = 0;
+            hippoFood = [];
+            hipposGameRunning = true;
+
+            // Initialize hippos - positioned on left and right sides
+            hippo1 = {
+                x: 50,
+                y: hipposCanvas.height / 2,
+                targetY: hipposCanvas.height / 2,
+                chomping: false,
+                chompFrame: 0,
+                hasCheckedFood: false,
+                direction: 1, // facing right
+                color: '#00ff88',
+                bodyColor: '#7cb87c',
+                caughtFood: null // Food being pulled back
+            };
+
+            hippo2 = {
+                x: hipposCanvas.width - 50,
+                y: hipposCanvas.height / 2,
+                targetY: hipposCanvas.height / 2,
+                chomping: false,
+                chompFrame: 0,
+                hasCheckedFood: false,
+                direction: -1, // facing left
+                color: '#ff6b6b',
+                bodyColor: '#c97878',
+                caughtFood: null
+            };
+
+            // Reset chomp state
+            hippoKeys.qCanChomp = true;
+            hippoKeys.pCanChomp = true;
+
+            // Spawn initial food
+            for (let i = 0; i < 15; i++) {
+                spawnHippoFood();
+            }
+
+            updateHipposDisplay();
+            document.getElementById('hipposStatus').textContent = 'CHOMP! Tap Q (P1) or P (P2) rapidly!';
+
+            hipposAnimationId = requestAnimationFrame(hipposGameLoop);
+
+            // Spawn more food periodically
+            hipposFoodInterval = setInterval(() => {
+                if (hipposGameRunning && hippoFood.length < 20) {
+                    spawnHippoFood();
+                    spawnHippoFood();
+                }
+            }, 2000);
+
+            // End game after 30 seconds
+            hipposEndTimeout = setTimeout(() => {
+                endHipposGame();
+            }, 30000);
+        }
+
+        let hipposFoodInterval, hipposEndTimeout;
+
+        function stopHippos() {
+            hipposGameRunning = false;
+            if (hipposAnimationId) cancelAnimationFrame(hipposAnimationId);
+            if (hipposFoodInterval) clearInterval(hipposFoodInterval);
+            if (hipposEndTimeout) clearTimeout(hipposEndTimeout);
+        }
+
+        function spawnHippoFood() {
+            const food = {
+                x: 100 + Math.random() * (hipposCanvas.width - 200),
+                y: Math.random() * hipposCanvas.height,
+                vx: (Math.random() - 0.5) * 3,
+                vy: (Math.random() - 0.5) * 3,
+                type: FOOD_TYPES[Math.floor(Math.random() * FOOD_TYPES.length)],
+                size: 20 + Math.random() * 10
+            };
+            hippoFood.push(food);
+        }
+
+        function hipposGameLoop() {
+            if (!hipposGameRunning) return;
+
+            updateHippos();
+            drawHipposGame();
+
+            hipposAnimationId = requestAnimationFrame(hipposGameLoop);
+        }
+
+        function updateHippos() {
+            // Update food positions (bouncing)
+            hippoFood.forEach(food => {
+                food.x += food.vx;
+                food.y += food.vy;
+
+                // Bounce off walls
+                if (food.x < 80 || food.x > hipposCanvas.width - 80) {
+                    food.vx *= -1;
+                    food.x = Math.max(80, Math.min(hipposCanvas.width - 80, food.x));
+                }
+                if (food.y < 20 || food.y > hipposCanvas.height - 20) {
+                    food.vy *= -1;
+                    food.y = Math.max(20, Math.min(hipposCanvas.height - 20, food.y));
+                }
+
+                // Add some randomness
+                food.vx += (Math.random() - 0.5) * 0.2;
+                food.vy += (Math.random() - 0.5) * 0.2;
+
+                // Limit speed
+                food.vx = Math.max(-4, Math.min(4, food.vx));
+                food.vy = Math.max(-4, Math.min(4, food.vy));
+            });
+
+            // Update hippo 1 (controlled by Q) - tap to chomp
+            if (hippoKeys.q && hippoKeys.qCanChomp && !hippo1.chomping) {
+                hippo1.chomping = true;
+                hippo1.chompFrame = 0;
+                hippo1.hasCheckedFood = false;
+                hippo1.caughtFood = null;
+                hippoKeys.qCanChomp = false;
+            }
+
+            if (hippo1.chomping) {
+                hippo1.chompFrame += 0.04; // Slower, more deliberate chomp
+                // Check for food at peak extension (frame 0.5)
+                if (hippo1.chompFrame >= 0.45 && hippo1.chompFrame < 0.55 && !hippo1.hasCheckedFood) {
+                    checkHippoChomp(hippo1, 1);
+                    hippo1.hasCheckedFood = true;
+                }
+                if (hippo1.chompFrame >= 1) {
+                    hippo1.chomping = false;
+                    hippo1.chompFrame = 0;
+                    hippo1.caughtFood = null;
+                }
+            }
+
+            // Update hippo 2 (controlled by P) - tap to chomp
+            if (hippoKeys.p && hippoKeys.pCanChomp && !hippo2.chomping) {
+                hippo2.chomping = true;
+                hippo2.chompFrame = 0;
+                hippo2.hasCheckedFood = false;
+                hippo2.caughtFood = null;
+                hippoKeys.pCanChomp = false;
+            }
+
+            if (hippo2.chomping) {
+                hippo2.chompFrame += 0.04; // Slower, more deliberate chomp
+                // Check for food at peak extension (frame 0.5)
+                if (hippo2.chompFrame >= 0.45 && hippo2.chompFrame < 0.55 && !hippo2.hasCheckedFood) {
+                    checkHippoChomp(hippo2, 2);
+                    hippo2.hasCheckedFood = true;
+                }
+                if (hippo2.chompFrame >= 1) {
+                    hippo2.chomping = false;
+                    hippo2.chompFrame = 0;
+                    hippo2.caughtFood = null;
+                }
+            }
+
+            // Hippos follow nearest food vertically
+            updateHippoTarget(hippo1);
+            updateHippoTarget(hippo2);
+
+            // Smooth movement towards target
+            hippo1.y += (hippo1.targetY - hippo1.y) * 0.1;
+            hippo2.y += (hippo2.targetY - hippo2.y) * 0.1;
+
+            updateHipposDisplay();
+        }
+
+        function updateHippoTarget(hippo) {
+            let nearestFood = null;
+            let nearestDist = Infinity;
+
+            hippoFood.forEach(food => {
+                const dist = Math.abs(food.y - hippo.y);
+                if (dist < nearestDist) {
+                    nearestDist = dist;
+                    nearestFood = food;
+                }
+            });
+
+            if (nearestFood) {
+                hippo.targetY = nearestFood.y;
+            }
+
+            // Clamp to canvas
+            hippo.targetY = Math.max(40, Math.min(hipposCanvas.height - 40, hippo.targetY));
+        }
+
+        function checkHippoChomp(hippo, player) {
+            const chompReach = 90;
+            const chompX = hippo.x + (hippo.direction * chompReach);
+
+            for (let i = hippoFood.length - 1; i >= 0; i--) {
+                const food = hippoFood[i];
+                const dx = food.x - chompX;
+                const dy = food.y - hippo.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+
+                if (dist < 50) {
+                    // Caught! Store the food to animate it being pulled back
+                    hippo.caughtFood = { type: food.type, size: food.size };
+                    hippoFood.splice(i, 1);
+                    if (player === 1) {
+                        hipposScore1++;
+                    } else {
+                        hipposScore2++;
+                    }
+                    sound.play('pop');
+                    break; // Only catch one food per chomp
+                }
+            }
+        }
+
+        function drawHipposGame() {
+            const ctx = hipposCtx;
+
+            // Clear with gradient background
+            const gradient = ctx.createLinearGradient(0, 0, 0, hipposCanvas.height);
+            gradient.addColorStop(0, '#1a1a2e');
+            gradient.addColorStop(1, '#16213e');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, hipposCanvas.width, hipposCanvas.height);
+
+            // Draw center zone
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.05)';
+            ctx.fillRect(100, 0, hipposCanvas.width - 200, hipposCanvas.height);
+
+            // Draw player zones
+            ctx.fillStyle = 'rgba(0, 255, 136, 0.1)';
+            ctx.fillRect(0, 0, 100, hipposCanvas.height);
+            ctx.fillStyle = 'rgba(255, 107, 107, 0.1)';
+            ctx.fillRect(hipposCanvas.width - 100, 0, 100, hipposCanvas.height);
+
+            // Draw food with glow
+            hippoFood.forEach(food => {
+                ctx.save();
+                ctx.shadowColor = '#fff';
+                ctx.shadowBlur = 10;
+                ctx.font = `${food.size}px Arial`;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(food.type, food.x, food.y);
+                ctx.restore();
+            });
+
+            // Draw hippos
+            drawHippo(hippo1);
+            drawHippo(hippo2);
+        }
+
+        function drawHippo(hippo) {
+            const ctx = hipposCtx;
+
+            // Calculate neck extension (0 to 1 and back)
+            const extensionCurve = Math.sin(hippo.chompFrame * Math.PI);
+            const neckExtension = hippo.chomping ? extensionCurve * 70 : 0;
+
+            // Mouth open amount (opens as extending, closes as retracting)
+            const mouthOpen = hippo.chomping ? extensionCurve * 25 : 0;
+
+            const bodyX = hippo.x;
+            const headX = bodyX + (hippo.direction * (30 + neckExtension));
+
+            ctx.save();
+
+            // Draw body (stationary oval)
+            ctx.fillStyle = hippo.bodyColor;
+            ctx.beginPath();
+            ctx.ellipse(bodyX, hippo.y, 35, 28, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.strokeStyle = '#333';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            // Draw neck (always connects body to head)
+            ctx.fillStyle = hippo.bodyColor;
+            ctx.beginPath();
+            ctx.moveTo(bodyX + hippo.direction * 20, hippo.y - 15);
+            ctx.lineTo(headX - hippo.direction * 15, hippo.y - 12);
+            ctx.lineTo(headX - hippo.direction * 15, hippo.y + 12);
+            ctx.lineTo(bodyX + hippo.direction * 20, hippo.y + 15);
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+
+            // Draw head
+            const headColor = hippo.bodyColor;
+            ctx.fillStyle = headColor;
+            ctx.beginPath();
+            ctx.ellipse(headX, hippo.y, 25, 20, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+
+            // Draw snout/nose bump
+            const snoutX = headX + hippo.direction * 18;
+            ctx.fillStyle = hippo.bodyColor;
+            ctx.beginPath();
+            ctx.ellipse(snoutX, hippo.y + 3, 12, 10, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+
+            // Draw nostrils
+            ctx.fillStyle = '#555';
+            ctx.beginPath();
+            ctx.arc(snoutX + hippo.direction * 4, hippo.y, 2, 0, Math.PI * 2);
+            ctx.arc(snoutX + hippo.direction * 4, hippo.y + 6, 2, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Draw mouth (opens and closes)
+            const mouthY = hippo.y + 8;
+            ctx.strokeStyle = '#333';
+            ctx.lineWidth = 2;
+
+            // Upper jaw line
+            ctx.beginPath();
+            ctx.moveTo(headX, mouthY - mouthOpen/2);
+            ctx.lineTo(snoutX + hippo.direction * 8, mouthY - mouthOpen/2);
+            ctx.stroke();
+
+            // Lower jaw line
+            ctx.beginPath();
+            ctx.moveTo(headX, mouthY + mouthOpen/2);
+            ctx.lineTo(snoutX + hippo.direction * 8, mouthY + mouthOpen/2);
+            ctx.stroke();
+
+            // Draw inside of mouth when open
+            if (mouthOpen > 5) {
+                ctx.fillStyle = '#8B4557';
+                ctx.beginPath();
+                ctx.ellipse(headX + hippo.direction * 10, mouthY, 10, mouthOpen/2.5, 0, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Teeth
+                ctx.fillStyle = '#fff';
+                for (let i = 0; i < 3; i++) {
+                    const toothX = headX + hippo.direction * (5 + i * 6);
+                    ctx.beginPath();
+                    ctx.moveTo(toothX, mouthY - mouthOpen/2);
+                    ctx.lineTo(toothX - 2, mouthY - mouthOpen/2 + 4);
+                    ctx.lineTo(toothX + 2, mouthY - mouthOpen/2 + 4);
+                    ctx.closePath();
+                    ctx.fill();
+                }
+            }
+
+            // Draw eye
+            const eyeX = headX - hippo.direction * 5;
+            const eyeY = hippo.y - 8;
+            ctx.fillStyle = '#fff';
+            ctx.beginPath();
+            ctx.arc(eyeX, eyeY, 6, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.fillStyle = '#333';
+            ctx.beginPath();
+            ctx.arc(eyeX + hippo.direction * 2, eyeY, 3, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Draw ear
+            ctx.fillStyle = hippo.bodyColor;
+            ctx.beginPath();
+            ctx.ellipse(headX - hippo.direction * 15, hippo.y - 15, 8, 5, hippo.direction * 0.3, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+
+            // Draw caught food being pulled back
+            if (hippo.caughtFood && hippo.chompFrame > 0.5) {
+                const pullProgress = (hippo.chompFrame - 0.5) / 0.5; // 0 to 1 as retracting
+                const foodX = headX + hippo.direction * 15 * (1 - pullProgress);
+                ctx.font = `${hippo.caughtFood.size * (1 - pullProgress * 0.5)}px Arial`;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.globalAlpha = 1 - pullProgress;
+                ctx.fillText(hippo.caughtFood.type, foodX, hippo.y + 5);
+            }
+
+            ctx.restore();
+
+            // Draw player indicator
+            ctx.fillStyle = hippo.color;
+            ctx.font = 'bold 14px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText(hippo.direction === 1 ? 'P1 [Q]' : 'P2 [P]', bodyX, hippo.y + 50);
+        }
+
+        function endHipposGame() {
+            stopHippos();
+
+            let winner;
+            if (hipposScore1 > hipposScore2) {
+                winner = 'Player 1 WINS!';
+                sound.play('win');
+            } else if (hipposScore2 > hipposScore1) {
+                winner = 'Player 2 WINS!';
+                sound.play('win');
+            } else {
+                winner = "It's a TIE!";
+                sound.play('score');
+            }
+
+            document.getElementById('hipposStatus').textContent = winner;
+        }
+
+        function updateHipposDisplay() {
+            document.getElementById('hipposScore1').textContent = hipposScore1;
+            document.getElementById('hipposScore2').textContent = hipposScore2;
+            document.getElementById('hipposFood').textContent = hippoFood.length;
+        }
+
+        // Hungry Hippos keyboard controls
+        document.addEventListener('keydown', (e) => {
+            if (!hipposGameRunning) return;
+            if (!document.getElementById('hipposModal').classList.contains('active')) return;
+
+            if (e.key.toLowerCase() === 'q') {
+                hippoKeys.q = true;
+                e.preventDefault();
+            }
+            if (e.key.toLowerCase() === 'p') {
+                hippoKeys.p = true;
+                e.preventDefault();
+            }
+        });
+
+        document.addEventListener('keyup', (e) => {
+            if (e.key.toLowerCase() === 'q') {
+                hippoKeys.q = false;
+                hippoKeys.qCanChomp = true; // Allow next chomp when key released
+            }
+            if (e.key.toLowerCase() === 'p') {
+                hippoKeys.p = false;
+                hippoKeys.pCanChomp = true; // Allow next chomp when key released
+            }
+        });
+
         // Game name mappings for display
         const gameNames = {
             tictactoe: 'Tic Tac Toe',
@@ -5548,7 +6650,9 @@
             whack: 'Whack-a-Mole',
             airhockey: 'Air Hockey',
             battleship: 'Battleship',
-            simon: 'Simon Says'
+            simon: 'Simon Says',
+            tetris: 'Tetris',
+            hippos: 'Hungry Hippos'
         };
 
         // Update openGame function
@@ -5567,6 +6671,8 @@
             if (game === 'airhockey') initHockey();
             if (game === 'battleship') initBattleship();
             if (game === 'simon') initSimon();
+            if (game === 'tetris') initTetris();
+            if (game === 'hippos') initHippos();
 
             // Send game invite to connected player (if not already from an invite)
             if (mp && mp.connected && !fromInvite) {
@@ -5582,6 +6688,8 @@
             if (game === 'snake') stopSnake();
             if (game === 'whack') stopWhack();
             if (game === 'airhockey') stopHockey();
+            if (game === 'tetris') stopTetris();
+            if (game === 'hippos') stopHippos();
         }
 
         // ==================== MULTIPLAYER MANAGER ====================
