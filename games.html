@@ -6368,14 +6368,17 @@
         const TETRIS_BLOCK = 30;  // Big blocks for big game space
 
         const TETRIS_PIECES = {
-            I: { shape: [[1,1,1,1]], color: '#00f5ff' },
-            O: { shape: [[1,1],[1,1]], color: '#ffdd00' },
-            T: { shape: [[0,1,0],[1,1,1]], color: '#aa00ff' },
-            S: { shape: [[0,1,1],[1,1,0]], color: '#00ff88' },
-            Z: { shape: [[1,1,0],[0,1,1]], color: '#ff4444' },
-            J: { shape: [[1,0,0],[1,1,1]], color: '#4488ff' },
-            L: { shape: [[0,0,1],[1,1,1]], color: '#ff8800' }
+            I: { shape: [[1,1,1,1]], color: '#7dd3fc' },      // Soft cyan
+            O: { shape: [[1,1],[1,1]], color: '#fde047' },     // Soft yellow
+            T: { shape: [[0,1,0],[1,1,1]], color: '#d8b4fe' }, // Soft purple
+            S: { shape: [[0,1,1],[1,1,0]], color: '#86efac' }, // Soft green
+            Z: { shape: [[1,1,0],[0,1,1]], color: '#fca5a5' }, // Soft red/pink
+            J: { shape: [[1,0,0],[1,1,1]], color: '#93c5fd' }, // Soft blue
+            L: { shape: [[0,0,1],[1,1,1]], color: '#fdba74' }  // Soft orange
         };
+
+        // Track blocks that were just placed for glow animation
+        let tetrisPlacedBlocks = [];
 
         // 7-bag randomizer for fair piece distribution
         let tetrisBag = [];
@@ -6415,7 +6418,8 @@
 
             // Reset bag for fresh randomization
             tetrisBag = [];
-            tetrisParticles = []; // Clear any leftover particles
+            tetrisParticles = [];
+            tetrisPlacedBlocks = [];
             tetrisCurrentPiece = spawnTetrisPiece();
             tetrisNextPiece = spawnTetrisPiece();
 
@@ -6472,39 +6476,52 @@
                 tetrisLastDrop = now;
             }
 
-            // Update and draw
+            // Update effects
             updateTetrisParticles();
+            updatePlacedBlockGlow();
+
+            // Draw
             drawTetrisBoard();
             drawTetrisParticles();
 
             tetrisAnimationId = requestAnimationFrame(tetrisGameLoop);
         }
 
+        function updatePlacedBlockGlow() {
+            for (let i = tetrisPlacedBlocks.length - 1; i >= 0; i--) {
+                tetrisPlacedBlocks[i].glow -= 0.05; // Fade out
+                if (tetrisPlacedBlocks[i].glow <= 0) {
+                    tetrisPlacedBlocks.splice(i, 1);
+                }
+            }
+        }
+
         function drawTetrisBoard() {
-            tetrisCtx.fillStyle = 'rgba(0, 0, 0, 0.9)';
+            // Clean dark gradient background
+            const bgGradient = tetrisCtx.createLinearGradient(0, 0, 0, tetrisCanvas.height);
+            bgGradient.addColorStop(0, '#0a0a12');
+            bgGradient.addColorStop(1, '#12121a');
+            tetrisCtx.fillStyle = bgGradient;
             tetrisCtx.fillRect(0, 0, tetrisCanvas.width, tetrisCanvas.height);
 
-            // Draw grid lines
-            tetrisCtx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
-            tetrisCtx.lineWidth = 1;
-            for (let x = 0; x <= TETRIS_COLS; x++) {
-                tetrisCtx.beginPath();
-                tetrisCtx.moveTo(x * TETRIS_BLOCK, 0);
-                tetrisCtx.lineTo(x * TETRIS_BLOCK, tetrisCanvas.height);
-                tetrisCtx.stroke();
-            }
-            for (let y = 0; y <= TETRIS_ROWS; y++) {
-                tetrisCtx.beginPath();
-                tetrisCtx.moveTo(0, y * TETRIS_BLOCK);
-                tetrisCtx.lineTo(tetrisCanvas.width, y * TETRIS_BLOCK);
-                tetrisCtx.stroke();
+            // Subtle grid dots instead of lines (cleaner look)
+            tetrisCtx.fillStyle = 'rgba(255, 255, 255, 0.03)';
+            for (let x = 1; x < TETRIS_COLS; x++) {
+                for (let y = 1; y < TETRIS_ROWS; y++) {
+                    tetrisCtx.beginPath();
+                    tetrisCtx.arc(x * TETRIS_BLOCK, y * TETRIS_BLOCK, 1, 0, Math.PI * 2);
+                    tetrisCtx.fill();
+                }
             }
 
             // Draw placed blocks
             for (let y = 0; y < TETRIS_ROWS; y++) {
                 for (let x = 0; x < TETRIS_COLS; x++) {
                     if (tetrisBoard[y][x]) {
-                        drawTetrisBlock(tetrisCtx, x, y, tetrisBoard[y][x]);
+                        // Check if this block has a glow effect
+                        const glowBlock = tetrisPlacedBlocks.find(b => b.x === x && b.y === y);
+                        const glowIntensity = glowBlock ? glowBlock.glow : 0;
+                        drawTetrisBlock(tetrisCtx, x, y, tetrisBoard[y][x], false, glowIntensity);
                     }
                 }
             }
@@ -6535,92 +6552,116 @@
             }
 
             // Draw next piece preview
-            tetrisNextCtx.fillStyle = 'rgba(0, 0, 0, 0.8)';
+            const nextBgGradient = tetrisNextCtx.createLinearGradient(0, 0, 0, tetrisNextCanvas.height);
+            nextBgGradient.addColorStop(0, '#0a0a12');
+            nextBgGradient.addColorStop(1, '#12121a');
+            tetrisNextCtx.fillStyle = nextBgGradient;
             tetrisNextCtx.fillRect(0, 0, tetrisNextCanvas.width, tetrisNextCanvas.height);
 
             if (tetrisNextPiece) {
-                const previewBlock = 20;
+                const previewBlock = 18;
                 const offsetX = (tetrisNextCanvas.width - tetrisNextPiece.shape[0].length * previewBlock) / 2;
                 const offsetY = (tetrisNextCanvas.height - tetrisNextPiece.shape.length * previewBlock) / 2;
 
                 tetrisNextPiece.shape.forEach((row, dy) => {
                     row.forEach((val, dx) => {
                         if (val) {
-                            tetrisNextCtx.fillStyle = tetrisNextPiece.color;
-                            tetrisNextCtx.fillRect(
-                                offsetX + dx * previewBlock + 2,
-                                offsetY + dy * previewBlock + 2,
-                                previewBlock - 4,
-                                previewBlock - 4
-                            );
-                            tetrisNextCtx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
-                            tetrisNextCtx.strokeRect(
-                                offsetX + dx * previewBlock + 2,
-                                offsetY + dy * previewBlock + 2,
-                                previewBlock - 4,
-                                previewBlock - 4
-                            );
+                            const bx = offsetX + dx * previewBlock;
+                            const by = offsetY + dy * previewBlock;
+                            const size = previewBlock - 2;
+                            const radius = 3;
+                            const color = tetrisNextPiece.color;
+
+                            tetrisNextCtx.save();
+                            tetrisNextCtx.shadowColor = color;
+                            tetrisNextCtx.shadowBlur = 6;
+
+                            const gradient = tetrisNextCtx.createLinearGradient(bx, by, bx, by + size);
+                            gradient.addColorStop(0, lightenColor(color, 15));
+                            gradient.addColorStop(1, darkenColor(color, 10));
+                            tetrisNextCtx.fillStyle = gradient;
+                            roundRect(tetrisNextCtx, bx + 1, by + 1, size, size, radius);
+                            tetrisNextCtx.fill();
+
+                            tetrisNextCtx.restore();
                         }
                     });
                 });
             }
         }
 
-        function drawTetrisBlock(ctx, x, y, color, isGhost = false) {
+        function drawTetrisBlock(ctx, x, y, color, isGhost = false, glowIntensity = 0) {
             const bx = x * TETRIS_BLOCK;
             const by = y * TETRIS_BLOCK;
             const size = TETRIS_BLOCK - 2;
-            const inset = 2;
+            const inset = 1;
+            const radius = 4; // Rounded corners
 
             if (isGhost) {
-                // Ghost piece - subtle outline only
+                // Ghost piece - soft dotted outline
+                ctx.save();
                 ctx.strokeStyle = color;
-                ctx.lineWidth = 2;
-                ctx.globalAlpha = 0.3;
-                ctx.strokeRect(bx + inset, by + inset, size - inset, size - inset);
-                ctx.globalAlpha = 1;
+                ctx.lineWidth = 1.5;
+                ctx.globalAlpha = 0.25;
+                ctx.setLineDash([3, 3]);
+                roundRect(ctx, bx + inset + 1, by + inset + 1, size - 2, size - 2, radius);
+                ctx.stroke();
+                ctx.restore();
                 return;
             }
 
             ctx.save();
 
-            // Glow effect
-            ctx.shadowColor = color;
-            ctx.shadowBlur = 8;
+            // Extra glow for just-placed blocks
+            if (glowIntensity > 0) {
+                ctx.shadowColor = color;
+                ctx.shadowBlur = 15 + glowIntensity * 10;
+            }
 
-            // Main block with gradient
-            const gradient = ctx.createLinearGradient(bx, by, bx + size, by + size);
-            gradient.addColorStop(0, lightenColor(color, 30));
-            gradient.addColorStop(0.5, color);
-            gradient.addColorStop(1, darkenColor(color, 30));
+            // Clean rounded block with subtle gradient
+            const gradient = ctx.createLinearGradient(bx, by, bx, by + size);
+            gradient.addColorStop(0, lightenColor(color, 15));
+            gradient.addColorStop(1, darkenColor(color, 10));
             ctx.fillStyle = gradient;
-            ctx.fillRect(bx + inset, by + inset, size - inset, size - inset);
+            roundRect(ctx, bx + inset, by + inset, size, size, radius);
+            ctx.fill();
 
             ctx.shadowBlur = 0;
 
-            // Top highlight
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
-            ctx.fillRect(bx + inset, by + inset, size - inset, 3);
+            // Soft inner border (subtle inset effect)
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+            ctx.lineWidth = 1;
+            roundRect(ctx, bx + inset + 1, by + inset + 1, size - 2, size - 2, radius - 1);
+            ctx.stroke();
 
-            // Left highlight
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
-            ctx.fillRect(bx + inset, by + inset, 3, size - inset);
-
-            // Bottom shadow
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.4)';
-            ctx.fillRect(bx + inset, by + size - 3, size - inset, 3);
-
-            // Right shadow
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
-            ctx.fillRect(bx + size - 2, by + inset, 3, size - inset);
-
-            // Inner shine
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+            // Top shine
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.25)';
             ctx.beginPath();
-            ctx.arc(bx + size/2, by + size/2 - 2, size/4, 0, Math.PI * 2);
+            ctx.moveTo(bx + inset + radius, by + inset);
+            ctx.lineTo(bx + size - radius, by + inset);
+            ctx.quadraticCurveTo(bx + size, by + inset, bx + size, by + inset + radius);
+            ctx.lineTo(bx + size, by + inset + 6);
+            ctx.lineTo(bx + inset, by + inset + 6);
+            ctx.lineTo(bx + inset, by + inset + radius);
+            ctx.quadraticCurveTo(bx + inset, by + inset, bx + inset + radius, by + inset);
             ctx.fill();
 
             ctx.restore();
+        }
+
+        // Helper for rounded rectangles
+        function roundRect(ctx, x, y, w, h, r) {
+            ctx.beginPath();
+            ctx.moveTo(x + r, y);
+            ctx.lineTo(x + w - r, y);
+            ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+            ctx.lineTo(x + w, y + h - r);
+            ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+            ctx.lineTo(x + r, y + h);
+            ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+            ctx.lineTo(x, y + r);
+            ctx.quadraticCurveTo(x, y, x + r, y);
+            ctx.closePath();
         }
 
         // Color utility functions for block gradients
@@ -6704,6 +6745,8 @@
         }
 
         function lockTetrisPiece() {
+            const placedPositions = [];
+
             tetrisCurrentPiece.shape.forEach((row, dy) => {
                 row.forEach((val, dx) => {
                     if (val) {
@@ -6711,9 +6754,15 @@
                         const boardX = tetrisCurrentPiece.x + dx;
                         if (boardY >= 0) {
                             tetrisBoard[boardY][boardX] = tetrisCurrentPiece.color;
+                            placedPositions.push({ x: boardX, y: boardY, color: tetrisCurrentPiece.color });
                         }
                     }
                 });
+            });
+
+            // Add glow animation for placed blocks
+            placedPositions.forEach(pos => {
+                tetrisPlacedBlocks.push({ ...pos, glow: 1.0 });
             });
 
             sound.play('hit');
