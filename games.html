@@ -1595,7 +1595,7 @@
             box-shadow:
                 0 0 40px rgba(0, 255, 136, 0.3),
                 inset 0 0 60px rgba(0, 255, 136, 0.05);
-            max-height: 50vh;
+            max-height: 75vh;
             width: auto;
         }
 
@@ -1632,6 +1632,60 @@
 
         .tetris-keys {
             display: none;
+        }
+
+        .tetris-leaderboard {
+            background: linear-gradient(135deg, rgba(0, 20, 30, 0.9), rgba(0, 40, 50, 0.9));
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            padding: 10px 8px;
+            margin-top: 8px;
+        }
+
+        .tetris-leaderboard .tetris-label {
+            margin-bottom: 8px;
+        }
+
+        .leaderboard-list {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .leaderboard-entry {
+            display: flex;
+            justify-content: space-between;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.5rem;
+            padding: 4px 6px;
+            background: rgba(0, 255, 136, 0.1);
+            border-radius: 4px;
+        }
+
+        .leaderboard-entry.highlight {
+            background: rgba(0, 255, 136, 0.3);
+            animation: leaderboardPulse 0.5s ease-out;
+        }
+
+        @keyframes leaderboardPulse {
+            0% { transform: scale(1.05); background: rgba(0, 255, 136, 0.5); }
+            100% { transform: scale(1); background: rgba(0, 255, 136, 0.3); }
+        }
+
+        .leaderboard-rank {
+            color: #ffd93d;
+        }
+
+        .leaderboard-score {
+            color: var(--accent);
+        }
+
+        .leaderboard-empty {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.45rem;
+            color: rgba(255, 255, 255, 0.5);
+            text-align: center;
+            padding: 8px;
         }
 
         /* Tetris line clear animation */
@@ -1710,12 +1764,17 @@
             }
 
             #tetrisCanvas {
-                max-height: 45vh;
+                max-height: 50vh;
                 max-width: 100%;
             }
 
             .tetris-message {
                 font-size: 0.7rem;
+            }
+
+            /* Hide leaderboard on mobile to save space */
+            .tetris-leaderboard {
+                display: none;
             }
         }
 
@@ -2632,13 +2691,13 @@
         }
 
         .mobile-btn {
-            width: 60px;
-            height: 60px;
+            width: 70px;
+            height: 70px;
             border-radius: 50%;
             border: 3px solid #00ff88;
             background: rgba(0, 255, 136, 0.2);
             color: #00ff88;
-            font-size: 24px;
+            font-size: 28px;
             font-weight: bold;
             cursor: pointer;
             display: flex;
@@ -2677,15 +2736,16 @@
 
         .mobile-dpad {
             display: grid;
-            grid-template-columns: 50px 50px 50px;
-            grid-template-rows: 50px 50px 50px;
-            gap: 5px;
+            grid-template-columns: 60px 60px 60px;
+            grid-template-rows: 60px 60px 60px;
+            gap: 6px;
         }
 
         .mobile-dpad .mobile-btn {
-            width: 50px;
-            height: 50px;
-            border-radius: 8px;
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            font-size: 26px;
         }
 
         .mobile-dpad .up { grid-column: 2; grid-row: 1; }
@@ -2701,10 +2761,27 @@
         }
 
         .mobile-action-btn {
-            width: 80px;
-            height: 80px;
-            font-size: 14px;
+            width: 90px;
+            height: 90px;
+            font-size: 32px;
             border-radius: 12px;
+        }
+
+        /* Extra large Tetris controls */
+        .tetris-ctrl-btn {
+            width: 100px !important;
+            height: 100px !important;
+            font-size: 36px !important;
+            border-radius: 16px !important;
+            border-width: 4px !important;
+        }
+
+        @media (max-width: 400px) {
+            .tetris-ctrl-btn {
+                width: 85px !important;
+                height: 85px !important;
+                font-size: 30px !important;
+            }
         }
 
         .touch-slider {
@@ -3851,6 +3928,28 @@
                         break;
                 }
             }
+
+            // Speech synthesis for announcements
+            speak(text) {
+                if (!this.enabled || !('speechSynthesis' in window)) return;
+
+                // Cancel any ongoing speech
+                speechSynthesis.cancel();
+
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.rate = 1.1;
+                utterance.pitch = 1.2;
+                utterance.volume = Math.min(this.volume * 2, 1);
+
+                // Try to use a fun voice
+                const voices = speechSynthesis.getVoices();
+                const preferredVoice = voices.find(v =>
+                    v.name.includes('Google') || v.name.includes('Samantha') || v.lang.startsWith('en')
+                );
+                if (preferredVoice) utterance.voice = preferredVoice;
+
+                speechSynthesis.speak(utterance);
+            }
         }
 
         const sound = new SoundManager();
@@ -4091,6 +4190,7 @@
             if (game === 'pong') initPong();
             if (game === 'connect4') initC4();
             if (game === 'reaction') initReaction();
+            if (game === 'tetris') renderTetrisLeaderboard();
         }
 
         function closeGame(game) {
@@ -5092,6 +5192,12 @@
                             <div class="tetris-value" id="tetrisLines">0</div>
                         </div>
                     </div>
+                    <div class="tetris-leaderboard">
+                        <div class="tetris-label">HIGH SCORES</div>
+                        <div class="leaderboard-list" id="tetrisLeaderboard">
+                            <div class="leaderboard-empty">No scores yet</div>
+                        </div>
+                    </div>
                 </div>
                 <div class="tetris-main">
                     <canvas id="tetrisCanvas" width="300" height="600"></canvas>
@@ -5110,14 +5216,14 @@
                 </div>
             </div>
             <div class="mobile-controls" id="tetrisMobileControls">
-                <div class="mobile-controls-row" style="gap: 15px;">
-                    <button class="mobile-btn mobile-action-btn" id="tetrisLeft">◀</button>
-                    <button class="mobile-btn mobile-action-btn" id="tetrisRotate">↻</button>
-                    <button class="mobile-btn mobile-action-btn" id="tetrisRight">▶</button>
+                <div class="mobile-controls-row" style="gap: 20px;">
+                    <button class="mobile-btn tetris-ctrl-btn" id="tetrisLeft">◀</button>
+                    <button class="mobile-btn tetris-ctrl-btn" id="tetrisRotate">↻</button>
+                    <button class="mobile-btn tetris-ctrl-btn" id="tetrisRight">▶</button>
                 </div>
-                <div class="mobile-controls-row" style="gap: 15px; margin-top: 10px;">
-                    <button class="mobile-btn mobile-action-btn" id="tetrisDown">▼</button>
-                    <button class="mobile-btn mobile-action-btn blue" id="tetrisDrop">⬇</button>
+                <div class="mobile-controls-row" style="gap: 20px; margin-top: 15px;">
+                    <button class="mobile-btn tetris-ctrl-btn" id="tetrisDown">▼</button>
+                    <button class="mobile-btn tetris-ctrl-btn blue" id="tetrisDrop">⬇</button>
                 </div>
             </div>
             <button class="restart-btn" onclick="startTetris()">START</button>
@@ -6363,6 +6469,53 @@
         let tetrisScore, tetrisLevel, tetrisLines;
         let tetrisGameRunning, tetrisAnimationId, tetrisDropTime, tetrisLastDrop;
 
+        // Tetris Leaderboard Functions
+        function getTetrisLeaderboard() {
+            try {
+                return JSON.parse(localStorage.getItem('tetrisLeaderboard')) || [];
+            } catch (e) {
+                return [];
+            }
+        }
+
+        function saveTetrisScore(score, level, lines) {
+            if (score <= 0) return -1;
+
+            const leaderboard = getTetrisLeaderboard();
+            const entry = {
+                score,
+                level,
+                lines,
+                date: new Date().toLocaleDateString()
+            };
+
+            leaderboard.push(entry);
+            leaderboard.sort((a, b) => b.score - a.score);
+            const topScores = leaderboard.slice(0, 10); // Keep top 10
+
+            localStorage.setItem('tetrisLeaderboard', JSON.stringify(topScores));
+
+            // Return rank (0-indexed, -1 if not in top 10)
+            return topScores.findIndex(e => e.score === score && e.date === entry.date);
+        }
+
+        function renderTetrisLeaderboard(highlightRank = -1) {
+            const leaderboard = getTetrisLeaderboard();
+            const container = document.getElementById('tetrisLeaderboard');
+
+            if (leaderboard.length === 0) {
+                container.innerHTML = '<div class="leaderboard-empty">No scores yet</div>';
+                return;
+            }
+
+            container.innerHTML = leaderboard.slice(0, 5).map((entry, i) => `
+                <div class="leaderboard-entry${i === highlightRank ? ' highlight' : ''}">
+                    <span class="leaderboard-rank">#${i + 1}</span>
+                    <span class="leaderboard-score">${entry.score.toLocaleString()}</span>
+                </div>
+            `).join('');
+        }
+
         const TETRIS_COLS = 10;
         const TETRIS_ROWS = 20;
         const TETRIS_BLOCK = 30;  // Big blocks for big game space
@@ -6425,6 +6578,7 @@
 
             document.getElementById('tetrisOverlay').classList.add('hidden');
             updateTetrisDisplay();
+            renderTetrisLeaderboard();
 
             tetrisAnimationId = requestAnimationFrame(tetrisGameLoop);
         }
@@ -6825,11 +6979,16 @@
 
                 if (linesCleared === 4) {
                     sound.play('win');
-                    // Extra celebration for Tetris
+                    sound.speak('TETRIS!');
                     showTetrisText('TETRIS!', '#ffdd00');
-                } else if (linesCleared >= 2) {
+                } else if (linesCleared === 3) {
                     sound.play('score');
-                    showTetrisText(linesCleared === 3 ? 'TRIPLE!' : 'DOUBLE!', '#00ff88');
+                    sound.speak('TRIPLE!');
+                    showTetrisText('TRIPLE!', '#00ff88');
+                } else if (linesCleared === 2) {
+                    sound.play('score');
+                    sound.speak('DOUBLE!');
+                    showTetrisText('DOUBLE!', '#00ff88');
                 } else {
                     sound.play('click');
                 }
@@ -6933,9 +7092,21 @@
 
             sound.play('lose');
 
+            // Save score and get rank
+            const rank = saveTetrisScore(tetrisScore, tetrisLevel, tetrisLines);
+            renderTetrisLeaderboard(rank);
+
+            let message = `GAME OVER<br><br>Score: ${tetrisScore.toLocaleString()}<br>Level: ${tetrisLevel}<br>Lines: ${tetrisLines}`;
+
+            if (rank === 0) {
+                message += '<br><br><span style="color: #ffd93d;">NEW HIGH SCORE!</span>';
+                sound.speak('New high score!');
+            } else if (rank > 0 && rank < 5) {
+                message += `<br><br><span style="color: #00ff88;">Top ${rank + 1}!</span>`;
+            }
+
             document.getElementById('tetrisOverlay').classList.remove('hidden');
-            document.getElementById('tetrisMessage').innerHTML =
-                `GAME OVER<br><br>Score: ${tetrisScore}<br>Level: ${tetrisLevel}<br>Lines: ${tetrisLines}`;
+            document.getElementById('tetrisMessage').innerHTML = message;
         }
 
         function updateTetrisDisplay() {
